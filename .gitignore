@@ -1,3 +1,8 @@
+.idea/
+output/
+cmake-build-*
+build
+
 # Prerequisites
 *.d
 
@@ -30,3 +35,6 @@
 *.exe
 *.out
 *.app
+
+# Other
+*.pdf
