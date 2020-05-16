@@ -2,6 +2,7 @@
 // Created by bparsy on 5/16/20.
 //
 
+#include <iostream>
 #include <stdexcept>
 #include <GL/glew.h>
 #include "WinHandler.hh"
@@ -19,6 +20,9 @@ WinHandler::WinHandler(int width, int height) : width_(width), height_(height) {
     glfwMakeContextCurrent(win_);
     if (glewInit() != GLEW_OK)
         throw std::runtime_error("Could not init glew");
+    std::cout << "Using OpenGL version: " << glGetString(GL_VERSION) << std::endl;
+    // Baptiste Parsy's machine is "4.6.0 NVIDIA 440.82"
+    // Salome's machine is "?"
 }
 
 WinHandler::~WinHandler() {
