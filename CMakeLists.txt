@@ -8,5 +8,9 @@ set(EXECUTABLE_NAME fire)
 set(CMAKE_CXX_FLAGS_RELEASE  "-O3 -Wall -Wextra -Werror -pedantic")
 set(CMAKE_CXX_FLAGS_DEBUG    "-g  -Wall -Wextra -Werror -pedantic")
 
+set(OpenGL_GL_PREFERENCE GLVND)
+find_package(OpenGL REQUIRED)
+find_package(glfw3 3.3 REQUIRED)
+
 add_subdirectory(src)
 
