@@ -6,7 +6,6 @@
 #define FIRE_WINHANDLER_HH
 
 #include <GLFW/glfw3.h>
-#include <stdexcept>
 
 class WinHandler {
 public:

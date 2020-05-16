@@ -2,6 +2,8 @@
 // Created by bparsy on 5/16/20.
 //
 
+#include <stdexcept>
+#include <GL/glew.h>
 #include "WinHandler.hh"
 
 WinHandler::WinHandler(int width, int height) : width_(width), height_(height) {
@@ -14,6 +16,9 @@ WinHandler::WinHandler(int width, int height) : width_(width), height_(height) {
         glfwTerminate();
         throw std::runtime_error("Could not create glfw window");
     }
+    glfwMakeContextCurrent(win_);
+    if (glewInit())
+        throw std::runtime_error("Could not init glew");
 }
 
 WinHandler::~WinHandler() {
@@ -21,7 +26,6 @@ WinHandler::~WinHandler() {
 }
 
 void WinHandler::loop() {
-    glfwMakeContextCurrent(win_);
     while (!glfwWindowShouldClose(win_)) {
         glClear(GL_COLOR_BUFFER_BIT);
         glBegin(GL_TRIANGLES);
