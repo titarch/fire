@@ -1,5 +1,6 @@
-#include <iostream>
+#include "engine/WinHandler.hh"
 
 auto main() -> int {
-    std::cout << "Test." << std::endl;
+    auto wh = WinHandler(1366, 768);
+    wh.loop();
 }
