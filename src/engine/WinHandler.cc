@@ -5,7 +5,9 @@
 #include <iostream>
 #include <stdexcept>
 #include <GL/glew.h>
+#include <array>
 #include "WinHandler.hh"
+#include "BufHandler.hh"
 
 WinHandler::WinHandler(int width, int height) : width_(width), height_(height) {
     if (!glfwInit())
@@ -30,13 +32,19 @@ WinHandler::~WinHandler() {
 }
 
 void WinHandler::loop() {
+    static constexpr std::array triangle = {
+            -0.5f, -0.5f,
+            0.0f, 0.5f,
+            0.5f, -0.5f
+    };
+
+    BufHandler::create_2D_buffer(triangle);
+
     while (!glfwWindowShouldClose(win_)) {
         glClear(GL_COLOR_BUFFER_BIT);
-        glBegin(GL_TRIANGLES);
-        glVertex2f(-0.5f, -0.5f);
-        glVertex2f(0.0f, 0.5f);
-        glVertex2f(0.5f, -0.5f);
-        glEnd();
+
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+
         glfwSwapBuffers(win_);
         glfwPollEvents();
     }
