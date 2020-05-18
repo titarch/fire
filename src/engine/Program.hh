@@ -17,8 +17,8 @@ public:
     ~Program();
     static GLuint compile_shader(GLuint type, std::string const& src);
     static ptr make_program(std::string const& vertex_shader_fp, std::string const& fragment_shader_fp);
-    bool is_ready();
-    void use();
+    bool is_ready() const;
+    void use() const;
 protected:
     GLuint program_id_;
     bool ready_;

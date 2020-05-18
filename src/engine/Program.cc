@@ -88,11 +88,11 @@ Program::ptr Program::make_program(const std::string& vertex_shader_fp, const st
     return p;
 }
 
-bool Program::is_ready() {
+bool Program::is_ready() const {
     return ready_;
 }
 
-void Program::use() {
+void Program::use() const {
     glUseProgram(program_id_);
 }
 
