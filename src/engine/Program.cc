@@ -93,6 +93,7 @@ bool Program::is_ready() const {
 }
 
 void Program::use() const {
+    if (!is_ready()) throw std::runtime_error("Cannot use program (not ready)");
     glUseProgram(program_id_);
 }
 
