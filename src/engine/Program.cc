@@ -4,6 +4,7 @@
 
 #include <fstream>
 #include <vector>
+#include <iostream>
 #include "Program.hh"
 
 Program::Program() : program_id_(0), ready_(false) {}
@@ -45,12 +46,39 @@ Program::ptr Program::make_program(const std::string& vertex_shader_fp, const st
 
     auto v_src = load_file(vertex_shader_fp);
     auto f_src = load_file(fragment_shader_fp);
-    auto v_shd = Program::compile_shader(GL_VERTEX_SHADER, v_src);
-    auto f_shd = Program::compile_shader(GL_FRAGMENT_SHADER, f_src);
+
+    GLuint v_shd, f_shd;
+    try { v_shd = Program::compile_shader(GL_VERTEX_SHADER, v_src); } catch (std::runtime_error const& e) {
+        std::cerr << "Failed to compile vertex shader (" << vertex_shader_fp << "): " << e.what() << std::endl;
+        p->program_id_ = 0;
+        return p;
+    }
+    try { f_shd = Program::compile_shader(GL_FRAGMENT_SHADER, f_src); } catch (std::runtime_error const& e) {
+        std::cerr << "Failed to compile fragment shader (" << fragment_shader_fp << "): " << e.what() << std::endl;
+        p->program_id_ = 0;
+        return p;
+    }
 
     glAttachShader(p->program_id_, v_shd);
     glAttachShader(p->program_id_, f_shd);
+
     glLinkProgram(p->program_id_);
+    GLint link_status;
+    glGetProgramiv(p->program_id_, GL_LINK_STATUS, &link_status);
+    if (link_status != GL_TRUE) {
+        GLint log_size;
+        glGetProgramiv(p->program_id_, GL_INFO_LOG_LENGTH, &log_size);
+        std::vector<char> program_log(log_size);
+        glGetProgramInfoLog(p->program_id_, log_size, &log_size, program_log.data());
+        std::string log(program_log.cbegin(), program_log.cend());
+        std::cerr << "Failed to link program: " << log << std::endl;
+        glDeleteProgram(p->program_id_);
+        glDeleteShader(v_shd);
+        glDeleteShader(f_shd);
+        p->program_id_ = 0;
+        return p;
+    }
+
     glValidateProgram(p->program_id_);
 
     glDeleteShader(v_shd);
