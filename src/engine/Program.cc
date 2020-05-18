@@ -39,7 +39,7 @@ GLuint Program::compile_shader(GLuint type, const std::string& src) {
     return shd_id;
 }
 
-program_ptr Program::make_program(const std::string& vertex_shader_fp, const std::string& fragment_shader_fp) {
+Program::ptr Program::make_program(const std::string& vertex_shader_fp, const std::string& fragment_shader_fp) {
     auto p = std::make_unique<Program>();
     p->program_id_ = glCreateProgram();
 
