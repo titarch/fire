@@ -5,9 +5,9 @@
 #include <iostream>
 #include <stdexcept>
 #include <GL/glew.h>
-#include <array>
 #include "WinHandler.hh"
 #include "BufHandler.hh"
+#include "Program.hh"
 
 WinHandler::WinHandler(int width, int height) : width_(width), height_(height) {
     if (!glfwInit())
@@ -23,8 +23,8 @@ WinHandler::WinHandler(int width, int height) : width_(width), height_(height) {
     if (glewInit() != GLEW_OK)
         throw std::runtime_error("Could not init glew");
     std::cout << "Using OpenGL version: " << glGetString(GL_VERSION) << std::endl;
-    // Baptiste Parsy's machine is "4.6.0 NVIDIA 440.82"
-    // Salome's machine is "?"
+    // Baptiste's machine has "4.6.0 NVIDIA 440.82"
+    // Salome's machine has "?"
 }
 
 WinHandler::~WinHandler() {
@@ -39,6 +39,9 @@ void WinHandler::loop() {
     };
 
     BufHandler::create_2D_buffer(triangle);
+    auto prgm = Program::make_program("../res/shaders/vertex/basic.shd", "../res/shaders/fragment/uniform_magenta.shd");
+    if (!prgm->is_ready()) throw std::runtime_error("Program was not ready");
+    prgm->use();
 
     while (!glfwWindowShouldClose(win_)) {
         glClear(GL_COLOR_BUFFER_BIT);
