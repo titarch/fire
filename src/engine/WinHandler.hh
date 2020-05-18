@@ -6,11 +6,12 @@
 #define FIRE_WINHANDLER_HH
 
 #include <GLFW/glfw3.h>
+#include <cstddef>
 
 class WinHandler {
 public:
     WinHandler(int width, int height);
-    void loop();
+    void display(std::size_t object_size);
     ~WinHandler();
 
 protected:

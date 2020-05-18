@@ -6,8 +6,6 @@
 #include <stdexcept>
 #include <GL/glew.h>
 #include "WinHandler.hh"
-#include "BufHandler.hh"
-#include "Program.hh"
 
 WinHandler::WinHandler(int width, int height) : width_(width), height_(height) {
     if (!glfwInit())
@@ -31,23 +29,10 @@ WinHandler::~WinHandler() {
     glfwTerminate();
 }
 
-void WinHandler::loop() {
-    static constexpr std::array triangle = {
-            -0.5f, -0.5f,
-            0.0f, 0.5f,
-            0.5f, -0.5f
-    };
-
-    BufHandler::create_2D_buffer(triangle);
-    auto prgm = Program::make_program("../res/shaders/vertex/basic.shd", "../res/shaders/fragment/uniform_magenta.shd");
-    if (!prgm->is_ready()) throw std::runtime_error("Program was not ready");
-    prgm->use();
-
+void WinHandler::display(std::size_t object_size) {
     while (!glfwWindowShouldClose(win_)) {
         glClear(GL_COLOR_BUFFER_BIT);
-
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-
+        glDrawArrays(GL_TRIANGLES, 0, object_size);
         glfwSwapBuffers(win_);
         glfwPollEvents();
     }
