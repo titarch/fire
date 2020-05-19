@@ -6,6 +6,8 @@
 #include <vector>
 #include <iostream>
 #include "Program.hh"
+#include "WinHandler.hh"
+#include "BufHandler.hh"
 
 Program::Program() : program_id_(0), ready_(false) {}
 
@@ -97,5 +99,35 @@ void Program::use() const {
     glUseProgram(program_id_);
 }
 
+void Program::Example::triangle(const WinHandler& wh) {
+    static constexpr std::array triangle = {
+            -0.5f, -0.5f,
+            0.0f, 0.5f,
+            0.5f, -0.5f
+    };
 
+    BufHandler::create_vbo(triangle, 2);
+    Program::make_program("../res/shaders/vertex/basic.shd",
+                          "../res/shaders/fragment/uniform_magenta.shd")->use();
 
+    wh.draw(GL_TRIANGLES, 3, false);
+}
+
+void Program::Example::square(const WinHandler& wh) {
+    static constexpr std::array square = {
+            -0.5f, -0.5f,
+            0.5f, -0.5f,
+            0.5f, 0.5f,
+            -0.5f, 0.5f
+    };
+    static constexpr std::array indices = {
+            0u, 1u, 2u,
+            2u, 3u, 0u
+    };
+
+    BufHandler::create_vbo(square, 2);
+    BufHandler::create_ibo(indices);
+    Program::make_program("../res/shaders/vertex/basic.shd",
+                          "../res/shaders/fragment/uniform_magenta.shd")->use();
+    wh.draw(GL_TRIANGLES, indices.size(), true);
+}

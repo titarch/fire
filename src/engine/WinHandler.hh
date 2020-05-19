@@ -11,7 +11,7 @@
 class WinHandler {
 public:
     WinHandler(int width, int height);
-    void display(std::size_t object_size);
+    void draw(GLenum type, std::size_t object_size, bool indexed) const;
     ~WinHandler();
 
 protected:

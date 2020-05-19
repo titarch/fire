@@ -46,10 +46,13 @@ WinHandler::~WinHandler() {
     glfwTerminate();
 }
 
-void WinHandler::display(std::size_t object_size) {
+void WinHandler::draw(GLenum type, std::size_t object_size, bool indexed) const {
     while (!glfwWindowShouldClose(win_)) {
         glClear(GL_COLOR_BUFFER_BIT);
-        glDrawArrays(GL_TRIANGLES, 0, object_size);
+        if (indexed)
+            glDrawElements(type, object_size, GL_UNSIGNED_INT, nullptr);
+        else
+            glDrawArrays(GL_TRIANGLES, 0, object_size);
         glfwSwapBuffers(win_);
         glfwPollEvents();
     }
