@@ -23,7 +23,7 @@ WinHandler::WinHandler(int width, int height) : width_(width), height_(height) {
     if (!glfwInit())
         throw std::runtime_error("Could not initialize GLFW");
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     win_ = glfwCreateWindow(width, height, "float-opengl", nullptr, nullptr);
@@ -36,8 +36,8 @@ WinHandler::WinHandler(int width, int height) : width_(width), height_(height) {
     if (glewInit() != GLEW_OK)
         throw std::runtime_error("Could not init glew");
     std::cout << "Using OpenGL version: " << glGetString(GL_VERSION) << std::endl;
-    // Baptiste's machine has "4.6.0 NVIDIA 440.82"
-    // Salome's machine has "?"
+//     Baptiste's machine has maximum "4.6.0 NVIDIA 440.82"
+    // Salome's machine has maximum "4.2.0 MESA 20.0.6
 
 #ifdef DEBUG_OPENGL
     glEnable(GL_DEBUG_OUTPUT);
