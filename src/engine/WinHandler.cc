@@ -38,7 +38,7 @@ WinHandler::WinHandler(int width, int height) : width_(width), height_(height) {
 
 #ifdef DEBUG_OPENGL
     glEnable(GL_DEBUG_OUTPUT);
-    glDebugMessageCallback(MessageCallback, reinterpret_cast<void*>(0));
+    glDebugMessageCallback(MessageCallback, nullptr);
 #endif
 }
 
