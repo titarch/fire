@@ -29,6 +29,9 @@ WinHandler::WinHandler(int width, int height) : width_(width), height_(height) {
         glfwTerminate();
         throw std::runtime_error("Could not create glfw window");
     }
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwMakeContextCurrent(win_);
     if (glewInit() != GLEW_OK)
         throw std::runtime_error("Could not init glew");
