@@ -36,8 +36,8 @@ WinHandler::WinHandler(int width, int height) : width_(width), height_(height) {
     if (glewInit() != GLEW_OK)
         throw std::runtime_error("Could not init glew");
     std::cout << "Using OpenGL version: " << glGetString(GL_VERSION) << std::endl;
-//     Baptiste's machine has maximum "4.6.0 NVIDIA 440.82"
-    // Salome's machine has maximum "4.2.0 MESA 20.0.6
+    // Baptiste's machine has maximum "4.6.0 NVIDIA 440.82"
+    // Salome's machine has maximum "4.2.0 MESA 20.0.6"
 
 #ifdef DEBUG_OPENGL
     glEnable(GL_DEBUG_OUTPUT);
