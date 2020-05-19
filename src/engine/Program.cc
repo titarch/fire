@@ -90,6 +90,10 @@ Program::ptr Program::make_program(const std::string& vertex_shader_fp, const st
     return p;
 }
 
+GLuint Program::id() const {
+    return program_id_;
+}
+
 bool Program::is_ready() const {
     return ready_;
 }
@@ -108,7 +112,7 @@ void Program::Example::triangle(const WinHandler& wh) {
 
     BufHandler::create_vbo(triangle, 2);
     Program::make_program("../res/shaders/vertex/basic.shd",
-                          "../res/shaders/fragment/uniform_magenta.shd")->use();
+                          "../res/shaders/fragment/magenta.shd")->use();
 
     wh.draw(GL_TRIANGLES, 3, false);
 }
@@ -127,7 +131,12 @@ void Program::Example::square(const WinHandler& wh) {
 
     BufHandler::create_vbo(square, 2);
     BufHandler::create_ibo(indices);
-    Program::make_program("../res/shaders/vertex/basic.shd",
-                          "../res/shaders/fragment/uniform_magenta.shd")->use();
+    auto p = Program::make_program("../res/shaders/vertex/basic.shd",
+                                   "../res/shaders/fragment/uniform.shd");
+    p->use();
+
+    auto loc = glGetUniformLocation(p->id(), "u_Color");
+    glUniform4f(loc, 0.0f, 1.0f, 1.0f, 1.0f);
+
     wh.draw(GL_TRIANGLES, indices.size(), true);
 }
