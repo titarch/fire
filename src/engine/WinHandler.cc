@@ -35,10 +35,10 @@ WinHandler::WinHandler(int width, int height) : width_(width), height_(height) {
     std::cout << "Using OpenGL version: " << glGetString(GL_VERSION) << std::endl;
     // Baptiste's machine has "4.6.0 NVIDIA 440.82"
     // Salome's machine has "?"
-    
+
 #ifdef DEBUG_OPENGL
     glEnable(GL_DEBUG_OUTPUT);
-    glDebugMessageCallback(MessageCallback, 0);
+    glDebugMessageCallback(MessageCallback, reinterpret_cast<void*>(0));
 #endif
 }
 
