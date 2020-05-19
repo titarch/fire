@@ -18,18 +18,23 @@ public:
     template<std::size_t D>
     static GLuint create_ibo(std::array<unsigned, D> const& data);
 
+    inline static GLuint vao = 0;
 protected:
     inline static std::vector<GLuint> buffers_{};
 };
 
 template<std::size_t D>
 GLuint BufHandler::create_vbo(const std::array<float, D>& data, GLint dim) {
+    glGenVertexArrays(1, &BufHandler::vao);
+    glBindVertexArray(BufHandler::vao);
+
     GLuint buffer;
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
     glBufferData(GL_ARRAY_BUFFER, D * sizeof(float), data.data(), GL_STATIC_DRAW);
-    glVertexAttribPointer(0, dim, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(0));
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, dim, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(0));
+
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     BufHandler::buffers_.push_back(buffer);
     return buffer;
