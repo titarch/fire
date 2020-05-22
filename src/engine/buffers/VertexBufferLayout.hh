@@ -42,6 +42,20 @@ public:
 
     template<GLenum TYPE>
     VertexBufferLayout& add_element(unsigned count);
+
+    struct Common {
+        static VertexBufferLayout F2D() {
+            VertexBufferLayout layout;
+            layout.add_element<GL_FLOAT>(2);
+            return layout;
+        }
+
+        static VertexBufferLayout F3D() {
+            VertexBufferLayout layout;
+            layout.add_element<GL_FLOAT>(3);
+            return layout;
+        }
+    };
 protected:
     std::vector<VertexBufferElement> elements_;
     std::size_t stride_;

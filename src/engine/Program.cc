@@ -113,7 +113,7 @@ void Program::Example::triangle(const WinHandler& wh) {
     auto vao = BufHandler::make_vao();
     vao.add_data(
             triangle,
-            BufHandler::make_layout().add_element<GL_FLOAT>(2)
+            VertexBufferLayout::Common::F2D()
     );
     Program::make_program("../res/shaders/vertex/basic.shd",
                           "../res/shaders/fragment/magenta.shd")->use();
@@ -136,7 +136,7 @@ void Program::Example::square(const WinHandler& wh) {
     auto vao = BufHandler::make_vao();
     vao.add_data(
             square,
-            BufHandler::make_layout().add_element<GL_FLOAT>(2)
+            VertexBufferLayout::Common::F2D()
     );
     vao.add_indices(indices);
 
