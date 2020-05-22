@@ -10,10 +10,12 @@
 class BaseBuffer {
 public:
     BaseBuffer() : id_(0) {}
+
     virtual ~BaseBuffer() = default;
 
     virtual BaseBuffer& bind() = 0;
     virtual BaseBuffer& unbind() = 0;
+    [[nodiscard]] GLuint id() const;
 protected:
     GLuint id_;
 };

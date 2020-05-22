@@ -3,3 +3,7 @@
 //
 
 #include "BaseBuffer.hh"
+
+GLuint BaseBuffer::id() const {
+    return id_;
+}
