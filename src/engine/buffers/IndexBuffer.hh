@@ -29,9 +29,9 @@ template<std::size_t D>
 IndexBuffer IndexBuffer::create(const std::array<unsigned, D>& indices) {
     IndexBuffer ib(D);
     glGenBuffers(1, &ib.id_);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib.id_);
+    ib.bind();
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, D * sizeof(unsigned), indices.data(), GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    ib.unbind();
     return ib;
 }
 

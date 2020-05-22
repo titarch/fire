@@ -27,9 +27,9 @@ template<typename T, std::size_t D>
 VertexBuffer VertexBuffer::create(const std::array<T, D>& data) {
     VertexBuffer vb{};
     glGenBuffers(1, &vb.id_);
-    glBindBuffer(GL_ARRAY_BUFFER, vb.id_);
+    vb.bind();
     glBufferData(GL_ARRAY_BUFFER, D * sizeof(T), data.data(), GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    vb.unbind();
     return vb;
 }
 
