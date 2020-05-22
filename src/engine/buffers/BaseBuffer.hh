@@ -12,8 +12,8 @@ public:
     BaseBuffer() : id_(0) {}
     virtual ~BaseBuffer() = default;
 
-    virtual BaseBuffer& bind() const = 0;
-    virtual BaseBuffer& unbind() const = 0;
+    virtual BaseBuffer& bind() = 0;
+    virtual BaseBuffer& unbind() = 0;
 protected:
     GLuint id_;
 };
