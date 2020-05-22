@@ -31,7 +31,7 @@ public:
     class Example {
     public:
         static void triangle(WinRender const& wh);
-        static void square(WinRender const& wh);
+        static void square(WinRender const& wr);
     };
 
 protected:

@@ -135,7 +135,7 @@ void Program::Example::triangle(const WinRender& wh) {
     }
 }
 
-void Program::Example::square(const WinRender& wh) {
+void Program::Example::square(const WinRender& wr) {
     static constexpr std::array square = {
             -0.5f, -0.5f,
             0.5f, -0.5f,
@@ -158,11 +158,11 @@ void Program::Example::square(const WinRender& wh) {
                                    "../res/shaders/fragment/uniform.shd");
     p->use();
     auto hue = 0;
-    while (wh.is_open()) {
-        wh.clear();
+    while (wr.is_open()) {
+        wr.clear();
         auto color = hsv(hue++, 1.f, 1.f);
         p->set_uniform(GL_FLOAT_VEC4, "u_Color", color.r, color.g, color.b, 1.f);
-        wh.draw(vao, *p);
-        wh.display();
+        wr.draw(vao, *p);
+        wr.display();
     }
 }
