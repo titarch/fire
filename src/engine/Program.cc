@@ -8,6 +8,7 @@
 #include "Program.hh"
 #include "WinRender.hh"
 #include "buffers/BufHandler.hh"
+#include "../utils/colors.hh"
 
 Program::Program() : program_id_(0), ready_(false), location_cache_{} {}
 
@@ -156,10 +157,11 @@ void Program::Example::square(const WinRender& wh) {
     auto p = Program::make_program("../res/shaders/vertex/basic.shd",
                                    "../res/shaders/fragment/uniform.shd");
     p->use();
-    p->set_uniform(GL_FLOAT_VEC4, "u_Color", 0.0f, 1.0f, 1.0f, 1.0f);
-
+    auto hue = 0;
     while (wh.is_open()) {
         wh.clear();
+        auto color = hsv(hue++, 1.f, 1.f);
+        p->set_uniform(GL_FLOAT_VEC4, "u_Color", color.r, color.g, color.b, 1.f);
         wh.draw(vao, *p);
         wh.display();
     }
