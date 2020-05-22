@@ -12,7 +12,7 @@
 
 class VertexArray : public BaseBuffer {
 protected:
-    VertexArray() : BaseBuffer() {}
+    VertexArray() : BaseBuffer(), vb_{}, ib_{} {}
 
 public:
     VertexArray(VertexArray&&) = default;
@@ -22,21 +22,25 @@ public:
     void bind() const override;
     void unbind() const override;
 
+    [[nodiscard]] VertexBuffer const& vbo() const { return *vb_; }
+
+    [[nodiscard]] IndexBuffer const& ibo() const { return *ib_; };
+
     template<typename T, std::size_t D>
     void add_data(std::array<T, D> data, VertexBufferLayout const& layout);
 
     template<std::size_t D>
     void add_indices(std::array<unsigned, D> indices);
 protected:
-    VertexBuffer::vec vbs_;
-    IndexBuffer::vec ibs_;
+    VertexBuffer::ptr vb_;
+    IndexBuffer::ptr ib_;
 };
 
 template<typename T, std::size_t D>
 void VertexArray::add_data(std::array<T, D> data, VertexBufferLayout const& layout) {
-    auto vb = VertexBuffer::create(data);
+    vb_ = VertexBuffer::create(data);
     bind();
-    vb->bind();
+    vb_->bind();
     std::size_t offset = 0u;
     auto const& els = layout.elements();
     for (auto i = 0u; i < els.size(); ++i) {
@@ -45,14 +49,13 @@ void VertexArray::add_data(std::array<T, D> data, VertexBufferLayout const& layo
         glVertexAttribPointer(i, el.count, el.type, el.normalized, layout.stride(), reinterpret_cast<void*>(offset));
         offset += el.count * gl_sizeof(el.type);
     }
-    vb->unbind();
-    vbs_.push_back(std::move(vb));
+    vb_->unbind();
 }
 
 
 template<std::size_t D>
 void VertexArray::add_indices(std::array<unsigned, D> indices) {
-    ibs_.push_back(IndexBuffer::create(indices));
+    ib_ = IndexBuffer::create(indices);
 }
 
 
