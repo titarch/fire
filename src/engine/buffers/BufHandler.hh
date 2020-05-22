@@ -25,7 +25,7 @@ public:
     }
 
     template<typename T, std::size_t D>
-    static VertexBuffer make_vbo(std::array<T, D> const& data) {
+    static VertexBuffer::ptr make_vbo(std::array<T, D> const& data) {
         return VertexBuffer::create(data);
     }
 

@@ -7,9 +7,14 @@
 
 
 #include <array>
+#include <memory>
+#include <vector>
 #include "BaseBuffer.hh"
 
 class VertexBuffer : public BaseBuffer {
+public:
+    using ptr = std::unique_ptr<VertexBuffer>;
+    using vec = std::vector<ptr>;
 protected:
     VertexBuffer() : BaseBuffer() {}
     // Create a buffer with VertexBuffer::create
@@ -21,16 +26,16 @@ public:
     void unbind() const override;
 
     template<typename T, std::size_t D>
-    static VertexBuffer create(std::array<T, D> const& data);
+    static ptr create(std::array<T, D> const& data);
 };
 
 template<typename T, std::size_t D>
-VertexBuffer VertexBuffer::create(const std::array<T, D>& data) {
-    VertexBuffer vb{};
-    glGenBuffers(1, &vb.id_);
-    vb.bind();
+VertexBuffer::ptr VertexBuffer::create(const std::array<T, D>& data) {
+    auto vb = ptr(new VertexBuffer);
+    glGenBuffers(1, &vb->id_);
+    vb->bind();
     glBufferData(GL_ARRAY_BUFFER, D * sizeof(T), data.data(), GL_STATIC_DRAW);
-    vb.unbind();
+    vb->unbind();
     return vb;
 }
 

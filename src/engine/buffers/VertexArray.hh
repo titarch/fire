@@ -20,7 +20,9 @@ public:
     static VertexArray create();
     void bind() const override;
     void unbind() const override;
-    VertexArray& add_buffer(VertexBuffer const& vb, VertexBufferLayout const& layout);
+    VertexArray& add_buffer(VertexBuffer::ptr vb, VertexBufferLayout const& layout);
+protected:
+    VertexBuffer::vec vbs_;
 };
 
 
