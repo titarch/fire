@@ -32,7 +32,6 @@ IndexBuffer IndexBuffer::create(const std::array<unsigned, D>& indices) {
     glGenBuffers(1, &ib.id_);
     ib.bind();
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, D * sizeof(unsigned), indices.data(), GL_STATIC_DRAW);
-    ib.unbind();
     return ib;
 }
 

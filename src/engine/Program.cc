@@ -135,13 +135,13 @@ void Program::Example::square(const WinHandler& wh) {
             2u, 3u, 0u
     };
 
-    BufHandler::make_vao()
-            .add_buffer(
-                    BufHandler::make_vbo(square),
-                    BufHandler::make_layout().add_element<GL_FLOAT>(2)
-            );
+    auto vao = BufHandler::make_vao();
+    vao.add_buffer(
+            BufHandler::make_vbo(square),
+            BufHandler::make_layout().add_element<GL_FLOAT>(2)
+    );
 
-    BufHandler::make_ibo(indices);
+    auto ibo = BufHandler::make_ibo(indices);
     auto p = Program::make_program("../res/shaders/vertex/basic.shd",
                                    "../res/shaders/fragment/uniform.shd");
     p->use();

@@ -35,7 +35,6 @@ VertexBuffer::ptr VertexBuffer::create(const std::array<T, D>& data) {
     glGenBuffers(1, &vb->id_);
     vb->bind();
     glBufferData(GL_ARRAY_BUFFER, D * sizeof(T), data.data(), GL_STATIC_DRAW);
-    vb->unbind();
     return vb;
 }
 
