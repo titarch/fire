@@ -118,9 +118,7 @@ void Program::Example::triangle(const WinHandler& wh) {
     Program::make_program("../res/shaders/vertex/basic.shd",
                           "../res/shaders/fragment/magenta.shd")->use();
 
-    vao.bind();
     wh.draw(GL_TRIANGLES, 3, false);
-    vao.unbind();
 }
 
 void Program::Example::square(const WinHandler& wh) {
