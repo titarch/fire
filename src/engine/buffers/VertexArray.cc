@@ -21,18 +21,3 @@ void VertexArray::bind() const {
 void VertexArray::unbind() const {
     glBindVertexArray(0);
 }
-
-void VertexArray::add_buffer(VertexBuffer::ptr vb, VertexBufferLayout const& layout) {
-    bind();
-    vb->bind();
-    std::size_t offset = 0u;
-    auto const& els = layout.elements();
-    for (auto i = 0u; i < els.size(); ++i) {
-        auto const& el = els[i];
-        glEnableVertexAttribArray(i);
-        glVertexAttribPointer(i, el.count, el.type, el.normalized, layout.stride(), reinterpret_cast<void*>(offset));
-        offset += el.count * gl_sizeof(el.type);
-    }
-    vb->unbind();
-    vbs_.push_back(std::move(vb));
-}
