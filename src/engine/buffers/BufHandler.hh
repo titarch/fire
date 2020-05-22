@@ -8,46 +8,32 @@
 #include <GL/glew.h>
 #include <vector>
 #include <array>
+#include "VertexBuffer.hh"
+#include "IndexBuffer.hh"
+#include "VertexArray.hh"
 
 class BufHandler {
 public:
     BufHandler() = delete;
 
-    template<std::size_t D>
-    static GLuint create_vbo(std::array<float, D> const& data, GLint dim);
-    template<std::size_t D>
-    static GLuint create_ibo(std::array<unsigned, D> const& data);
+    static VertexArray make_vao() {
+        return VertexArray::create();
+    }
 
-    inline static GLuint vao = 0;
-protected:
-    inline static std::vector<GLuint> buffers_{};
+    static VertexBufferLayout make_layout() {
+        return VertexBufferLayout();
+    }
+
+    template<typename T, std::size_t D>
+    static VertexBuffer make_vbo(std::array<T, D> const& data) {
+        return VertexBuffer::create(data);
+    }
+
+    template<std::size_t D>
+    static IndexBuffer make_ibo(std::array<unsigned, D> const& data) {
+        return IndexBuffer::create(data);
+    }
 };
-
-template<std::size_t D>
-GLuint BufHandler::create_vbo(const std::array<float, D>& data, GLint dim) {
-    glGenVertexArrays(1, &BufHandler::vao);
-    glBindVertexArray(BufHandler::vao);
-
-    GLuint buffer;
-    glGenBuffers(1, &buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ARRAY_BUFFER, D * sizeof(float), data.data(), GL_STATIC_DRAW);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, dim, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(0));
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    BufHandler::buffers_.push_back(buffer);
-    return buffer;
-}
-
-template<std::size_t D>
-GLuint BufHandler::create_ibo(const std::array<unsigned int, D>& data) {
-    GLuint buffer;
-    glGenBuffers(1, &buffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, D * sizeof(unsigned), data.data(), GL_STATIC_DRAW);
-    return buffer;
-}
 
 
 #endif //FIRE_BUFHANDLER_HH
