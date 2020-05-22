@@ -7,7 +7,7 @@
 #include <iostream>
 #include "Program.hh"
 #include "WinHandler.hh"
-#include "BufHandler.hh"
+#include "buffers/BufHandler.hh"
 
 Program::Program() : program_id_(0), ready_(false) {}
 
