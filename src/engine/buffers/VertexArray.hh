@@ -14,8 +14,10 @@ protected:
     VertexArray() : BaseBuffer() {}
 
 public:
-    static VertexArray create();
+    VertexArray(VertexArray&&) = default;
+    VertexArray& operator=(VertexArray&&) = default;
     virtual ~VertexArray();
+    static VertexArray create();
     void bind() const override;
     void unbind() const override;
     VertexArray& add_buffer(VertexBuffer const& vb, VertexBufferLayout const& layout);

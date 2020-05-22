@@ -15,6 +15,7 @@ protected:
     // Create a buffer with VertexBuffer::create
 
 public:
+    VertexBuffer(VertexBuffer&&) = default;
     virtual ~VertexBuffer();
     void bind() const override;
     void unbind() const override;

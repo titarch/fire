@@ -110,15 +110,17 @@ void Program::Example::triangle(const WinHandler& wh) {
             0.5f, -0.5f
     };
 
-    BufHandler::make_vao()
-            .add_buffer(
-                    BufHandler::make_vbo(triangle),
-                    BufHandler::make_layout().add_element<GL_FLOAT>(2)
-            );
+    VertexArray vao = BufHandler::make_vao();
+    vao.add_buffer(
+            BufHandler::make_vbo(triangle),
+            BufHandler::make_layout().add_element<GL_FLOAT>(2)
+    );
     Program::make_program("../res/shaders/vertex/basic.shd",
                           "../res/shaders/fragment/magenta.shd")->use();
 
+    vao.bind();
     wh.draw(GL_TRIANGLES, 3, false);
+    vao.unbind();
 }
 
 void Program::Example::square(const WinHandler& wh) {

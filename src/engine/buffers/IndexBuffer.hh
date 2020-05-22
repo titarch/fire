@@ -15,6 +15,7 @@ protected:
     // Create a buffer with IndexBuffer::create
 
 public:
+    IndexBuffer(IndexBuffer&&) = default;
     virtual ~IndexBuffer();
     void bind() const override;
     void unbind() const override;

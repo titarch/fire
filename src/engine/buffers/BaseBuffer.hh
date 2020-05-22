@@ -10,7 +10,9 @@
 class BaseBuffer {
 public:
     BaseBuffer() : id_(0) {}
-
+    BaseBuffer(BaseBuffer const&) = delete;
+    BaseBuffer(BaseBuffer&&) = default;
+    BaseBuffer& operator=(BaseBuffer&&) = default;
     virtual ~BaseBuffer() = default;
 
     virtual void bind() const = 0;

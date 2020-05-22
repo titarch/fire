@@ -55,7 +55,7 @@ void WinHandler::draw(GLenum type, std::size_t object_size, bool indexed) const 
         if (indexed)
             glDrawElements(type, object_size, GL_UNSIGNED_INT, nullptr);
         else
-            glDrawArrays(GL_TRIANGLES, 0, object_size);
+            glDrawArrays(type, 0, object_size);
         glfwSwapBuffers(win_);
         glfwPollEvents();
     }
