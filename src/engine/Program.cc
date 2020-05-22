@@ -9,7 +9,7 @@
 #include "WinHandler.hh"
 #include "buffers/BufHandler.hh"
 
-Program::Program() : program_id_(0), ready_(false) {}
+Program::Program() : program_id_(0), ready_(false), location_cache_{} {}
 
 Program::~Program() {
     glDeleteProgram(program_id_);
@@ -103,9 +103,11 @@ void Program::use() const {
     glUseProgram(program_id_);
 }
 
-GLint Program::uniform_location(const std::string& name) const {
+GLint Program::uniform_location(const std::string& name) {
+    if (location_cache_.contains(name)) return location_cache_.at(name);
     GLint location = glGetUniformLocation(program_id_, name.c_str());
     if (location == -1) throw std::runtime_error(name + " could not be located in shader");
+    location_cache_.emplace(name, location);
     return location;
 }
 

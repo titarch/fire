@@ -8,6 +8,7 @@
 #include <string>
 #include <GL/glew.h>
 #include <memory>
+#include <unordered_map>
 
 class WinHandler;
 
@@ -22,7 +23,7 @@ public:
     [[nodiscard]] GLuint id() const;
     [[nodiscard]] bool is_ready() const;
     void use() const;
-    [[nodiscard]] GLint uniform_location(std::string const& name) const;
+    [[nodiscard]] GLint uniform_location(std::string const& name);
 
     template<typename ...Args>
     constexpr void set_uniform(GLenum type, std::string const& name, Args ...args);
@@ -36,6 +37,7 @@ public:
 protected:
     GLuint program_id_;
     bool ready_;
+    std::unordered_map<std::string, GLint> location_cache_;
 };
 
 
