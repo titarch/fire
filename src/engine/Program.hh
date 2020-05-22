@@ -10,7 +10,7 @@
 #include <memory>
 #include <unordered_map>
 
-class WinHandler;
+class WinRender;
 
 class Program {
 public:
@@ -30,8 +30,8 @@ public:
 
     class Example {
     public:
-        static void triangle(WinHandler const& wh);
-        static void square(WinHandler const& wh);
+        static void triangle(WinRender const& wh);
+        static void square(WinRender const& wh);
     };
 
 protected:

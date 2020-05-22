@@ -6,7 +6,7 @@
 #include <vector>
 #include <iostream>
 #include "Program.hh"
-#include "WinHandler.hh"
+#include "WinRender.hh"
 #include "buffers/BufHandler.hh"
 
 Program::Program() : program_id_(0), ready_(false), location_cache_{} {}
@@ -111,7 +111,7 @@ GLint Program::uniform_location(const std::string& name) {
     return location;
 }
 
-void Program::Example::triangle(const WinHandler& wh) {
+void Program::Example::triangle(const WinRender& wh) {
     static constexpr std::array triangle = {
             -0.5f, -0.5f,
             0.0f, 0.5f,
@@ -129,7 +129,7 @@ void Program::Example::triangle(const WinHandler& wh) {
     wh.draw(GL_TRIANGLES, 3, false);
 }
 
-void Program::Example::square(const WinHandler& wh) {
+void Program::Example::square(const WinRender& wh) {
     static constexpr std::array square = {
             -0.5f, -0.5f,
             0.5f, -0.5f,

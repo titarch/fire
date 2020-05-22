@@ -5,7 +5,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <GL/glew.h>
-#include "WinHandler.hh"
+#include "WinRender.hh"
 
 [[maybe_unused]] static void GLAPIENTRY
 MessageCallback([[maybe_unused]]GLenum source,
@@ -19,7 +19,7 @@ MessageCallback([[maybe_unused]]GLenum source,
             (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""), type, severity, message);
 }
 
-WinHandler::WinHandler(int width, int height) : width_(width), height_(height) {
+WinRender::WinRender(int width, int height) : width_(width), height_(height) {
     if (!glfwInit())
         throw std::runtime_error("Could not initialize GLFW");
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -45,11 +45,11 @@ WinHandler::WinHandler(int width, int height) : width_(width), height_(height) {
 #endif
 }
 
-WinHandler::~WinHandler() {
+WinRender::~WinRender() {
     glfwTerminate();
 }
 
-void WinHandler::draw(GLenum type, std::size_t object_size, bool indexed) const {
+void WinRender::draw(GLenum type, std::size_t object_size, bool indexed) const {
     while (!glfwWindowShouldClose(win_)) {
         glClear(GL_COLOR_BUFFER_BIT);
         if (indexed)
@@ -61,7 +61,7 @@ void WinHandler::draw(GLenum type, std::size_t object_size, bool indexed) const 
     }
 }
 
-void WinHandler::draw(const VertexArray& va, const Program& p) {
+void WinRender::draw(const VertexArray& va, const Program& p) {
     p.use();
     va.bind();
     auto const* ibo = va.ibo();

@@ -1,8 +1,8 @@
 add_subdirectory(buffers)
 
 set(engine_src_files
-        WinHandler.hh
-        WinHandler.cc
+        WinRender.hh
+        WinRender.cc
         Program.hh
         Program.cc
         program.hh)

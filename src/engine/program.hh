@@ -5,7 +5,7 @@
 #ifndef FIRE_INCLUDES_HH
 
 #include <GL/glew.h>
-#include "WinHandler.hh"
+#include "WinRender.hh"
 #include "buffers/BufHandler.hh"
 #include "Program.hh"
 

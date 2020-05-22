@@ -2,20 +2,20 @@
 // Created by bparsy on 5/16/20.
 //
 
-#ifndef FIRE_WINHANDLER_HH
-#define FIRE_WINHANDLER_HH
+#ifndef FIRE_WINRENDER_HH
+#define FIRE_WINRENDER_HH
 
 #include <GLFW/glfw3.h>
 #include <cstddef>
 #include "buffers/VertexArray.hh"
 #include "Program.hh"
 
-class WinHandler {
+class WinRender {
 public:
-    WinHandler(int width, int height);
+    WinRender(int width, int height);
     void draw(GLenum type, std::size_t object_size, bool indexed) const;
     void draw(VertexArray const& va, Program const& p);
-    ~WinHandler();
+    ~WinRender();
 
 protected:
     int width_, height_;
@@ -23,4 +23,4 @@ protected:
 };
 
 
-#endif //FIRE_WINHANDLER_HH
+#endif //FIRE_WINRENDER_HH
