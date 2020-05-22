@@ -123,10 +123,15 @@ void Program::Example::triangle(const WinRender& wh) {
             triangle,
             VertexBufferLayout::Common::F2D()
     );
-    Program::make_program("../res/shaders/vertex/basic.shd",
-                          "../res/shaders/fragment/magenta.shd")->use();
-
-    wh.draw(GL_TRIANGLES, 3, false);
+    vao.add_indices(std::array{0u, 1u, 2u});
+    auto p = Program::make_program("../res/shaders/vertex/basic.shd",
+                                   "../res/shaders/fragment/magenta.shd");
+    p->use();
+    while (wh.is_open()) {
+        wh.clear();
+        wh.draw(vao, *p);
+        wh.display();
+    }
 }
 
 void Program::Example::square(const WinRender& wh) {
@@ -151,8 +156,11 @@ void Program::Example::square(const WinRender& wh) {
     auto p = Program::make_program("../res/shaders/vertex/basic.shd",
                                    "../res/shaders/fragment/uniform.shd");
     p->use();
-
     p->set_uniform(GL_FLOAT_VEC4, "u_Color", 0.0f, 1.0f, 1.0f, 1.0f);
 
-    wh.draw(GL_TRIANGLES, indices.size(), true);
+    while (wh.is_open()) {
+        wh.clear();
+        wh.draw(vao, *p);
+        wh.display();
+    }
 }

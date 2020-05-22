@@ -13,9 +13,12 @@
 class WinRender {
 public:
     WinRender(int width, int height);
-    void draw(GLenum type, std::size_t object_size, bool indexed) const;
-    void draw(VertexArray const& va, Program const& p);
     ~WinRender();
+
+    void clear() const;
+    [[nodiscard]] bool is_open() const;
+    void display() const;
+    void draw(VertexArray const& va, Program const& p) const;
 
 protected:
     int width_, height_;

@@ -49,22 +49,24 @@ WinRender::~WinRender() {
     glfwTerminate();
 }
 
-void WinRender::draw(GLenum type, std::size_t object_size, bool indexed) const {
-    while (!glfwWindowShouldClose(win_)) {
-        glClear(GL_COLOR_BUFFER_BIT);
-        if (indexed)
-            glDrawElements(type, object_size, GL_UNSIGNED_INT, nullptr);
-        else
-            glDrawArrays(type, 0, object_size);
-        glfwSwapBuffers(win_);
-        glfwPollEvents();
-    }
+void WinRender::clear() const {
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void WinRender::draw(const VertexArray& va, const Program& p) {
+bool WinRender::is_open() const {
+    return !glfwWindowShouldClose(win_);
+}
+
+void WinRender::display() const {
+    glfwSwapBuffers(win_);
+    glfwPollEvents();
+}
+
+void WinRender::draw(const VertexArray& va, const Program& p) const {
     p.use();
     va.bind();
     auto const* ibo = va.ibo();
     ibo->bind();
     glDrawElements(GL_TRIANGLES, ibo->count(), GL_UNSIGNED_INT, nullptr);
 }
+
