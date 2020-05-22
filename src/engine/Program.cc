@@ -103,6 +103,12 @@ void Program::use() const {
     glUseProgram(program_id_);
 }
 
+GLint Program::uniform_location(const std::string& name) const {
+    GLint location = glGetUniformLocation(program_id_, name.c_str());
+    if (location == -1) throw std::runtime_error(name + " could not be located in shader");
+    return location;
+}
+
 void Program::Example::triangle(const WinHandler& wh) {
     static constexpr std::array triangle = {
             -0.5f, -0.5f,
@@ -144,8 +150,7 @@ void Program::Example::square(const WinHandler& wh) {
                                    "../res/shaders/fragment/uniform.shd");
     p->use();
 
-    auto loc = glGetUniformLocation(p->id(), "u_Color");
-    glUniform4f(loc, 0.0f, 1.0f, 1.0f, 1.0f);
+    p->set_uniform(GL_FLOAT_VEC4, "u_Color", 0.0f, 1.0f, 1.0f, 1.0f);
 
     wh.draw(GL_TRIANGLES, indices.size(), true);
 }

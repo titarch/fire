@@ -22,6 +22,10 @@ public:
     [[nodiscard]] GLuint id() const;
     [[nodiscard]] bool is_ready() const;
     void use() const;
+    [[nodiscard]] GLint uniform_location(std::string const& name) const;
+
+    template<typename ...Args>
+    void set_uniform(GLenum type, std::string const& name, Args ...args);
 
     class Example {
     public:
@@ -33,5 +37,18 @@ protected:
     GLuint program_id_;
     bool ready_;
 };
+
+
+template<typename... Args>
+void Program::set_uniform(GLenum type, const std::string& name, Args... args) {
+    switch (type) {
+        case GL_FLOAT_VEC4:
+            return glUniform4f(uniform_location(name), args...);
+        default:
+            break;
+    }
+    throw std::runtime_error(name + ": unrecognized/unimplemented uniform type");
+}
+
 
 #endif //FIRE_PROGRAM_HH
