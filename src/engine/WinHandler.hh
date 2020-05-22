@@ -7,11 +7,14 @@
 
 #include <GLFW/glfw3.h>
 #include <cstddef>
+#include "buffers/VertexArray.hh"
+#include "Program.hh"
 
 class WinHandler {
 public:
     WinHandler(int width, int height);
     void draw(GLenum type, std::size_t object_size, bool indexed) const;
+    void draw(VertexArray const& va, Program const& p);
     ~WinHandler();
 
 protected:

@@ -60,3 +60,11 @@ void WinHandler::draw(GLenum type, std::size_t object_size, bool indexed) const 
         glfwPollEvents();
     }
 }
+
+void WinHandler::draw(const VertexArray& va, const Program& p) {
+    p.use();
+    va.bind();
+    auto const* ibo = va.ibo();
+    ibo->bind();
+    glDrawElements(GL_TRIANGLES, ibo->count(), GL_UNSIGNED_INT, nullptr);
+}

@@ -22,9 +22,9 @@ public:
     void bind() const override;
     void unbind() const override;
 
-    [[nodiscard]] VertexBuffer const& vbo() const { return *vb_; }
+    [[nodiscard]] VertexBuffer const* vbo() const { return vb_.get(); }
 
-    [[nodiscard]] IndexBuffer const& ibo() const { return *ib_; };
+    [[nodiscard]] IndexBuffer const* ibo() const { return ib_.get(); };
 
     template<typename T, std::size_t D>
     void add_data(std::array<T, D> data, VertexBufferLayout const& layout);

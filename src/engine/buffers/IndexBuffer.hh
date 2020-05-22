@@ -21,6 +21,7 @@ public:
     virtual ~IndexBuffer();
     void bind() const override;
     void unbind() const override;
+    [[nodiscard]] std::size_t count() const;
 
     template<std::size_t D>
     static ptr create(std::array<unsigned, D> const& indices);
