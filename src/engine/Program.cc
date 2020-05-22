@@ -110,7 +110,7 @@ void Program::Example::triangle(const WinHandler& wh) {
             0.5f, -0.5f
     };
 
-    VertexArray vao = BufHandler::make_vao();
+    auto vao = BufHandler::make_vao();
     vao.add_buffer(
             BufHandler::make_vbo(triangle),
             BufHandler::make_layout().add_element<GL_FLOAT>(2)

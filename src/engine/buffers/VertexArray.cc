@@ -22,7 +22,7 @@ void VertexArray::unbind() const {
     glBindVertexArray(0);
 }
 
-VertexArray& VertexArray::add_buffer(VertexBuffer::ptr vb, VertexBufferLayout const& layout) {
+void VertexArray::add_buffer(VertexBuffer::ptr vb, VertexBufferLayout const& layout) {
     bind();
     vb->bind();
     std::size_t offset = 0u;
@@ -35,5 +35,4 @@ VertexArray& VertexArray::add_buffer(VertexBuffer::ptr vb, VertexBufferLayout co
     }
     vb->unbind();
     vbs_.push_back(std::move(vb));
-    return *this;
 }
