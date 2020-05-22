@@ -8,12 +8,10 @@ VertexBuffer::~VertexBuffer() {
     glDeleteBuffers(1, &id_);
 }
 
-VertexBuffer& VertexBuffer::bind() {
+void VertexBuffer::bind() const {
     glBindBuffer(GL_ARRAY_BUFFER, id_);
-    return *this;
 }
 
-VertexBuffer& VertexBuffer::unbind() {
+void VertexBuffer::unbind() const {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    return *this;
 }

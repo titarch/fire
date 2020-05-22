@@ -13,8 +13,8 @@ public:
 
     virtual ~BaseBuffer() = default;
 
-    virtual BaseBuffer& bind() = 0;
-    virtual BaseBuffer& unbind() = 0;
+    virtual void bind() const = 0;
+    virtual void unbind() const = 0;
     [[nodiscard]] GLuint id() const;
 protected:
     GLuint id_;

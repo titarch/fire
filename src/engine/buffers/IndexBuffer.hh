@@ -16,8 +16,8 @@ protected:
 
 public:
     virtual ~IndexBuffer();
-    IndexBuffer& bind() override;
-    IndexBuffer& unbind() override;
+    void bind() const override;
+    void unbind() const override;
 
     template<std::size_t D>
     static IndexBuffer create(std::array<unsigned, D> const& indices);

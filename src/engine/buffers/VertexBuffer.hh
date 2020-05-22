@@ -16,8 +16,8 @@ protected:
 
 public:
     virtual ~VertexBuffer();
-    VertexBuffer& bind() override;
-    VertexBuffer& unbind() override;
+    void bind() const override;
+    void unbind() const override;
 
     template<typename T, std::size_t D>
     static VertexBuffer create(std::array<T, D> const& data);
