@@ -19,7 +19,9 @@ public:
     [[nodiscard]] bool is_open() const;
     void display() const;
     void draw(VertexArray const& va, Program const& p) const;
-
+    [[nodiscard]] int width() const;
+    [[nodiscard]] int height() const;
+    [[nodiscard]] float ratio() const;
 protected:
     int width_, height_;
     GLFWwindow* win_;

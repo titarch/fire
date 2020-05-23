@@ -5,6 +5,8 @@
 #include <fstream>
 #include <vector>
 #include <iostream>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include "Program.hh"
 #include "WinRender.hh"
 #include "buffers/BufHandler.hh"
@@ -157,11 +159,16 @@ void Program::Example::square(const WinRender& wr) {
     auto p = Program::make_program("../res/shaders/vertex/basic.shd",
                                    "../res/shaders/fragment/uniform.shd");
     p->use();
+
+    auto ratio = wr.ratio();
+    glm::mat4 ortho_proj = glm::ortho(-ratio, ratio, -1.f, 1.f, -1.f, 1.f);
+    p->set_uniform<GL_FLOAT_MAT4>("u_MVP", &ortho_proj[0][0]);
+
     auto hue = 0;
     while (wr.is_open()) {
         wr.clear();
         auto color = hsv(hue++, 1.f, 1.f);
-        p->set_uniform(GL_FLOAT_VEC4, "u_Color", color.r, color.g, color.b, 1.f);
+        p->set_uniform<GL_FLOAT_VEC4>("u_Color", color.r, color.g, color.b, 1.f);
         wr.draw(vao, *p);
         wr.display();
     }

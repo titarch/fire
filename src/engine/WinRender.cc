@@ -70,3 +70,14 @@ void WinRender::draw(const VertexArray& va, const Program& p) const {
     glDrawElements(GL_TRIANGLES, ibo->count(), GL_UNSIGNED_INT, nullptr);
 }
 
+int WinRender::width() const {
+    return width_;
+}
+
+int WinRender::height() const {
+    return height_;
+}
+
+float WinRender::ratio() const {
+    return (float) width_ / (float) height_;
+}
