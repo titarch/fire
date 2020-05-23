@@ -48,11 +48,11 @@ inline void Program::set_uniform(const std::string& name, Args... args) {
 
 template<>
 inline void Program::set_uniform<GL_FLOAT_VEC4>(const std::string& name, float v0, float v1, float v2, float v3) {
-        glUniform4f(uniform_location(name), v0, v1, v2, v3);
+    glUniform4f(uniform_location(name), v0, v1, v2, v3);
 }
 
 template<>
-inline void Program::set_uniform<GL_FLOAT_MAT4>(const std::string &name, float* mat_ptr) {
+inline void Program::set_uniform<GL_FLOAT_MAT4>(const std::string& name, float* mat_ptr) {
     glUniformMatrix4fv(uniform_location(name), 1, GL_FALSE, mat_ptr);
 }
 
