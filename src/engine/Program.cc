@@ -156,7 +156,7 @@ void Program::Example::square(const WinRender& wr) {
     );
     vao.add_indices(indices);
 
-    auto p = Program::make_program("../res/shaders/vertex/basic.shd",
+    auto p = Program::make_program("../res/shaders/vertex/ortho.shd",
                                    "../res/shaders/fragment/uniform.shd");
     p->use();
 
