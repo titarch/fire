@@ -156,13 +156,53 @@ void Program::Example::square(const WinRender& wr) {
     );
     vao.add_indices(indices);
 
-    auto p = Program::make_program("../res/shaders/vertex/ortho.shd",
+    auto p = Program::make_program("../res/shaders/vertex/projection.shd",
                                    "../res/shaders/fragment/uniform.shd");
     p->use();
 
     auto ratio = wr.ratio();
     glm::mat4 ortho_proj = glm::ortho(-ratio, ratio, -1.f, 1.f, -1.f, 1.f);
     p->set_uniform<GL_FLOAT_MAT4>("u_MVP", &ortho_proj[0][0]);
+
+    auto hue = 0;
+    while (wr.is_open()) {
+        wr.clear();
+        auto color = hsv(hue++, 1.f, 1.f);
+        p->set_uniform<GL_FLOAT_VEC4>("u_Color", color.r, color.g, color.b, 1.f);
+        wr.draw(vao, *p);
+        wr.display();
+    }
+}
+
+void Program::Example::cube(const WinRender& wr) {
+    static constexpr std::array square = {
+            -0.5f, -0.5f,
+            0.5f, -0.5f,
+            0.5f, 0.5f,
+            -0.5f, 0.5f
+    };
+    static constexpr std::array indices = {
+            0u, 1u, 2u,
+            2u, 3u, 0u
+    };
+
+    auto vao = BufHandler::make_vao();
+    vao.add_data(
+            square,
+            VertexBufferLayout::Common::F2D()
+    );
+    vao.add_indices(indices);
+
+    auto p = Program::make_program("../res/shaders/vertex/projection.shd",
+                                   "../res/shaders/fragment/uniform.shd");
+    p->use();
+
+    auto ratio = wr.ratio();
+    glm::mat4 ortho_proj = glm::ortho(-ratio, ratio, -1.f, 1.f, -1.f, 1.f);
+    glm::mat4 view = glm::translate(glm::mat4(1.f), glm::vec3(.5f, 0, 0));
+    glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(0, .5f, 0));
+    auto mvp = ortho_proj * view * model;
+    p->set_uniform<GL_FLOAT_MAT4>("u_MVP", &mvp[0][0]);
 
     auto hue = 0;
     while (wr.is_open()) {

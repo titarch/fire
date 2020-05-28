@@ -32,6 +32,7 @@ public:
     public:
         static void triangle(WinRender const& wh);
         static void square(WinRender const& wr);
+        static void cube(WinRender const& wr);
     };
 
 protected:
