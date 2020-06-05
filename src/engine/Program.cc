@@ -195,28 +195,28 @@ void Program::Example::cube(const WinRender& wr) {
             {{ 1.f, 1.f, 1.f }, { 0.f, 0.f, 1.f }},
 
             // down
-            {{ 0.f, 0.f, 0.f }, { 0.f, -1.f, 0.f }},
-            {{ 1.f, 0.f, 0.f }, { 0.f, -1.f, 0.f }},
-            {{ 0.f, 0.f, 1.f }, { 0.f, -1.f, 0.f }},
-            {{ 1.f, 0.f, 1.f }, { 0.f, -1.f, 0.f }},
+            {{ 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f }},
+            {{ 1.f, 0.f, 0.f }, { 0.f, 1.f, 0.f }},
+            {{ 0.f, 0.f, 1.f }, { 0.f, 1.f, 0.f }},
+            {{ 1.f, 0.f, 1.f }, { 0.f, 1.f, 0.f }},
 
             // up
-            {{ 0.f, 1.f, 0.f }, { 0.f, 1.f, 0.f }},
-            {{ 1.f, 1.f, 0.f }, { 0.f, 1.f, 0.f }},
-            {{ 0.f, 1.f, 1.f }, { 0.f, 1.f, 0.f }},
-            {{ 1.f, 1.f, 1.f }, { 0.f, 1.f, 0.f }},
+            {{ 0.f, 1.f, 0.f }, { 0.f, -1.f, 0.f }},
+            {{ 1.f, 1.f, 0.f }, { 0.f, -1.f, 0.f }},
+            {{ 0.f, 1.f, 1.f }, { 0.f, -1.f, 0.f }},
+            {{ 1.f, 1.f, 1.f }, { 0.f, -1.f, 0.f }},
 
             // left
-            {{ 0.f, 0.f, 0.f }, { -1.f, 0.f, 0.f }},
-            {{ 0.f, 1.f, 0.f }, { -1.f, 0.f, 0.f }},
-            {{ 0.f, 0.f, 1.f }, { -1.f, 0.f, 0.f }},
-            {{ 0.f, 1.f, 1.f }, { -1.f, 0.f, 0.f }},
+            {{ 0.f, 0.f, 0.f }, { 1.f, 0.f, 0.f }},
+            {{ 0.f, 1.f, 0.f }, { 1.f, 0.f, 0.f }},
+            {{ 0.f, 0.f, 1.f }, { 1.f, 0.f, 0.f }},
+            {{ 0.f, 1.f, 1.f }, { 1.f, 0.f, 0.f }},
 
             // right
-            {{ 1.f, 0.f, 0.f }, { 1.f, 0.f, 0.f }},
-            {{ 1.f, 1.f, 0.f }, { 1.f, 0.f, 0.f }},
-            {{ 1.f, 0.f, 1.f }, { 1.f, 0.f, 0.f }},
-            {{ 1.f, 1.f, 1.f }, { 1.f, 0.f, 0.f }},
+            {{ 1.f, 0.f, 0.f }, { -1.f, 0.f, 0.f }},
+            {{ 1.f, 1.f, 0.f }, { -1.f, 0.f, 0.f }},
+            {{ 1.f, 0.f, 1.f }, { -1.f, 0.f, 0.f }},
+            {{ 1.f, 1.f, 1.f }, { -1.f, 0.f, 0.f }},
     };
     static constexpr std::array indices = {
             0u, 1u, 2u,
@@ -251,13 +251,14 @@ void Program::Example::cube(const WinRender& wr) {
     p->use();
 
     auto ratio = wr.ratio();
-    glm::mat4 proj = glm::ortho(-ratio * 1.5f, ratio * 1.5f, -1.5f, 1.5f, -1.5f, 1.5f);
-    glm::mat4 view = glm::translate(glm::mat4(1.f), glm::vec3(0, 0, 0));
+    glm::mat4 proj = glm::perspective(45.f, ratio, 0.01f, 5.f);
+    glm::mat4 view = glm::translate(glm::mat4(1.f), glm::vec3(0, 0, -3.f));
     glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(-0.5f, -0.5f, -0.5));
     glm::mat4 rot = glm::mat4(1.f);
     p->set_uniform<GL_FLOAT_MAT4>("u_proj", &proj[0][0]);
     p->set_uniform<GL_FLOAT_MAT4>("u_view", &view[0][0]);
     p->set_uniform<GL_FLOAT_MAT4>("u_model", &model[0][0]);
+    glEnable(GL_DEPTH_TEST);
 
     auto hue = 0;
     while (wr.is_open()) {
