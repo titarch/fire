@@ -175,21 +175,35 @@ void Program::Example::square(const WinRender& wr) {
 }
 
 void Program::Example::cube(const WinRender& wr) {
-    static constexpr std::array square = {
-            -0.5f, -0.5f,
-            0.5f, -0.5f,
-            0.5f, 0.5f,
-            -0.5f, 0.5f
+    static constexpr std::array cube = {
+            0.f, 0.f, 0.f,
+            1.f, 0.f, 0.f,
+            0.f, 1.f, 0.f,
+            1.f, 1.f, 0.f,
+            0.f, 0.f, 1.f,
+            1.f, 0.f, 1.f,
+            0.f, 1.f, 1.f,
+            1.f, 1.f, 1.f,
     };
     static constexpr std::array indices = {
             0u, 1u, 2u,
-            2u, 3u, 0u
+            1u, 2u, 3u,
+            0u, 1u, 4u,
+            1u, 4u, 5u,
+            1u, 3u, 5u,
+            3u, 5u, 7u,
+            0u, 2u, 4u,
+            2u, 4u, 6u,
+            2u, 3u, 6u,
+            3u, 6u, 7u,
+            4u, 5u, 6u,
+            5u, 6u, 7u,
     };
 
     auto vao = BufHandler::make_vao();
     vao.add_data(
-            square,
-            VertexBufferLayout::Common::F2D()
+            cube,
+            VertexBufferLayout::Common::F3D()
     );
     vao.add_indices(indices);
 
@@ -199,8 +213,9 @@ void Program::Example::cube(const WinRender& wr) {
 
     auto ratio = wr.ratio();
     glm::mat4 ortho_proj = glm::ortho(-ratio, ratio, -1.f, 1.f, -1.f, 1.f);
-    glm::mat4 view = glm::translate(glm::mat4(1.f), glm::vec3(.5f, 0, 0));
-    glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(0, .5f, 0));
+    glm::mat4 view = glm::translate(glm::mat4(1.f), glm::vec3(0, 0, 0));
+    glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(-0.5f, -0.5f, 0));
+    model = glm::rotate(model, 1.f, glm::vec3(0.5f, 1, 0));
     auto mvp = ortho_proj * view * model;
     p->set_uniform<GL_FLOAT_MAT4>("u_MVP", &mvp[0][0]);
 
