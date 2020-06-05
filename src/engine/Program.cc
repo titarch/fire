@@ -175,55 +175,97 @@ void Program::Example::square(const WinRender& wr) {
 }
 
 void Program::Example::cube(const WinRender& wr) {
-    static constexpr std::array cube = {
-            0.f, 0.f, 0.f,
-            1.f, 0.f, 0.f,
-            0.f, 1.f, 0.f,
-            1.f, 1.f, 0.f,
-            0.f, 0.f, 1.f,
-            1.f, 0.f, 1.f,
-            0.f, 1.f, 1.f,
-            1.f, 1.f, 1.f,
+    struct Vertex {
+        float position[3];
+        float normal[3];
+    }__attribute__((packed));
+
+
+    static constexpr std::array<Vertex, 24> cube = {
+            // front
+            Vertex{{ 0.f, 0.f, 0.f }, { 0.f, 0.f, -1.f }},
+            {{ 1.f, 0.f, 0.f }, { 0.f, 0.f, -1.f }},
+            {{ 0.f, 1.f, 0.f }, { 0.f, 0.f, -1.f }},
+            {{ 1.f, 1.f, 0.f }, { 0.f, 0.f, -1.f }},
+
+            // back
+            {{ 0.f, 0.f, 1.f }, { 0.f, 0.f, 1.f }},
+            {{ 1.f, 0.f, 1.f }, { 0.f, 0.f, 1.f }},
+            {{ 0.f, 1.f, 1.f }, { 0.f, 0.f, 1.f }},
+            {{ 1.f, 1.f, 1.f }, { 0.f, 0.f, 1.f }},
+
+            // down
+            {{ 0.f, 0.f, 0.f }, { 0.f, -1.f, 0.f }},
+            {{ 1.f, 0.f, 0.f }, { 0.f, -1.f, 0.f }},
+            {{ 0.f, 0.f, 1.f }, { 0.f, -1.f, 0.f }},
+            {{ 1.f, 0.f, 1.f }, { 0.f, -1.f, 0.f }},
+
+            // up
+            {{ 0.f, 1.f, 0.f }, { 0.f, 1.f, 0.f }},
+            {{ 1.f, 1.f, 0.f }, { 0.f, 1.f, 0.f }},
+            {{ 0.f, 1.f, 1.f }, { 0.f, 1.f, 0.f }},
+            {{ 1.f, 1.f, 1.f }, { 0.f, 1.f, 0.f }},
+
+            // left
+            {{ 0.f, 0.f, 0.f }, { -1.f, 0.f, 0.f }},
+            {{ 0.f, 1.f, 0.f }, { -1.f, 0.f, 0.f }},
+            {{ 0.f, 0.f, 1.f }, { -1.f, 0.f, 0.f }},
+            {{ 0.f, 1.f, 1.f }, { -1.f, 0.f, 0.f }},
+
+            // right
+            {{ 1.f, 0.f, 0.f }, { 1.f, 0.f, 0.f }},
+            {{ 1.f, 1.f, 0.f }, { 1.f, 0.f, 0.f }},
+            {{ 1.f, 0.f, 1.f }, { 1.f, 0.f, 0.f }},
+            {{ 1.f, 1.f, 1.f }, { 1.f, 0.f, 0.f }},
     };
     static constexpr std::array indices = {
             0u, 1u, 2u,
             1u, 2u, 3u,
-            0u, 1u, 4u,
-            1u, 4u, 5u,
-            1u, 3u, 5u,
-            3u, 5u, 7u,
-            0u, 2u, 4u,
-            2u, 4u, 6u,
-            2u, 3u, 6u,
-            3u, 6u, 7u,
+
             4u, 5u, 6u,
             5u, 6u, 7u,
+
+            8u, 9u, 10u,
+            9u, 10u, 11u,
+
+            12u, 13u, 14u,
+            13u, 14u, 15u,
+
+            16u, 17u, 18u,
+            17u, 18u, 19u,
+
+            20u, 21u, 22u,
+            21u, 22u, 23u,
     };
 
     auto vao = BufHandler::make_vao();
     vao.add_data(
             cube,
             VertexBufferLayout::Common::F3D()
+            .add_element<GL_FLOAT>(3)
     );
     vao.add_indices(indices);
 
-    auto p = Program::make_program("../res/shaders/vertex/projection.shd",
-                                   "../res/shaders/fragment/uniform.shd");
+    auto p = Program::make_program("../res/shaders/vertex/classic3d.shd",
+                                   "../res/shaders/fragment/color.shd");
     p->use();
 
     auto ratio = wr.ratio();
-    glm::mat4 ortho_proj = glm::ortho(-ratio, ratio, -1.f, 1.f, -1.f, 1.f);
+    glm::mat4 proj = glm::ortho(-ratio * 1.5f, ratio * 1.5f, -1.5f, 1.5f, -1.5f, 1.5f);
     glm::mat4 view = glm::translate(glm::mat4(1.f), glm::vec3(0, 0, 0));
-    glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(-0.5f, -0.5f, 0));
-    model = glm::rotate(model, 1.f, glm::vec3(0.5f, 1, 0));
-    auto mvp = ortho_proj * view * model;
-    p->set_uniform<GL_FLOAT_MAT4>("u_MVP", &mvp[0][0]);
+    glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(-0.5f, -0.5f, -0.5));
+    glm::mat4 rot = glm::mat4(1.f);
+    p->set_uniform<GL_FLOAT_MAT4>("u_proj", &proj[0][0]);
+    p->set_uniform<GL_FLOAT_MAT4>("u_view", &view[0][0]);
+    p->set_uniform<GL_FLOAT_MAT4>("u_model", &model[0][0]);
 
     auto hue = 0;
     while (wr.is_open()) {
         wr.clear();
         auto color = hsv(hue++, 1.f, 1.f);
-        p->set_uniform<GL_FLOAT_VEC4>("u_Color", color.r, color.g, color.b, 1.f);
+        p->set_uniform<GL_FLOAT_VEC4>("u_color", color.r, color.g, color.b, 1.f);
+        rot = glm::rotate(rot, 0.01f, glm::vec3(0.5f, 1.f, 0.f));
+        p->set_uniform<GL_FLOAT_MAT4>("u_rot", &rot[0][0]);
         wr.draw(vao, *p);
         wr.display();
     }

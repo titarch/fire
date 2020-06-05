@@ -1,0 +1,25 @@
+#version 420
+
+layout(location=0) in vec4 position;
+layout(location=1) in vec4 normal;
+
+out vec4 interpolated_color;
+
+uniform mat4 u_proj, u_view, u_model, u_rot;
+uniform vec4 u_color;
+
+vec3 light_position = vec3(1.0, 1.0, 5.0);
+
+mat4 projection_matrix = mat4(
+5.00000, 0.00000, 0.00000, 0.00000,
+0.00000, 5.00000, 0.00000, 0.00000,
+0.00000, 0.00000, -1.00020, -1.00000,
+0.00000, 0.00000, -10.00100, 0.00000);
+
+void main() {
+    vec4 light_dir = vec4(light_position - position.xyz, 1);
+    float coef = dot(normalize((normal * u_rot).xyz), normalize(light_dir.xyz));
+    coef = clamp(coef, 0, 1);
+    interpolated_color = vec4(u_color.rgb * coef, 1.0);
+    gl_Position = u_proj * u_view * u_rot * u_model * position;
+}
