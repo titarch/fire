@@ -5,8 +5,7 @@
 #include <fstream>
 #include <vector>
 #include <iostream>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include "../utils/transform.hh"
 #include "Program.hh"
 #include "WinRender.hh"
 #include "buffers/BufHandler.hh"
@@ -182,13 +181,13 @@ void Program::Example::cube(const WinRender& wr) {
 
 
     static constexpr std::array<Vertex, 24> cube = {
-            // front
+            // back
             Vertex{{ 0.f, 0.f, 0.f }, { 0.f, 0.f, 1.f }},
             {{ 1.f, 0.f, 0.f }, { 0.f, 0.f, 1.f }},
             {{ 0.f, 1.f, 0.f }, { 0.f, 0.f, 1.f }},
             {{ 1.f, 1.f, 0.f }, { 0.f, 0.f, 1.f }},
 
-            // back
+            // front
             {{ 0.f, 0.f, 1.f }, { 0.f, 0.f, -1.f }},
             {{ 1.f, 0.f, 1.f }, { 0.f, 0.f, -1.f }},
             {{ 0.f, 1.f, 1.f }, { 0.f, 0.f, -1.f }},
@@ -251,13 +250,13 @@ void Program::Example::cube(const WinRender& wr) {
     p->use();
 
     auto ratio = wr.ratio();
-    glm::mat4 proj = glm::perspective(45.f, ratio, 0.01f, 5.f);
-    glm::mat4 view = glm::translate(glm::mat4(1.f), glm::vec3(0, 0, -3.f));
-    glm::mat4 model = glm::translate(glm::mat4(1.f), glm::vec3(-0.5f, -0.5f, -0.5));
-    glm::mat4 rot = glm::mat4(1.f);
-    p->set_uniform<GL_FLOAT_MAT4>("u_proj", &proj[0][0]);
-    p->set_uniform<GL_FLOAT_MAT4>("u_view", &view[0][0]);
-    p->set_uniform<GL_FLOAT_MAT4>("u_model", &model[0][0]);
+    auto proj = Mat::perspective(45.f, ratio, 0.01f, 5.f);
+    auto view = Mat::id().translate(0, 0, -3);
+    auto trans = Mat::id().translate(0, 0, 0);
+    auto rot = Mat::id();
+    p->set_uniform<GL_FLOAT_MAT4>("u_proj", proj.data());
+    p->set_uniform<GL_FLOAT_MAT4>("u_view", view.data());
+    p->set_uniform<GL_FLOAT_MAT4>("u_trans", trans.data());
     p->set_uniform<GL_FLOAT_VEC4>("u_light_position", -3.f, 3.f, -15.f, 1.f);
     glEnable(GL_DEPTH_TEST);
 
@@ -266,8 +265,8 @@ void Program::Example::cube(const WinRender& wr) {
         wr.clear();
         auto color = hsv(hue++, 1.f, 1.f);
         p->set_uniform<GL_FLOAT_VEC4>("u_light_color", color.r, color.g, color.b, 1.f);
-        rot = glm::rotate(rot, 0.01f, glm::vec3(0.5f, 1.f, 0.f));
-        p->set_uniform<GL_FLOAT_MAT4>("u_rot", &rot[0][0]);
+        rot = Mat::id().rotate(0.01f * hue, 0.5, 1.f, 0.f).translate(-0.5, -0.5, -0.5);
+        p->set_uniform<GL_FLOAT_MAT4>("u_rot", rot.data());
         wr.draw(vao, *p);
         wr.display();
     }
