@@ -44,16 +44,16 @@ public:
     VertexBufferLayout& add_element(unsigned count);
 
     struct Common {
+        static VertexBufferLayout empty() {
+            return {};
+        }
+
         static VertexBufferLayout F2D() {
-            VertexBufferLayout layout;
-            layout.add_element<GL_FLOAT>(2);
-            return layout;
+            return empty().add_element<GL_FLOAT>(2);
         }
 
         static VertexBufferLayout F3D() {
-            VertexBufferLayout layout;
-            layout.add_element<GL_FLOAT>(3);
-            return layout;
+            return empty().add_element<GL_FLOAT>(3);
         }
     };
 protected:
