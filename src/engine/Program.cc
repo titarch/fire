@@ -257,6 +257,7 @@ void Program::Example::cube(const WinRender& wr) {
     p->set_uniform<GL_FLOAT_MAT4>("u_proj", proj.data());
     p->set_uniform<GL_FLOAT_MAT4>("u_view", view.data());
     p->set_uniform<GL_FLOAT_MAT4>("u_trans", trans.data());
+    p->set_uniform<GL_FLOAT_MAT4>("u_pivot", Mat::id().translate(-0.5, -0.5, -0.5).data());
     p->set_uniform<GL_FLOAT_VEC4>("u_light_position", -3.f, 3.f, -15.f, 1.f);
     glEnable(GL_DEPTH_TEST);
 
@@ -265,7 +266,7 @@ void Program::Example::cube(const WinRender& wr) {
         wr.clear();
         auto color = hsv(hue++, 1.f, 1.f);
         p->set_uniform<GL_FLOAT_VEC4>("u_light_color", color.r, color.g, color.b, 1.f);
-        rot = Mat::id().rotate(0.01f * hue, 0.5, 1.f, 0.f).translate(-0.5, -0.5, -0.5);
+        rot = rot.rotate(0.01f, 0.5, 1.f, 0.f);
         p->set_uniform<GL_FLOAT_MAT4>("u_rot", rot.data());
         wr.draw(vao, *p);
         wr.display();

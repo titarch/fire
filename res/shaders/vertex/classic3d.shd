@@ -5,7 +5,7 @@ layout(location=1) in vec4 normal;
 
 out vec4 interpolated_color;
 
-uniform mat4 u_proj, u_view, u_trans, u_rot;
+uniform mat4 u_proj, u_view, u_trans, u_rot, u_pivot;
 uniform vec4 u_light_position, u_light_color;
 
 void main() {
@@ -13,5 +13,5 @@ void main() {
     float coef = dot(normalize((normal * u_rot).xyz), normalize(light_dir.xyz));
     coef = clamp(coef, 0, 1);
     interpolated_color = vec4(u_light_color.rgb * coef, 1.0);
-    gl_Position = u_proj * u_view * u_trans * u_rot * position;
+    gl_Position = u_proj * u_view * u_trans * u_rot * u_pivot * position;
 }
