@@ -8,38 +8,17 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-class Mat {
-public:
-    Mat() : mat_(1.f) {}
-
-    Mat(glm::mat4 const& mat) : mat_(mat) {}
-
-    static inline Mat id() { return {}; }
-
-    static inline Mat perspective(float fov, float ratio, float near, float far) {
-        return glm::perspective(fov, ratio, near, far);
-    }
-
-    float* data() { return &mat_[0][0]; }
-
-    inline Mat& translate(float x, float y, float z) {
-        mat_ = glm::translate(mat_, glm::vec3(x, y, z));
-        return *this;
-    }
-
-    inline Mat& rotate(float angle, float x, float y, float z) {
-        mat_ = glm::rotate(mat_, angle, glm::vec3(x, y, z));
-        return *this;
-    }
-
-protected:
-    glm::mat4 mat_;
-};
-
-
 class Vec {
 public:
     Vec(float x, float y, float z) : vec_(x, y, z) {}
+
+    operator glm::vec3() const { return vec_; };
+
+    glm::vec3 vec() const { return vec_; }
+
+    float* data() { return &vec_[0]; }
+
+    static Vec zero() { return {0, 0, 0}; }
 
     static Vec left() { return {-1, 0, 0}; }
 
@@ -53,9 +32,41 @@ public:
 
     static Vec forward() { return {0, 0, 1}; }
 
-
 protected:
     glm::vec3 vec_;
 };
+
+class Mat {
+public:
+    Mat() : mat_(1.f) {}
+
+    Mat(glm::mat4 const& mat) : mat_(mat) {}
+
+    static inline Mat id() { return {}; }
+
+    static inline Mat perspective(float fov, float ratio, float near, float far) {
+        return glm::perspective(fov, ratio, near, far);
+    }
+
+    static inline Mat camera(Vec const& eye, Vec const& center, Vec const& up) {
+        return glm::lookAt(eye.vec(), center.vec(), up.vec());
+    }
+
+    float* data() { return &mat_[0][0]; }
+
+    inline Mat& translate(Vec const& v) {
+        mat_ = glm::translate(mat_, v.vec());
+        return *this;
+    }
+
+    inline Mat& rotate(float angle, Vec const& v) {
+        mat_ = glm::rotate(mat_, angle, v.vec());
+        return *this;
+    }
+
+protected:
+    glm::mat4 mat_;
+};
+
 
 #endif //FIRE_TRANSFORM_HH

@@ -182,40 +182,40 @@ void Program::Example::cube(const WinRender& wr) {
 
     static constexpr std::array<Vertex, 24> cube = {
             // back
-            Vertex{{ 0.f, 0.f, 0.f }, { 0.f, 0.f, 1.f }},
-            {{ 1.f, 0.f, 0.f }, { 0.f, 0.f, 1.f }},
-            {{ 0.f, 1.f, 0.f }, { 0.f, 0.f, 1.f }},
-            {{ 1.f, 1.f, 0.f }, { 0.f, 0.f, 1.f }},
+            Vertex{{0.f, 0.f, 0.f}, {0.f, 0.f, 1.f}},
+            {{1.f, 0.f, 0.f}, {0.f, 0.f, 1.f}},
+            {{0.f, 1.f, 0.f}, {0.f, 0.f, 1.f}},
+            {{1.f, 1.f, 0.f}, {0.f, 0.f, 1.f}},
 
             // front
-            {{ 0.f, 0.f, 1.f }, { 0.f, 0.f, -1.f }},
-            {{ 1.f, 0.f, 1.f }, { 0.f, 0.f, -1.f }},
-            {{ 0.f, 1.f, 1.f }, { 0.f, 0.f, -1.f }},
-            {{ 1.f, 1.f, 1.f }, { 0.f, 0.f, -1.f }},
+            {{0.f, 0.f, 1.f}, {0.f, 0.f, -1.f}},
+            {{1.f, 0.f, 1.f}, {0.f, 0.f, -1.f}},
+            {{0.f, 1.f, 1.f}, {0.f, 0.f, -1.f}},
+            {{1.f, 1.f, 1.f}, {0.f, 0.f, -1.f}},
 
             // down
-            {{ 0.f, 0.f, 0.f }, { 0.f, -1.f, 0.f }},
-            {{ 1.f, 0.f, 0.f }, { 0.f, -1.f, 0.f }},
-            {{ 0.f, 0.f, 1.f }, { 0.f, -1.f, 0.f }},
-            {{ 1.f, 0.f, 1.f }, { 0.f, -1.f, 0.f }},
+            {{0.f, 0.f, 0.f}, {0.f, -1.f, 0.f}},
+            {{1.f, 0.f, 0.f}, {0.f, -1.f, 0.f}},
+            {{0.f, 0.f, 1.f}, {0.f, -1.f, 0.f}},
+            {{1.f, 0.f, 1.f}, {0.f, -1.f, 0.f}},
 
             // up
-            {{ 0.f, 1.f, 0.f }, { 0.f, 1.f, 0.f }},
-            {{ 1.f, 1.f, 0.f }, { 0.f, 1.f, 0.f }},
-            {{ 0.f, 1.f, 1.f }, { 0.f, 1.f, 0.f }},
-            {{ 1.f, 1.f, 1.f }, { 0.f, 1.f, 0.f }},
+            {{0.f, 1.f, 0.f}, {0.f, 1.f, 0.f}},
+            {{1.f, 1.f, 0.f}, {0.f, 1.f, 0.f}},
+            {{0.f, 1.f, 1.f}, {0.f, 1.f, 0.f}},
+            {{1.f, 1.f, 1.f}, {0.f, 1.f, 0.f}},
 
             // left
-            {{ 0.f, 0.f, 0.f }, { -1.f, 0.f, 0.f }},
-            {{ 0.f, 1.f, 0.f }, { -1.f, 0.f, 0.f }},
-            {{ 0.f, 0.f, 1.f }, { -1.f, 0.f, 0.f }},
-            {{ 0.f, 1.f, 1.f }, { -1.f, 0.f, 0.f }},
+            {{0.f, 0.f, 0.f}, {-1.f, 0.f, 0.f}},
+            {{0.f, 1.f, 0.f}, {-1.f, 0.f, 0.f}},
+            {{0.f, 0.f, 1.f}, {-1.f, 0.f, 0.f}},
+            {{0.f, 1.f, 1.f}, {-1.f, 0.f, 0.f}},
 
             // right
-            {{ 1.f, 0.f, 0.f }, { 1.f, 0.f, 0.f }},
-            {{ 1.f, 1.f, 0.f }, { 1.f, 0.f, 0.f }},
-            {{ 1.f, 0.f, 1.f }, { 1.f, 0.f, 0.f }},
-            {{ 1.f, 1.f, 1.f }, { 1.f, 0.f, 0.f }},
+            {{1.f, 0.f, 0.f}, {1.f, 0.f, 0.f}},
+            {{1.f, 1.f, 0.f}, {1.f, 0.f, 0.f}},
+            {{1.f, 0.f, 1.f}, {1.f, 0.f, 0.f}},
+            {{1.f, 1.f, 1.f}, {1.f, 0.f, 0.f}},
     };
     static constexpr std::array indices = {
             0u, 1u, 2u,
@@ -241,7 +241,7 @@ void Program::Example::cube(const WinRender& wr) {
     vao.add_data(
             cube,
             VertexBufferLayout::Common::F3D()
-            .add_element<GL_FLOAT>(3)
+                    .add_element<GL_FLOAT>(3)
     );
     vao.add_indices(indices);
 
@@ -251,13 +251,13 @@ void Program::Example::cube(const WinRender& wr) {
 
     auto ratio = wr.ratio();
     auto proj = Mat::perspective(45.f, ratio, 0.01f, 5.f);
-    auto view = Mat::id().translate(0, 0, -3);
-    auto trans = Mat::id().translate(0, 0, 0);
+    auto view = Mat::camera({0, 0, 3}, Vec::zero(), Vec::up());
+    auto trans = Mat::id().translate({0, 0, 0});
     auto rot = Mat::id();
     p->set_uniform<GL_FLOAT_MAT4>("u_proj", proj.data());
     p->set_uniform<GL_FLOAT_MAT4>("u_view", view.data());
     p->set_uniform<GL_FLOAT_MAT4>("u_trans", trans.data());
-    p->set_uniform<GL_FLOAT_MAT4>("u_pivot", Mat::id().translate(-0.5, -0.5, -0.5).data());
+    p->set_uniform<GL_FLOAT_MAT4>("u_pivot", Mat::id().translate({-0.5, -0.5, -0.5}).data());
     p->set_uniform<GL_FLOAT_VEC4>("u_light_position", -3.f, 3.f, -15.f, 1.f);
     glEnable(GL_DEPTH_TEST);
 
@@ -266,7 +266,7 @@ void Program::Example::cube(const WinRender& wr) {
         wr.clear();
         auto color = hsv(hue++, 1.f, 1.f);
         p->set_uniform<GL_FLOAT_VEC4>("u_light_color", color.r, color.g, color.b, 1.f);
-        rot = rot.rotate(0.01f, 0.5, 1.f, 0.f);
+        rot = rot.rotate(0.01f, {0.5, 1.f, 0.f});
         p->set_uniform<GL_FLOAT_MAT4>("u_rot", rot.data());
         wr.draw(vao, *p);
         wr.display();
