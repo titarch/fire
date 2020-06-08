@@ -24,7 +24,7 @@ public:
     void unbind() const override;
 
     template<typename T>
-    static VertexBuffer::ptr create(T* data, std::size_t size);
+    static VertexBuffer::ptr create(const T* data, std::size_t size);
 
     template<typename T, std::size_t D>
     static ptr create(std::array<T, D> const& data);
@@ -34,7 +34,7 @@ public:
 };
 
 template<typename T>
-VertexBuffer::ptr VertexBuffer::create(T* data, std::size_t size) {
+VertexBuffer::ptr VertexBuffer::create(const T* data, std::size_t size) {
     auto vb = std::make_unique<VertexBuffer>();
     glGenBuffers(1, &vb->id_);
     vb->bind();
