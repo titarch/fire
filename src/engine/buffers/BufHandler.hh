@@ -16,7 +16,7 @@ class BufHandler {
 public:
     BufHandler() = delete;
 
-    static VertexArray make_vao() {
+    static VertexArray::ptr make_vao() {
         return VertexArray::create();
     }
 

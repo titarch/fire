@@ -78,7 +78,7 @@ void WinRender::draw(const Mesh& mesh) const {
     Mesh::program_->set_uniform<GL_FLOAT_MAT4>("u_proj", proj.data());
     Mesh::program_->set_uniform<GL_FLOAT_MAT4>("u_mv", view.data());
     Mesh::program_->set_uniform<GL_FLOAT_VEC4>("u_light_position", 0.f, 0.f, -15.f, 1.f);
-    mesh.va_.bind();
+    mesh.va_->bind();
     glDrawArrays(GL_TRIANGLES, 0, mesh.vertices_.size() / 6);
 }
 

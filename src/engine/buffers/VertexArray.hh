@@ -11,14 +11,14 @@
 #include "IndexBuffer.hh"
 
 class VertexArray : public BaseBuffer {
-protected:
-    VertexArray() : BaseBuffer(), vb_{}, ib_{} {}
-
 public:
+    using ptr = std::unique_ptr<VertexArray>;
+    VertexArray();
+
     VertexArray(VertexArray&&) = default;
     VertexArray& operator=(VertexArray&&) = default;
     virtual ~VertexArray();
-    static VertexArray create();
+    static VertexArray::ptr create();
     void bind() const override;
     void unbind() const override;
 

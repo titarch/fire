@@ -19,8 +19,7 @@ public:
     void update_vao();
     static std::vector<Mesh> load_obj(std::string const& path);
 protected:
-    explicit Mesh(std::string name) : name_(std::move(name)), vertices_(), indices_(), material_(),
-                                      va_(VertexArray::create()) {}
+    explicit Mesh(std::string name) : name_(std::move(name)), vertices_(), indices_(), material_(), va_() {}
 
     static void init_program();
 
@@ -28,7 +27,7 @@ protected:
     std::vector<float> vertices_;
     std::vector<unsigned> indices_;
     Material material_;
-    VertexArray va_;
+    VertexArray::ptr va_;
 
     static Program::ptr program_;
 

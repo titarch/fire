@@ -122,16 +122,16 @@ void Program::Example::triangle(const WinRender& wh) {
     };
 
     auto vao = BufHandler::make_vao();
-    vao.add_data(
+    vao->add_data(
             triangle,
             VertexBufferLayout::Common::F2D()
     );
-    vao.add_indices(std::array{0u, 1u, 2u});
+    vao->add_indices(std::array{0u, 1u, 2u});
     auto p = Program::make_program("basic", "magenta");
     p->use();
     while (wh.is_open()) {
         wh.clear();
-        wh.draw(vao, *p);
+        wh.draw(*vao, *p);
         wh.display();
     }
 }
@@ -149,11 +149,11 @@ void Program::Example::square(const WinRender& wr) {
     };
 
     auto vao = BufHandler::make_vao();
-    vao.add_data(
+    vao->add_data(
             square,
             VertexBufferLayout::Common::F2D()
     );
-    vao.add_indices(indices);
+    vao->add_indices(indices);
 
     auto p = Program::make_program("projection", "uniform");
     p->use();
@@ -167,7 +167,7 @@ void Program::Example::square(const WinRender& wr) {
         wr.clear();
         auto color = hsv(hue++, 1.f, 1.f);
         p->set_uniform<GL_FLOAT_VEC4>("u_Color", color.r, color.g, color.b, 1.f);
-        wr.draw(vao, *p);
+        wr.draw(*vao, *p);
         wr.display();
     }
 }
@@ -237,12 +237,12 @@ void Program::Example::cube(const WinRender& wr) {
     };
 
     auto vao = BufHandler::make_vao();
-    vao.add_data(
+    vao->add_data(
             cube,
             VertexBufferLayout::Common::F3D()
                     .add_element<GL_FLOAT>(3)
     );
-    vao.add_indices(indices);
+    vao->add_indices(indices);
 
     auto p = Program::make_program("classic3d", "color");
     p->use();
@@ -266,7 +266,7 @@ void Program::Example::cube(const WinRender& wr) {
         p->set_uniform<GL_FLOAT_VEC4>("u_light_color", color.r, color.g, color.b, 1.f);
         rot = rot.rotate(0.01f, {0.5, 1.f, 0.f});
         p->set_uniform<GL_FLOAT_MAT4>("u_rot", rot.data());
-        wr.draw(vao, *p);
+        wr.draw(*vao, *p);
         wr.display();
     }
 }

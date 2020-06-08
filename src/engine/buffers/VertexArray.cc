@@ -4,14 +4,16 @@
 
 #include "VertexArray.hh"
 
-VertexArray VertexArray::create() {
-    VertexArray va{};
-    glGenVertexArrays(1, &va.id_);
-    return va;
+VertexArray::VertexArray() {
+    glGenVertexArrays(1, &id_);
 }
 
 VertexArray::~VertexArray() {
     glDeleteVertexArrays(1, &id_);
+}
+
+VertexArray::ptr VertexArray::create() {
+    return std::make_unique<VertexArray>();
 }
 
 void VertexArray::bind() const {

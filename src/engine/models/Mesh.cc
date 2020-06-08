@@ -14,14 +14,15 @@ void Mesh::init_program() {
 
 Mesh::Mesh(std::string name, std::vector<float> vertices, std::vector<unsigned int> indices, const Material& material) :
         name_(std::move(name)), vertices_(std::move(vertices)), indices_(std::move(indices)), material_(material),
-        va_(VertexArray::create()) {
+        va_() {
     update_vao();
     init_program();
 }
 
 void Mesh::update_vao() {
-    va_.add_data(vertices_, VertexBufferLayout::Common::F3DN());
-    va_.add_indices(indices_);
+    if (!va_) va_ = VertexArray::create();
+    va_->add_data(vertices_, VertexBufferLayout::Common::F3DN());
+    va_->add_indices(indices_);
 }
 
 std::vector<Mesh> Mesh::load_obj(const std::string& path) {
