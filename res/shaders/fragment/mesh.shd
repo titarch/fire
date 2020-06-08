@@ -1,0 +1,20 @@
+#version 420
+
+uniform vec4 u_ka, u_kd, u_ks;
+uniform float u_ns;
+
+in vec3 normal_dir, light_dir, camera_dir;
+
+layout(location=0) out vec4 output_color;
+
+void main() {
+    float nl = clamp(dot(normal_dir, light_dir), 0.0, 1.0);
+    vec4 diffuse = u_kd * nl;
+    vec4 specular = vec4(0, 0, 0, 1);
+    if (nl > 0.0) {
+        vec3 o = normalize(2.0 * normal_dir * nl - light_dir);
+        specular = u_ks * pow(clamp(dot(camera_dir, o), 0.0, 1.0), u_ns);
+    }
+
+    output_color = vec4(u_ka.rgb + diffuse.rgb + specular.rgb, 1.0);
+}

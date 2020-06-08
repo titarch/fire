@@ -55,6 +55,10 @@ public:
         static VertexBufferLayout F3D() {
             return empty().add_element<GL_FLOAT>(3);
         }
+
+        static VertexBufferLayout F3DN() {
+            return F3D().add_element<GL_FLOAT>(3);
+        }
     };
 protected:
     std::vector<VertexBufferElement> elements_;

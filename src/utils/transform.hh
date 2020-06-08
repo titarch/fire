@@ -12,11 +12,17 @@ class Vec {
 public:
     Vec(float x, float y, float z) : vec_(x, y, z) {}
 
+    Vec(const float v[3]) : vec_(v[0], v[1], v[2]) {}
+
+    Vec() : vec_(0, 0, 0) {}
+
     operator glm::vec3() const { return vec_; };
 
     glm::vec3 vec() const { return vec_; }
 
     float* data() { return &vec_[0]; }
+
+    float operator[](std::size_t idx) const { return vec_[idx]; }
 
     static Vec zero() { return {0, 0, 0}; }
 

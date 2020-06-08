@@ -1,8 +1,8 @@
 set(buffers_src_files
         BufHandler.hh
         BufHandler.cc
-        BaseBuffer.cc
         BaseBuffer.hh
+        BaseBuffer.cc
         VertexBuffer.cc
         VertexBuffer.hh
         IndexBuffer.cc

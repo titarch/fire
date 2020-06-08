@@ -1,0 +1,17 @@
+#version 420
+
+layout(location=0) in vec4 position;
+layout(location=1) in vec4 normal;
+
+out vec3 normal_dir, light_dir, camera_dir;
+
+uniform mat4 u_proj, u_mv;
+uniform vec4 u_light_position;
+
+void main() {
+    vec4 mv_position = u_mv * position;
+    normal_dir = normalize(normal.xyz);
+    light_dir = normalize(u_light_position.xyz - mv_position.xyz);
+    camera_dir = normalize(-mv_position.xyz);
+    gl_Position = u_proj * mv_position;
+}
