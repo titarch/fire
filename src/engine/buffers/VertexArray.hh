@@ -26,18 +26,18 @@ public:
 
     [[nodiscard]] IndexBuffer const* ibo() const { return ib_.get(); };
 
-    template<typename T, std::size_t D>
-    void add_data(std::array<T, D> data, VertexBufferLayout const& layout);
+    template<typename Cnt>
+    void add_data(Cnt const& data, VertexBufferLayout const& layout);
 
-    template<std::size_t D>
-    void add_indices(std::array<unsigned, D> indices);
+    template<typename Cnt>
+    void add_indices(Cnt const& indices);
 protected:
     VertexBuffer::ptr vb_;
     IndexBuffer::ptr ib_;
 };
 
-template<typename T, std::size_t D>
-void VertexArray::add_data(std::array<T, D> data, VertexBufferLayout const& layout) {
+template<typename Cnt>
+void VertexArray::add_data(Cnt const& data, VertexBufferLayout const& layout) {
     vb_ = VertexBuffer::create(data);
     bind();
     vb_->bind();
@@ -53,8 +53,8 @@ void VertexArray::add_data(std::array<T, D> data, VertexBufferLayout const& layo
 }
 
 
-template<std::size_t D>
-void VertexArray::add_indices(std::array<unsigned, D> indices) {
+template<typename Cnt>
+void VertexArray::add_indices(Cnt const& indices) {
     ib_ = IndexBuffer::create(indices);
 }
 
