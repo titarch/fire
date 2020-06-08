@@ -45,21 +45,21 @@ GLuint Program::compile_shader(GLuint type, const std::string& src) {
     return shd_id;
 }
 
-Program::ptr Program::make_program(const std::string& vertex_shader_fp, const std::string& fragment_shader_fp) {
+Program::ptr Program::make_program(const std::string& vtx, const std::string& fgt) {
     auto p = std::make_unique<Program>();
     p->program_id_ = glCreateProgram();
 
-    auto v_src = load_file(vertex_shader_fp);
-    auto f_src = load_file(fragment_shader_fp);
+    auto v_src = load_file(shd::vtx(vtx));
+    auto f_src = load_file(shd::fgt(fgt));
 
     GLuint v_shd, f_shd;
     try { v_shd = Program::compile_shader(GL_VERTEX_SHADER, v_src); } catch (std::runtime_error const& e) {
-        std::cerr << "Failed to compile vertex shader (" << vertex_shader_fp << "): " << e.what() << std::endl;
+        std::cerr << "Failed to compile vertex shader (" << vtx << "): " << e.what() << std::endl;
         p->program_id_ = 0;
         return p;
     }
     try { f_shd = Program::compile_shader(GL_FRAGMENT_SHADER, f_src); } catch (std::runtime_error const& e) {
-        std::cerr << "Failed to compile fragment shader (" << fragment_shader_fp << "): " << e.what() << std::endl;
+        std::cerr << "Failed to compile fragment shader (" << fgt << "): " << e.what() << std::endl;
         p->program_id_ = 0;
         return p;
     }
@@ -127,8 +127,7 @@ void Program::Example::triangle(const WinRender& wh) {
             VertexBufferLayout::Common::F2D()
     );
     vao.add_indices(std::array{0u, 1u, 2u});
-    auto p = Program::make_program("../res/shaders/vertex/basic.shd",
-                                   "../res/shaders/fragment/magenta.shd");
+    auto p = Program::make_program("basic", "magenta");
     p->use();
     while (wh.is_open()) {
         wh.clear();
@@ -156,8 +155,7 @@ void Program::Example::square(const WinRender& wr) {
     );
     vao.add_indices(indices);
 
-    auto p = Program::make_program("../res/shaders/vertex/projection.shd",
-                                   "../res/shaders/fragment/uniform.shd");
+    auto p = Program::make_program("projection", "uniform");
     p->use();
 
     auto ratio = wr.ratio();
@@ -246,7 +244,7 @@ void Program::Example::cube(const WinRender& wr) {
     );
     vao.add_indices(indices);
 
-    auto p = Program::make_program(shd::vtx("classic3d"), shd::fgt("color"));
+    auto p = Program::make_program("classic3d", "color");
     p->use();
 
     auto ratio = wr.ratio();
