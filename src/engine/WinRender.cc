@@ -73,11 +73,8 @@ void WinRender::draw(const VertexArray& va, const Program& p) const {
 void WinRender::draw(const Mesh& mesh) const {
     Mesh::program_->use();
     mesh.material_.use();
-    static auto proj = Mat::perspective(45.f, 16.f/9.f, 0.01f, 5.f);
-    static auto view = Mat::camera({0, 0, 3}, Vec::zero(), Vec::up());
-    Mesh::program_->set_uniform<GL_FLOAT_MAT4>("u_proj", proj.data());
-    Mesh::program_->set_uniform<GL_FLOAT_MAT4>("u_mv", view.data());
     Mesh::program_->set_uniform<GL_FLOAT_VEC4>("u_light_position", 0.f, 0.f, -15.f, 1.f);
+    Mesh::program_->set_uniform<GL_FLOAT_MAT4>("u_model", mesh.model_.data());
     mesh.va_->bind();
     glDrawArrays(GL_TRIANGLES, 0, mesh.vertices_.size() / 6);
 }

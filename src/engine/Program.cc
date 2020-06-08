@@ -106,7 +106,7 @@ void Program::use() const {
     glUseProgram(program_id_);
 }
 
-GLint Program::uniform_location(const std::string& name) {
+GLint Program::uniform_location(const std::string& name) const {
     if (location_cache_.contains(name)) return location_cache_.at(name);
     GLint location = glGetUniformLocation(program_id_, name.c_str());
     if (location == -1) throw std::runtime_error(name + " could not be located in shader");

@@ -12,9 +12,14 @@ void Mesh::init_program() {
     if (!Mesh::program_) Mesh::program_ = Program::make_program("mesh", "mesh");
 }
 
+const Program& Mesh::program() {
+    init_program();
+    return *program_;
+}
+
 Mesh::Mesh(std::string name, std::vector<float> vertices, std::vector<unsigned int> indices, const Material& material) :
         name_(std::move(name)), vertices_(std::move(vertices)), indices_(std::move(indices)), material_(material),
-        va_() {
+        va_(), model_() {
     update_vao();
     init_program();
 }

@@ -58,7 +58,7 @@ public:
         return glm::lookAt(eye.vec(), center.vec(), up.vec());
     }
 
-    float* data() { return &mat_[0][0]; }
+    const float* data() const { return &mat_[0][0]; }
 
     inline Mat& translate(Vec const& v) {
         mat_ = glm::translate(mat_, v.vec());

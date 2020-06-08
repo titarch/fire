@@ -16,10 +16,13 @@
 class Mesh {
 public:
     Mesh(std::string name, std::vector<float> vertices, std::vector<unsigned> indices, Material const& material);
-    void update_vao();
+    static const Program& program();
     static std::vector<Mesh> load_obj(std::string const& path);
+    void update_vao();
+
+    Mat& model() { return model_; };
 protected:
-    explicit Mesh(std::string name) : name_(std::move(name)), vertices_(), indices_(), material_(), va_() {}
+    explicit Mesh(std::string name) : name_(std::move(name)), vertices_(), indices_(), material_(), va_(), model_() {}
 
     static void init_program();
 
@@ -28,10 +31,12 @@ protected:
     std::vector<unsigned> indices_;
     Material material_;
     VertexArray::ptr va_;
+    Mat model_;
 
     static Program::ptr program_;
 
     friend class WinRender;
+
     friend class Material;
 };
 
