@@ -10,6 +10,7 @@
 #include "WinRender.hh"
 #include "buffers/BufHandler.hh"
 #include "../utils/colors.hh"
+#include "shaders.hh"
 
 Program::Program() : program_id_(0), ready_(false), location_cache_{} {}
 
@@ -245,8 +246,7 @@ void Program::Example::cube(const WinRender& wr) {
     );
     vao.add_indices(indices);
 
-    auto p = Program::make_program("../res/shaders/vertex/classic3d.shd",
-                                   "../res/shaders/fragment/color.shd");
+    auto p = Program::make_program(shd::vtx("classic3d"), shd::fgt("color"));
     p->use();
 
     auto ratio = wr.ratio();

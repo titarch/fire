@@ -3,6 +3,7 @@ add_subdirectory(buffers)
 set(engine_src_files
         WinRender.hh
         WinRender.cc
+        shaders.hh
         Program.hh
         Program.cc
         program.hh)
