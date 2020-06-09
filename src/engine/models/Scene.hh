@@ -13,6 +13,7 @@ class Scene {
 public:
     Scene() : shapes_(), light_position_(), projection_(), view_() {}
 
+    Shape::ptr add_object(std::string const& path);
     Scene& add_shape(Shape::ptr& shape);
     Scene& set_light_position(Vec const& position);
     Scene& set_perspective(float fov, float ratio, float near, float far);

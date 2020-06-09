@@ -4,6 +4,12 @@
 
 #include "Scene.hh"
 
+Shape::ptr Scene::add_object(const std::string& path) {
+    auto shape = Shape::load_obj(path);
+    add_shape(shape);
+    return shape;
+}
+
 Scene& Scene::add_shape(Shape::ptr& shape) {
     shapes_.push_back(shape);
     return *this;
