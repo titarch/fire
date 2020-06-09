@@ -75,6 +75,11 @@ void WinRender::draw(const Mesh& mesh) const {
     glDrawArrays(GL_TRIANGLES, 0, mesh.vertices_.size() / 6);
 }
 
+void WinRender::draw(const Shape &shape) const {
+    for (auto const& mesh : shape.meshes())
+        draw(mesh);
+}
+
 int WinRender::width() const {
     return width_;
 }

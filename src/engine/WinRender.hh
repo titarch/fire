@@ -21,6 +21,7 @@ public:
     void display() const;
     void draw(VertexArray const& va, Program const& p) const;
     void draw(Mesh const& mesh) const;
+    void draw(Shape const& shape) const;
     [[nodiscard]] int width() const;
     [[nodiscard]] int height() const;
     [[nodiscard]] float ratio() const;

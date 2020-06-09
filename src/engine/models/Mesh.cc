@@ -9,7 +9,10 @@
 Program::ptr Mesh::program_;
 
 void Mesh::init_program() {
-    if (!Mesh::program_) Mesh::program_ = Program::make_program("mesh", "mesh");
+    if (!Mesh::program_) {
+        Mesh::program_ = Program::make_program("mesh", "mesh");
+        glEnable(GL_DEPTH_TEST);
+    }
 }
 
 const Program& Mesh::program() {
@@ -17,7 +20,8 @@ const Program& Mesh::program() {
     return *program_;
 }
 
-Mesh::Mesh(std::string name)  : name_(std::move(name)), vertices_(), indices_(), material_(), va_(), trans(), rot(), center(), scale() {}
+Mesh::Mesh(std::string name) : name_(std::move(name)), vertices_(), indices_(), material_(), va_(), trans(), rot(),
+                               center(), scale() {}
 
 Mesh::Mesh(std::string name, std::vector<float> vertices, std::vector<unsigned int> indices, const Material& material) :
         name_(std::move(name)), vertices_(std::move(vertices)), indices_(std::move(indices)), material_(material),
@@ -32,7 +36,7 @@ void Mesh::update_vao() {
     va_->add_indices(indices_);
 }
 
-std::vector<Mesh> Mesh::load_obj(const std::string& path) {
+Shape Mesh::load_obj(const std::string& path) {
     init_program();
 
     tinyobj::attrib_t attrib;
@@ -47,8 +51,7 @@ std::vector<Mesh> Mesh::load_obj(const std::string& path) {
     if (!ret)
         throw std::runtime_error(path + ": failed to parse .obj");
 
-
-    std::vector<Mesh> meshes{};
+    Shape s{};
     for (auto const& shape : shapes) {
         Mesh mesh(shape.name);
         size_t index_offset = 0;// indent offset
@@ -65,9 +68,9 @@ std::vector<Mesh> Mesh::load_obj(const std::string& path) {
         }
         mesh.material_ = Material::from_mtl(materials[shape.mesh.material_ids[0]]);
         mesh.update_vao();
-        meshes.push_back(std::move(mesh));
+        s.add_mesh(std::move(mesh));
     }
-    return meshes;
+    return s;
 }
 
 void Mesh::preload() const {
