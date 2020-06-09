@@ -80,6 +80,11 @@ void WinRender::draw(const Shape &shape) const {
         draw(mesh);
 }
 
+void WinRender::draw(const Scene &scene) const {
+    for (auto const& shape : scene.shapes())
+        draw(*shape);
+}
+
 int WinRender::width() const {
     return width_;
 }

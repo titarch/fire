@@ -11,14 +11,11 @@
 #include "../buffers/VertexArray.hh"
 #include "../Program.hh"
 #include "Material.hh"
-#include "Shape.hh"
-
 
 class Mesh {
 public:
     Mesh(std::string name, std::vector<float> vertices, std::vector<unsigned> indices, Material const& material);
     static const Program& program();
-    static Shape load_obj(std::string const& path);
     void update_vao();
     void preload() const;
 
@@ -43,6 +40,8 @@ public:
     friend class WinRender;
 
     friend class Material;
+
+    friend class Shape;
 };
 
 

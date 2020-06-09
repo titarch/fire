@@ -7,14 +7,18 @@
 
 #include <vector>
 #include <utility>
+#include <memory>
 #include "../../utils/transform.hh"
-
-class Mesh;
+#include "Mesh.hh"
 
 class Shape {
 public:
+    using ptr = std::shared_ptr<Shape>;
+public:
     explicit Shape();
     explicit Shape(std::vector<Mesh> meshes);
+
+    static Shape::ptr load_obj(std::string const& path);
     Shape& add_mesh(Mesh mesh);
     [[nodiscard]] std::vector<Mesh> const& meshes() const;
 

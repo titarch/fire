@@ -9,7 +9,7 @@
 #include <cstddef>
 #include "buffers/VertexArray.hh"
 #include "Program.hh"
-#include "models/Mesh.hh"
+#include "models/Scene.hh"
 
 class WinRender {
 public:
@@ -22,6 +22,7 @@ public:
     void draw(VertexArray const& va, Program const& p) const;
     void draw(Mesh const& mesh) const;
     void draw(Shape const& shape) const;
+    void draw(Scene const& scene) const;
     [[nodiscard]] int width() const;
     [[nodiscard]] int height() const;
     [[nodiscard]] float ratio() const;
