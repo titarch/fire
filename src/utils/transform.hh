@@ -24,6 +24,8 @@ public:
 
     float operator[](std::size_t idx) const { return vec_[idx]; }
 
+    static Vec one() { return {1, 1, 1}; }
+
     static Vec zero() { return {0, 0, 0}; }
 
     static Vec left() { return {-1, 0, 0}; }
@@ -67,6 +69,11 @@ public:
 
     inline Mat& rotate(float angle, Vec const& v) {
         mat_ = glm::rotate(mat_, angle, v.vec());
+        return *this;
+    }
+
+    inline Mat& rescale(Vec const& v) {
+        mat_ = glm::scale(mat_, v.vec());
         return *this;
     }
 
