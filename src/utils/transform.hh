@@ -7,6 +7,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/rotate_vector.hpp>
 
 class Vec {
 public:
@@ -40,6 +41,11 @@ public:
 
     static Vec forward() { return {0, 0, 1}; }
 
+    Vec& rotate(float angle, Vec const& dir) {
+        vec_ = glm::rotate(vec_, angle, dir.vec_);
+        return *this;
+    }
+
     Vec& operator*=(float rhs) {
         vec_ *= rhs;
         return *this;
@@ -47,6 +53,16 @@ public:
 
     inline friend Vec operator*(Vec lhs, float rhs) {
         lhs *= rhs;
+        return lhs;
+    }
+
+    Vec& operator+=(Vec const& rhs) {
+        vec_ += rhs.vec_;
+        return *this;
+    }
+
+    inline friend Vec operator+(Vec lhs, Vec const& rhs) {
+        lhs += rhs;
         return lhs;
     }
 
