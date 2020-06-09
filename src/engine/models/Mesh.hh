@@ -19,10 +19,14 @@ public:
     static const Program& program();
     static std::vector<Mesh> load_obj(std::string const& path);
     void update_vao();
+    void preload() const;
 
-    Mat& model() { return model_; };
+    Mat model() const {
+        return trans * rot * center * scale;
+    }
+
 protected:
-    explicit Mesh(std::string name) : name_(std::move(name)), vertices_(), indices_(), material_(), va_(), model_() {}
+    explicit Mesh(std::string name);
 
     static void init_program();
 
@@ -31,9 +35,9 @@ protected:
     std::vector<unsigned> indices_;
     Material material_;
     VertexArray::ptr va_;
-    Mat model_;
-
     static Program::ptr program_;
+public:
+    Mat trans, rot, center, scale;
 
     friend class WinRender;
 

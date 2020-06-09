@@ -70,6 +70,16 @@ public:
         return *this;
     }
 
+    Mat& operator*=(Mat const& rhs) {
+        mat_ *= rhs.mat_;
+        return *this;
+    }
+
+    inline friend Mat operator*(Mat lhs, Mat const& rhs) {
+        lhs *= rhs;
+        return lhs;
+    }
+
 protected:
     glm::mat4 mat_;
 };

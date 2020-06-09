@@ -17,9 +17,11 @@ const Program& Mesh::program() {
     return *program_;
 }
 
+Mesh::Mesh(std::string name)  : name_(std::move(name)), vertices_(), indices_(), material_(), va_(), trans(), rot(), center(), scale() {}
+
 Mesh::Mesh(std::string name, std::vector<float> vertices, std::vector<unsigned int> indices, const Material& material) :
         name_(std::move(name)), vertices_(std::move(vertices)), indices_(std::move(indices)), material_(material),
-        va_(), model_() {
+        va_(), trans(), rot(), center(), scale() {
     update_vao();
     init_program();
 }
@@ -67,3 +69,16 @@ std::vector<Mesh> Mesh::load_obj(const std::string& path) {
     }
     return meshes;
 }
+
+void Mesh::preload() const {
+    program_->use();
+    material_.use();
+
+    program_->set_uniform<GL_FLOAT_MAT4>("u_trans", trans.data());
+    program_->set_uniform<GL_FLOAT_MAT4>("u_rot", rot.data());
+    program_->set_uniform<GL_FLOAT_MAT4>("u_center", center.data());
+    program_->set_uniform<GL_FLOAT_MAT4>("u_scale", scale.data());
+
+    va_->bind();
+}
+
