@@ -10,7 +10,7 @@ uniform vec4 u_light_position;
 
 void main() {
     vec4 mv_position = u_view * u_trans * u_rot * u_center * u_scale * position;
-    normal_dir = normalize(-(vec4(normal.x, normal.y, -normal.z, 1) * mv_position).xyz);
+    normal_dir = normalize(-(vec4(normal.x, normal.y, -normal.z, 1) * u_rot).xyz);
     light_dir = normalize(u_light_position.xyz - mv_position.xyz);
     camera_dir = normalize(-mv_position.xyz);
     gl_Position = u_proj * mv_position;
