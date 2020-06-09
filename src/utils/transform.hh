@@ -40,6 +40,16 @@ public:
 
     static Vec forward() { return {0, 0, 1}; }
 
+    Vec& operator*=(float rhs) {
+        vec_ *= rhs;
+        return *this;
+    }
+
+    inline friend Vec operator*(Vec lhs, float rhs) {
+        lhs *= rhs;
+        return lhs;
+    }
+
 protected:
     glm::vec3 vec_;
 };

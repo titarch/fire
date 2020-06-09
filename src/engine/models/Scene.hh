@@ -19,8 +19,10 @@ public:
     Scene& set_perspective(float fov, float ratio, float near, float far);
     Scene& set_camera(Vec const& eye, Vec const& center, Vec const& up);
     void use();
+    void refresh_view();
 
     [[nodiscard]] const std::vector<Shape::ptr>& shapes() const;
+    Mat& camera();
 private:
     std::vector<Shape::ptr> shapes_;
     Vec light_position_;

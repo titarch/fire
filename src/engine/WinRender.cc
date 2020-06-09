@@ -57,9 +57,16 @@ bool WinRender::is_open() const {
     return !glfwWindowShouldClose(win_);
 }
 
+bool WinRender::poll_event(Event &e) {
+    glfwPollEvents();
+    if (Event::events_.empty()) return false;
+    e = Event::events_.front();
+    Event::events_.pop();
+    return true;
+}
+
 void WinRender::display() const {
     glfwSwapBuffers(win_);
-    glfwPollEvents();
 }
 
 void WinRender::draw(const VertexArray& va, const Program& p) const {

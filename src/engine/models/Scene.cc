@@ -38,6 +38,14 @@ void Scene::use() {
     Mesh::program().set_uniform<GL_FLOAT_MAT4>("u_view", view_.data());
 }
 
+void Scene::refresh_view() {
+    Mesh::program().set_uniform<GL_FLOAT_MAT4>("u_view", view_.data());
+}
+
 const std::vector<Shape::ptr>& Scene::shapes() const {
     return shapes_;
+}
+
+Mat& Scene::camera() {
+    return view_;
 }

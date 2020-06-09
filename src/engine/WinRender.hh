@@ -10,6 +10,7 @@
 #include "buffers/VertexArray.hh"
 #include "Program.hh"
 #include "models/Scene.hh"
+#include "Event.hh"
 
 class WinRender {
 public:
@@ -18,6 +19,7 @@ public:
 
     void clear() const;
     [[nodiscard]] bool is_open() const;
+    bool poll_event(Event& e);
     void display() const;
     void draw(VertexArray const& va, Program const& p) const;
     void draw(Mesh const& mesh) const;
@@ -29,6 +31,8 @@ public:
 protected:
     int width_, height_;
     GLFWwindow* win_;
+
+    friend class Event;
 };
 
 
