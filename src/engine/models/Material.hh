@@ -6,6 +6,7 @@
 #define FIRE_MATERIAL_HH
 
 #include "../../utils/transform.hh"
+#include <memory>
 
 namespace tinyobj {
     class material_t;
@@ -13,11 +14,17 @@ namespace tinyobj {
 
 class Material {
 public:
-    static Material from_mtl(tinyobj::material_t const& mtl);
+    using ptr = std::shared_ptr<Material>;
+public:
+    Material(const Vec& ka, const Vec& kd, const Vec& ks, float ns) : ka(ka), kd(kd), ks(ks), ns(ns) {}
+
+    static Material::ptr from_mtl(tinyobj::material_t const& mtl);
     void use() const;
 public:
     Vec ka, kd, ks;
     float ns;
+
+    static Material gray;
 };
 
 

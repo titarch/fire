@@ -33,6 +33,7 @@ public:
     Shape& center(Mat const& m);
 private:
     std::vector<Mesh> meshes_;
+    std::vector<Material::ptr> materials_;
 };
 
 

@@ -14,7 +14,7 @@
 
 class Mesh {
 public:
-    Mesh(std::string name, std::vector<float> vertices, std::vector<unsigned> indices, Material const& material);
+    Mesh(std::string name, std::vector<float> vertices, std::vector<unsigned> indices, Material* material);
     static const Program& program();
     void update_vao();
     void preload() const;
@@ -31,7 +31,7 @@ protected:
     std::string name_;
     std::vector<float> vertices_;
     std::vector<unsigned> indices_;
-    Material material_;
+    Material* material_;
     VertexArray::ptr va_;
     static Program::ptr program_;
 public:

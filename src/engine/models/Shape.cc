@@ -27,6 +27,10 @@ Shape::ptr Shape::load_obj(const std::string& path) {
         throw std::runtime_error(path + ": failed to parse .obj");
 
     auto s = std::make_unique<Shape>();
+
+    for (auto const& material : materials)
+        s->materials_.push_back(Material::from_mtl(material));
+
     for (auto const& shape : shapes) {
         Mesh mesh(shape.name);
         size_t index_offset = 0;// indent offset
@@ -41,7 +45,8 @@ Shape::ptr Shape::load_obj(const std::string& path) {
             }
             index_offset += num_vertices;
         }
-        mesh.material_ = Material::from_mtl(materials[shape.mesh.material_ids[0]]);
+        auto mat_id = shape.mesh.material_ids[0];
+        mesh.material_ = mat_id == -1 ? &Material::gray : s->materials_[mat_id].get();
         mesh.update_vao();
         s->add_mesh(std::move(mesh));
     }
