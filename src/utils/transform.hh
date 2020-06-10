@@ -66,6 +66,16 @@ public:
         return lhs;
     }
 
+    Vec& operator^=(Vec const& rhs) {
+        vec_ = glm::cross(vec_, rhs.vec_);
+        return *this;
+    }
+
+    inline friend Vec operator^(Vec lhs, Vec const& rhs) {
+        lhs ^= rhs;
+        return lhs;
+    }
+
 protected:
     glm::vec3 vec_;
 };

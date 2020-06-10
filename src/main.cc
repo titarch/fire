@@ -23,13 +23,13 @@ auto main() -> int {
             const static float angle = 0.02;
             if (e.action == GLFW_PRESS || e.action == GLFW_REPEAT) {
                 if (e.key == GLFW_KEY_W)
-                    scene.position() += Vec::back() * step;
+                    scene.position() += scene.direction() * step;
                 else if (e.key == GLFW_KEY_A)
-                    scene.position() += Vec::left() * step;
+                    scene.position() += Vec::up() ^ scene.direction() * step;
                 else if (e.key == GLFW_KEY_S)
-                    scene.position() += Vec::forward() * step;
+                    scene.position() += scene.direction() * -step;
                 else if (e.key == GLFW_KEY_D)
-                    scene.position() += Vec::right() * step;
+                    scene.position() += scene.direction() ^ Vec::up() * step;
                 else if (e.key == GLFW_KEY_I)
                     scene.direction().rotate(angle, Vec::right());
                 else if (e.key == GLFW_KEY_J)
