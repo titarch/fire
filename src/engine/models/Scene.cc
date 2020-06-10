@@ -74,7 +74,7 @@ Scene& Scene::move(float amount, Dir direction) {
         case Dir::UP:
             return move(amount, Vec::up());
         case Dir::DOWN:
-            return move(-amount, Vec::down());
+            return move(-amount, Vec::up());
     }
     return *this;
 }

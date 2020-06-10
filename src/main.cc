@@ -32,6 +32,10 @@ auto main() -> int {
                     scene.move(step, Dir::BACK);
                 else if (e.key == GLFW_KEY_D)
                     scene.move(step, Dir::RIGHT);
+                else if (e.key == GLFW_KEY_Z)
+                    scene.move(step, Dir::UP);
+                else if (e.key == GLFW_KEY_X)
+                    scene.move(step, Dir::DOWN);
                 else if (e.key == GLFW_KEY_I)
                     scene.turn(-angle, Norm::RIGHT);
                 else if (e.key == GLFW_KEY_J)
