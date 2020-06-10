@@ -25,21 +25,21 @@ auto main() -> int {
             const static float angle = 0.02;
             if (e.action == GLFW_PRESS || e.action == GLFW_REPEAT) {
                 if (e.key == GLFW_KEY_W)
-                    scene.position() += scene.direction() * step;
+                    scene.move(step, Dir::FORWARD);
                 else if (e.key == GLFW_KEY_A)
-                    scene.position() += Vec::up() ^ scene.direction() * step;
+                    scene.move(step, Dir::LEFT);
                 else if (e.key == GLFW_KEY_S)
-                    scene.position() += scene.direction() * -step;
+                    scene.move(step, Dir::BACK);
                 else if (e.key == GLFW_KEY_D)
-                    scene.position() += scene.direction() ^ Vec::up() * step;
+                    scene.move(step, Dir::RIGHT);
                 else if (e.key == GLFW_KEY_I)
-                    scene.direction().rotate(angle, Vec::right());
+                    scene.turn(-angle, Norm::RIGHT);
                 else if (e.key == GLFW_KEY_J)
-                    scene.direction().rotate(angle, Vec::up());
+                    scene.turn(angle, Norm::UP);
                 else if (e.key == GLFW_KEY_K)
-                    scene.direction().rotate(-angle, Vec::right());
+                    scene.turn(angle, Norm::RIGHT);
                 else if (e.key == GLFW_KEY_L)
-                    scene.direction().rotate(-angle, Vec::up());
+                    scene.turn(-angle, Norm::UP);
                 scene.refresh_view();
             }
         }

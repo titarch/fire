@@ -9,6 +9,20 @@
 #include "../../utils/transform.hh"
 #include "Shape.hh"
 
+enum class Dir {
+    FORWARD,
+    LEFT,
+    BACK,
+    RIGHT,
+    UP,
+    DOWN,
+};
+
+enum class Norm {
+    UP,
+    RIGHT,
+};
+
 class Scene {
 public:
     Scene() : shapes_(), light_position_(), projection_(), position_(), direction_() {}
@@ -21,8 +35,12 @@ public:
     void use();
     void refresh_view() const;
 
-    Vec& position();
-    Vec& direction();
+    [[nodiscard]] const Vec& position() const;
+    [[nodiscard]] const Vec& direction() const;
+    Scene& move(float amount, Vec const& direction);
+    Scene& move(float amount, Dir direction);
+    Scene& turn(float angle, Vec const& normal);
+    Scene& turn(float angle, Norm normal);
     [[nodiscard]] const std::vector<Shape::ptr>& shapes() const;
     [[nodiscard]] Mat view() const;
 private:

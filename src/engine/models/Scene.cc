@@ -47,12 +47,50 @@ const std::vector<Shape::ptr>& Scene::shapes() const {
     return shapes_;
 }
 
-Vec& Scene::position() {
+const Vec& Scene::position() const {
     return position_;
 }
 
-Vec & Scene::direction() {
+const Vec& Scene::direction() const {
     return direction_;
+}
+
+Scene& Scene::move(float amount, const Vec& direction) {
+    position_ += direction * amount;
+    return *this;
+}
+
+Scene& Scene::move(float amount, Dir direction) {
+    switch (direction) {
+        case Dir::FORWARD:
+            return move(amount, direction_);
+        case Dir::LEFT:
+            return move(amount, Vec::up() ^ direction_);
+        case Dir::BACK:
+            return move(-amount, direction_);
+        case Dir::RIGHT:
+            return move(-amount, Vec::up() ^ direction_);
+        case Dir::UP:
+            return move(amount, Vec::up());
+        case Dir::DOWN:
+            return move(-amount, Vec::down());
+    }
+    return *this;
+}
+
+Scene& Scene::turn(float angle, const Vec& normal) {
+    direction_.rotate(angle, normal);
+    return *this;
+}
+
+Scene& Scene::turn(float angle, Norm normal) {
+    switch (normal) {
+        case Norm::UP:
+            return turn(angle, Vec::up());
+        case Norm::RIGHT:
+            return turn(angle, Vec::up() ^ direction_);
+    }
+    return *this;
 }
 
 Mat Scene::view() const {
