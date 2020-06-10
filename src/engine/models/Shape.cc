@@ -62,6 +62,10 @@ std::vector<Mesh> const& Shape::meshes() const {
     return meshes_;
 }
 
+std::vector<Material::ptr>& Shape::materials() {
+    return materials_;
+}
+
 Shape& Shape::reset() {
     translation({});
     rotation({});

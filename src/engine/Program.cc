@@ -166,7 +166,7 @@ void Program::Example::square(const WinRender& wr) {
     while (wr.is_open()) {
         wr.clear();
         auto color = hsv(hue++, 1.f, 1.f);
-        p->set_uniform<GL_FLOAT_VEC4>("u_Color", color.r, color.g, color.b, 1.f);
+        p->set_uniform<GL_FLOAT_VEC4>("u_Color", color[0], color[1], color[2], 1.f);
         wr.draw(*vao, *p);
         wr.display();
     }
@@ -263,7 +263,7 @@ void Program::Example::cube(const WinRender& wr) {
     while (wr.is_open()) {
         wr.clear();
         auto color = hsv(hue++, 1.f, 1.f);
-        p->set_uniform<GL_FLOAT_VEC4>("u_light_color", color.r, color.g, color.b, 1.f);
+        p->set_uniform<GL_FLOAT_VEC4>("u_light_color", color[0], color[1], color[2], 1.f);
         rot = rot.rotate(0.01f, {0.5, 1.f, 0.f});
         p->set_uniform<GL_FLOAT_MAT4>("u_rot", rot.data());
         wr.draw(*vao, *p);

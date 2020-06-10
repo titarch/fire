@@ -21,6 +21,7 @@ public:
     static Shape::ptr load_obj(std::string const& path);
     Shape& add_mesh(Mesh mesh);
     [[nodiscard]] std::vector<Mesh> const& meshes() const;
+    std::vector<Material::ptr>& materials();
 
     Shape& reset();
     Shape& translate(Vec const& v);

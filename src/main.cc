@@ -1,5 +1,6 @@
 #include "engine/program.hh"
 #include "engine/models/Scene.hh"
+#include "utils/colors.hh"
 
 auto main() -> int {
     auto wr = WinRender(1920, 1080);
@@ -16,6 +17,7 @@ auto main() -> int {
     shape->rescale({0.5, 0.5, 0.5});
 
     Event e(wr);
+    int hue = 0;
     while (wr.is_open()) {
 
         while (wr.poll_event(e)) {
@@ -43,6 +45,9 @@ auto main() -> int {
         }
 
         shape->rotate(0.02f, {1, 0.5, 0});
+        shape->materials()[0]->ka = hsv(hue, 1.0, 0.05);
+        shape->materials()[0]->kd = hsv(hue, 1.0, 0.5);
+        hue = (hue + 1) % 360;
         wr.clear();
         wr.draw(scene);
         wr.display();
