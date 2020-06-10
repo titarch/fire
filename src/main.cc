@@ -40,7 +40,6 @@ auto main() -> int {
                     scene.turn(angle, Norm::RIGHT);
                 else if (e.key == GLFW_KEY_L)
                     scene.turn(-angle, Norm::UP);
-                scene.refresh_view();
             }
         }
 

@@ -57,6 +57,7 @@ const Vec& Scene::direction() const {
 
 Scene& Scene::move(float amount, const Vec& direction) {
     position_ += direction * amount;
+    refresh_view();
     return *this;
 }
 
@@ -80,6 +81,7 @@ Scene& Scene::move(float amount, Dir direction) {
 
 Scene& Scene::turn(float angle, const Vec& normal) {
     direction_.rotate(angle, normal);
+    refresh_view();
     return *this;
 }
 
