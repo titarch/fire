@@ -1,4 +1,5 @@
 add_subdirectory(buffers)
+add_subdirectory(textures)
 
 set(engine_src_files
         WinRender.hh
