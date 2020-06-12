@@ -19,11 +19,12 @@ public:
     explicit Shape(std::vector<Mesh> meshes);
     Shape(Shape const&) = delete;
     Shape(Shape&&) = default;
-    [[nodiscard]] Shape::ptr clone(bool keep_materials) const;
+    [[nodiscard]] Shape::ptr clone(bool keep_materials, bool keep_vaos) const;
 
     static Shape::ptr load_obj(std::string const& path);
     Shape& add_mesh(Mesh mesh);
     [[nodiscard]] std::vector<Mesh> const& meshes() const;
+    std::vector<Mesh>& meshes();
     std::vector<Material::ptr>& materials();
 
     Shape& reset();

@@ -16,7 +16,7 @@ class Mesh {
 public:
     Mesh(std::string name, std::vector<float> vertices, std::vector<unsigned> indices, Material* material);
     Mesh(Mesh&&) = default;
-    [[nodiscard]] Mesh clone() const;
+    [[nodiscard]] Mesh clone(bool keep_vao) const;
     static const Program& program();
     void update_vao();
     void preload() const;

@@ -11,10 +11,10 @@ Shape::Shape() : meshes_() {}
 
 Shape::Shape(std::vector<Mesh> meshes) : meshes_(std::move(meshes)) {}
 
-Shape::ptr Shape::clone(bool keep_materials) const {
+Shape::ptr Shape::clone(bool keep_materials, bool keep_vaos) const {
     auto copy = std::make_shared<Shape>();
     std::transform(meshes_.cbegin(), meshes_.cend(), std::back_inserter(copy->meshes_),
-                   [](Mesh const& mesh) { return mesh.clone(); });
+                   [keep_vaos](Mesh const& mesh) { return mesh.clone(keep_vaos); });
 
     if (keep_materials) {
         copy->materials_ = materials_;
@@ -77,6 +77,10 @@ Shape& Shape::add_mesh(Mesh mesh) {
 }
 
 std::vector<Mesh> const& Shape::meshes() const {
+    return meshes_;
+}
+
+std::vector<Mesh>& Shape::meshes() {
     return meshes_;
 }
 

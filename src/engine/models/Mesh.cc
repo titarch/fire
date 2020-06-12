@@ -6,9 +6,13 @@
 
 Program::ptr Mesh::program_;
 
-Mesh Mesh::clone() const {
+Mesh Mesh::clone(bool keep_vao) const {
     auto copy = Mesh(*this);
     copy.name_ += "_copy";
+    if (!keep_vao) {
+        copy.va_.reset();
+        copy.update_vao();
+    }
     return copy;
 }
 
