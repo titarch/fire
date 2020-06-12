@@ -16,7 +16,7 @@ auto main() -> int {
     shape->recenter({0, -0.25, 0});
     shape->rescale({0.5, 0.5, 0.5});
 
-    auto cpy = shape->clone(false);
+    auto cpy = shape->clone(false, true);
     cpy->translate({2, 0, 0});
     cpy->rescale({0.2, 0.2, 0.2});
     scene.add_shape(cpy);
