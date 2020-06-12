@@ -19,10 +19,6 @@ public:
     void update_vao();
     void preload() const;
 
-    Mat model() const {
-        return trans * rot * center * scale;
-    }
-
 protected:
     explicit Mesh(std::string name);
 
