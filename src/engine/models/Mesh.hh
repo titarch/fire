@@ -15,7 +15,6 @@
 class Mesh {
 public:
     Mesh(std::string name, std::vector<float> vertices, std::vector<unsigned> indices, Material* material);
-    Mesh(Mesh const&) = delete;
     Mesh(Mesh&&) = default;
     [[nodiscard]] Mesh clone() const;
     static const Program& program();
@@ -24,6 +23,7 @@ public:
 
 protected:
     explicit Mesh(std::string name);
+    explicit Mesh(Mesh const&) = default;
 
     static void init_program();
 

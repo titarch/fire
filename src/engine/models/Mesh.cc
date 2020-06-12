@@ -7,17 +7,9 @@
 Program::ptr Mesh::program_;
 
 Mesh Mesh::clone() const {
-    Mesh mesh(name_ + "_copy");
-    mesh.vertices_ = vertices_;
-    mesh.indices_ = indices_;
-    mesh.material_ = material_;
-    mesh.material_id_ = material_id_;
-    mesh.va_ = va_;
-    mesh.trans = trans;
-    mesh.rot = rot;
-    mesh.center = center;
-    mesh.scale = scale;
-    return mesh;
+    auto copy = Mesh(*this);
+    copy.name_ += "_copy";
+    return copy;
 }
 
 void Mesh::init_program() {
