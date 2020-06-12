@@ -18,13 +18,14 @@ public:
 public:
     Material(const Vec& ka, const Vec& kd, const Vec& ks, float ns) : ka(ka), kd(kd), ks(ks), ns(ns) {}
 
+    [[nodiscard]] Material::ptr clone() const;
     static Material::ptr from_mtl(tinyobj::material_t const& mtl);
     void use() const;
 public:
     Vec ka, kd, ks;
     float ns;
 
-    static Material gray;
+    static const Material gray;
 };
 
 

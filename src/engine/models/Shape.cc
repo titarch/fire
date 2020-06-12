@@ -11,6 +11,23 @@ Shape::Shape() : meshes_() {}
 
 Shape::Shape(std::vector<Mesh> meshes) : meshes_(std::move(meshes)) {}
 
+Shape::ptr Shape::clone(bool keep_materials) const {
+    auto copy = std::make_shared<Shape>();
+    std::transform(meshes_.cbegin(), meshes_.cend(), std::back_inserter(copy->meshes_),
+                   [](Mesh const& mesh) { return mesh.clone(); });
+
+    if (keep_materials) {
+        copy->materials_ = materials_;
+        return copy;
+    }
+
+    std::transform(materials_.cbegin(), materials_.cend(), std::back_inserter(copy->materials_),
+                   [](Material::ptr const& m) { return m->clone(); });
+    std::for_each(copy->meshes_.begin(), copy->meshes_.end(),
+                  [&copy](Mesh& m) { if (m.material_id_ != -1) m.material_ = copy->materials_[m.material_id_].get(); });
+    return copy;
+}
+
 Shape::ptr Shape::load_obj(const std::string& path) {
     Mesh::init_program();
 
@@ -47,6 +64,7 @@ Shape::ptr Shape::load_obj(const std::string& path) {
         }
         auto mat_id = shape.mesh.material_ids[0];
         mesh.material_ = mat_id == -1 ? &Material::gray : s->materials_[mat_id].get();
+        mesh.material_id_ = mat_id;
         mesh.update_vao();
         s->add_mesh(std::move(mesh));
     }

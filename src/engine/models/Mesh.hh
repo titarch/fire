@@ -15,6 +15,9 @@
 class Mesh {
 public:
     Mesh(std::string name, std::vector<float> vertices, std::vector<unsigned> indices, Material* material);
+    Mesh(Mesh const&) = delete;
+    Mesh(Mesh&&) = default;
+    [[nodiscard]] Mesh clone() const;
     static const Program& program();
     void update_vao();
     void preload() const;
@@ -27,7 +30,8 @@ protected:
     std::string name_;
     std::vector<float> vertices_;
     std::vector<unsigned> indices_;
-    Material* material_;
+    const Material* material_;
+    int material_id_;
     VertexArray::ptr va_;
     static Program::ptr program_;
 public:

@@ -17,6 +17,9 @@ public:
 public:
     explicit Shape();
     explicit Shape(std::vector<Mesh> meshes);
+    Shape(Shape const&) = delete;
+    Shape(Shape&&) = default;
+    [[nodiscard]] Shape::ptr clone(bool keep_materials) const;
 
     static Shape::ptr load_obj(std::string const& path);
     Shape& add_mesh(Mesh mesh);

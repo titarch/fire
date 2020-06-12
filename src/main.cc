@@ -16,6 +16,11 @@ auto main() -> int {
     shape->recenter({0, -0.25, 0});
     shape->rescale({0.5, 0.5, 0.5});
 
+    auto cpy = shape->clone(false);
+    cpy->translate({2, 0, 0});
+    cpy->rescale({0.2, 0.2, 0.2});
+    scene.add_shape(cpy);
+
     Event e(wr);
     int hue = 0;
     while (wr.is_open()) {

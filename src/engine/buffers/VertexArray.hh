@@ -12,9 +12,9 @@
 
 class VertexArray : public BaseBuffer {
 public:
-    using ptr = std::unique_ptr<VertexArray>;
+    using ptr = std::shared_ptr<VertexArray>;
+public:
     VertexArray();
-
     VertexArray(VertexArray&&) = default;
     VertexArray& operator=(VertexArray&&) = default;
     virtual ~VertexArray();
