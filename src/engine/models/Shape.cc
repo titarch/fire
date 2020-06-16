@@ -43,7 +43,7 @@ Shape::ptr Shape::load_obj(const std::string& path) {
     if (!ret)
         throw std::runtime_error(path + ": failed to parse .obj");
 
-    auto s = std::make_unique<Shape>();
+    auto s = std::make_shared<Shape>();
 
     for (auto const& material : materials)
         s->materials_.push_back(Material::from_mtl(material));
