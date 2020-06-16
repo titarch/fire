@@ -6,7 +6,6 @@
 #include <stdexcept>
 #include <GL/glew.h>
 #include "WinRender.hh"
-
 [[maybe_unused]] static void GLAPIENTRY
 MessageCallback([[maybe_unused]]GLenum source,
                 GLenum type,
@@ -65,6 +64,7 @@ void WinRender::display() const {
 void WinRender::draw(const VertexArray& va, const Program& p) const {
     p.use();
     va.bind();
+    Texture texture("res/assets/texture1.jpg");
     auto const* ibo = va.ibo();
     ibo->bind();
     glDrawElements(GL_TRIANGLES, ibo->count(), GL_UNSIGNED_INT, nullptr);

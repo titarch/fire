@@ -5,12 +5,12 @@
 #include <fstream>
 #include <vector>
 #include <iostream>
-#include "textures/texture.hh"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "Program.hh"
 #include "WinRender.hh"
 #include "buffers/BufHandler.hh"
+#include "textures/texture.hh"
 #include "../utils/colors.hh"
 
 Program::Program() : program_id_(0), ready_(false), location_cache_{} {}
@@ -198,6 +198,7 @@ void Program::Example::cube(const WinRender& wr) {
                                    "../res/shaders/fragment/uniform.shd");
     p->use();
 
+    Texture texture("res/assets/texture1.jpg");
     auto ratio = wr.ratio();
     glm::mat4 ortho_proj = glm::ortho(-ratio, ratio, -1.f, 1.f, -1.f, 1.f);
     glm::mat4 view = glm::translate(glm::mat4(1.f), glm::vec3(.5f, 0, 0));
