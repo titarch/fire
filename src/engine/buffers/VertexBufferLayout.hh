@@ -12,7 +12,7 @@
 struct VertexBufferElement {
     GLenum type;
     GLuint count;
-    GLboolean normalized;
+    GLbyte normalized;
 
     VertexBufferElement(GLenum type, GLuint count, GLbyte normalized) : type(type), count(count),
                                                                         normalized(normalized) {}
