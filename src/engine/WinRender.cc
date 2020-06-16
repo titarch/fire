@@ -19,7 +19,12 @@ MessageCallback([[maybe_unused]]GLenum source,
             (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""), type, severity, message);
 }
 
+void glfw_callback(int error, const char* description) {
+    fprintf(stderr, "Error %d: %s\n", error, description);
+}
+
 WinRender::WinRender(int width, int height) : width_(width), height_(height) {
+    glfwSetErrorCallback(glfw_callback);
     if (!glfwInit())
         throw std::runtime_error("Could not initialize GLFW");
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -57,7 +62,7 @@ bool WinRender::is_open() const {
     return !glfwWindowShouldClose(win_);
 }
 
-bool WinRender::poll_event(Event &e) {
+bool WinRender::poll_event(Event& e) {
     glfwPollEvents();
     if (Event::events_.empty()) return false;
     e = Event::events_.front();
@@ -82,12 +87,12 @@ void WinRender::draw(const Mesh& mesh) const {
     glDrawArrays(GL_TRIANGLES, 0, mesh.vertices_.size() / 6);
 }
 
-void WinRender::draw(const Shape &shape) const {
+void WinRender::draw(const Shape& shape) const {
     for (auto const& mesh : shape.meshes())
         draw(mesh);
 }
 
-void WinRender::draw(const Scene &scene) const {
+void WinRender::draw(const Scene& scene) const {
     for (auto const& shape : scene.shapes())
         draw(*shape);
 }
