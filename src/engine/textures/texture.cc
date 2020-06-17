@@ -1,6 +1,6 @@
 #define STB_IMAGE_IMPLEMENTATION
 
-#include "../../utils/stb_image.h"
+#include "../../utils/3rdparty/stb_image.h"
 #include "../buffers/VertexBuffer.hh"
 #include "texture.hh"
 
