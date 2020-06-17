@@ -5,24 +5,16 @@
 auto main() -> int {
     auto wr = WinRender(1920, 1080);
 
+    auto spawner = Spawner::make("../res/assets/atmo.png", Vec(), 100);
+
     Scene scene{};
     scene.set_light_position({-3, 3, 15})
             .set_perspective(45.f, 16.f / 9.f, 0.01f, 50.f)
             .set_camera({0, 0, 3}, Vec::back())
+            .add_spawner(spawner)
             .use();
 
-    auto shape = scene.add_object("../res/assets/sphere.obj");
-    shape->translate({0, 0, -0.5});
-    shape->recenter({0, -0.25, 0});
-    shape->rescale({0.5, 0.5, 0.5});
-
-    auto cpy = shape->clone(false, true);
-    cpy->translate({2, 0, 0});
-    cpy->rescale({0.2, 0.2, 0.2});
-    scene.add_shape(cpy);
-
     Event e(wr);
-    int hue = 0;
     while (wr.is_open()) {
 
         while (wr.poll_event(e)) {
@@ -52,10 +44,7 @@ auto main() -> int {
             }
         }
 
-        shape->rotate(0.02f, {1, 0.5, 0});
-        shape->materials()[0]->ka = hsv(hue, 1.0, 0.05);
-        shape->materials()[0]->kd = hsv(hue, 1.0, 0.5);
-        hue = (hue + 1) % 360;
+        scene.update_spawners();
         wr.clear();
         wr.draw(scene);
         wr.display();

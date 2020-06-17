@@ -94,6 +94,8 @@ void WinRender::draw(const Shape& shape) const {
 void WinRender::draw(const Scene& scene) const {
     for (auto const& shape : scene.shapes())
         draw(*shape);
+    for (auto const& spawner : scene.spawners())
+        draw(*spawner);
 }
 
 void WinRender::draw(const Spawner& spawner) const {

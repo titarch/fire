@@ -5,10 +5,13 @@
 #include <ctime>
 #include "Spawner.hh"
 
-
 Spawner::Spawner(std::string const& texture_path, Vec const& pos, unsigned count)
         : texture_(Texture::make(texture_path)), pos_(pos), count_(count), particles_(count) {
     std::srand(std::time(nullptr));
+}
+
+Spawner::ptr Spawner::make(const std::string& texture_path, const Vec& pos, unsigned int count) {
+    return std::make_shared<Spawner>(texture_path, pos, count);
 }
 
 void Spawner::step() {

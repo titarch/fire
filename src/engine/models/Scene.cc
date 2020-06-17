@@ -15,6 +15,11 @@ Scene& Scene::add_shape(Shape::ptr& shape) {
     return *this;
 }
 
+Scene& Scene::add_spawner(Spawner::ptr& spawner) {
+    spawners_.push_back(spawner);
+    return *this;
+}
+
 Scene& Scene::set_light_position(Vec const& position) {
     light_position_ = position;
     return *this;
@@ -43,8 +48,17 @@ void Scene::refresh_view() const {
     Mesh::program().set_uniform<GL_FLOAT_MAT4>("u_view", view().data());
 }
 
+void Scene::update_spawners() {
+    for (auto& spawner : spawners_)
+        spawner->step();
+}
+
 const std::vector<Shape::ptr>& Scene::shapes() const {
     return shapes_;
+}
+
+const std::vector<Spawner::ptr> & Scene::spawners() const {
+    return spawners_;
 }
 
 const Vec& Scene::position() const {
