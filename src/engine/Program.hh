@@ -62,4 +62,9 @@ inline void Program::set_uniform<GL_FLOAT>(const std::string& name, float arg) c
     glUniform1f(uniform_location(name), arg);
 }
 
+template<>
+inline void Program::set_uniform<GL_INT>(const std::string& name, int arg) const {
+    glUniform1i(uniform_location(name), arg);
+}
+
 #endif //FIRE_PROGRAM_HH

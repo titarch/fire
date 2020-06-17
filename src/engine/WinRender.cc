@@ -6,7 +6,6 @@
 #include <stdexcept>
 #include <GL/glew.h>
 #include "WinRender.hh"
-
 [[maybe_unused]] static void GLAPIENTRY
 MessageCallback([[maybe_unused]]GLenum source,
                 GLenum type,

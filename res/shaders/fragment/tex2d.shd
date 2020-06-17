@@ -1,0 +1,12 @@
+#version 330 core
+
+in vec2 interpolated_uv;
+
+layout(location = 0) out vec4 color;
+
+uniform sampler2D u_texture_sampler;
+
+void main() {
+    vec4 texel = texture(u_texture_sampler, interpolated_uv);
+    color = texel;
+}

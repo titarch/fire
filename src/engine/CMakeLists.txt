@@ -1,4 +1,5 @@
 add_subdirectory(buffers)
+add_subdirectory(textures)
 add_subdirectory(models)
 
 set(engine_src_files
@@ -11,4 +12,4 @@ set(engine_src_files
         Program.cc
         program.hh)
 add_library(engine ${engine_src_files})
-target_link_libraries(engine PRIVATE models buffers)
+target_link_libraries(engine PRIVATE models textures buffers)
