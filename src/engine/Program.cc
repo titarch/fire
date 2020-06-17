@@ -164,7 +164,7 @@ void Program::Example::square(const WinRender& wr) {
 
     Texture texture("../res/assets/texture1.jpg");
     texture.bind();
-    p->set_uniform<GL_INT>("u_texture", 0);
+    p->set_uniform<GL_INT>("u_texture_sampler", 0);
 
     auto ratio = wr.ratio();
     glm::mat4 ortho_proj = glm::ortho(-ratio, ratio, -1.f, 1.f, -1.f, 1.f);
