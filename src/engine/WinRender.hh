@@ -9,7 +9,6 @@
 #include <cstddef>
 #include "buffers/VertexArray.hh"
 #include "Program.hh"
-#include "textures/texture.hh"
 
 class WinRender {
 public:
