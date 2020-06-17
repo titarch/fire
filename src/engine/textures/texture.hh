@@ -7,8 +7,13 @@
 #include <string>
 
 class Texture {
+public:
+    using ptr = std::shared_ptr<Texture>;
 public :
     explicit Texture(const std::string&);
+    static ptr make(std::string const& path);
+    Texture(Texture const&) = delete;
+    Texture(Texture&&) = default;
     ~Texture();
     // can add slot as param
     void bind();

@@ -11,6 +11,7 @@
 #include "Program.hh"
 #include "models/Scene.hh"
 #include "Event.hh"
+#include "particles/Spawner.hh"
 
 class WinRender {
 public:
@@ -25,6 +26,8 @@ public:
     void draw(Mesh const& mesh) const;
     void draw(Shape const& shape) const;
     void draw(Scene const& scene) const;
+    void draw(Spawner const& spawner) const;
+    void draw(Particle const& particle) const;
     [[nodiscard]] int width() const;
     [[nodiscard]] int height() const;
     [[nodiscard]] float ratio() const;

@@ -46,6 +46,16 @@ public:
         return *this;
     }
 
+    Vec& operator+=(float rhs) {
+        vec_ += rhs;
+        return *this;
+    }
+
+    inline friend Vec operator+(Vec lhs, float rhs) {
+        lhs += rhs;
+        return lhs;
+    }
+
     Vec& operator*=(float rhs) {
         vec_ *= rhs;
         return *this;

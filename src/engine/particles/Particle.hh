@@ -6,8 +6,29 @@
 #define FIRE_PARTICLE_HH
 
 
-class Particle {
+#include "../../utils/transform.hh"
+#include "../models/Material.hh"
+#include "../Program.hh"
+#include "../textures/texture.hh"
+#include "../buffers/VertexArray.hh"
 
+class Particle {
+public:
+    Particle();
+    void update_physics(float dt);
+    void respawn(Vec const& position);
+    void use() const;
+private:
+    Vec pos_, vel_;
+    Vec color_;
+    float energy_;
+
+    static Program::ptr program_;
+    static VertexArray::ptr va_;
+
+    friend class Spawner;
+
+    friend class WinRender;
 };
 
 

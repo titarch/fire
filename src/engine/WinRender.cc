@@ -96,6 +96,21 @@ void WinRender::draw(const Scene& scene) const {
         draw(*shape);
 }
 
+void WinRender::draw(const Spawner& spawner) const {
+    Particle::program_->use();
+    Particle::va_->bind();
+    Particle::va_->ibo()->bind();
+    spawner.texture_->bind();
+    for (auto const& particle : spawner.particles_)
+        draw(particle);
+}
+
+
+void WinRender::draw(const Particle &particle) const {
+    particle.use();
+    glDrawElements(GL_TRIANGLES, Particle::va_->ibo()->count(), GL_UNSIGNED_INT, nullptr);
+}
+
 int WinRender::width() const {
     return width_;
 }

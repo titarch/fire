@@ -24,6 +24,10 @@ Texture::Texture(const std::string& file_path)
     unbind();
 }
 
+Texture::ptr Texture::make(const std::string& path) {
+    return std::make_shared<Texture>(path);
+}
+
 Texture::~Texture() {
     glDeleteTextures(1, &render_id_);
 }
