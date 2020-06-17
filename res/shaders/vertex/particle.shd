@@ -5,12 +5,12 @@ layout (location = 1) in vec2 uv;
 out vec2 interpolated_uv;
 out vec4 interpolated_color;
 
-uniform mat4 u_projection;
+uniform mat4 u_proj, u_view;
 uniform vec4 u_offset, u_scale;
 uniform vec4 u_color;
 
 void main() {
     interpolated_uv = uv;
     interpolated_color = u_color;
-    gl_Position = u_projection * vec4(position.xyz * u_scale.xyz + u_offset.xyz, 1.0);
+    gl_Position = u_proj * u_view * vec4(position.xyz * u_scale.xyz + u_offset.xyz, 1.0);
 }

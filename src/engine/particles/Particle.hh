@@ -18,6 +18,7 @@ public:
     void update_physics(float dt);
     void respawn(Vec const& position);
     void use() const;
+    static Program const& program();
 private:
     Vec pos_, vel_;
     Vec color_;

@@ -41,11 +41,16 @@ void Scene::use() {
     Mesh::program().set_uniform<GL_FLOAT_VEC4>("u_light_position", light_position_[0], light_position_[1],
                                                light_position_[2], 1.f);
     Mesh::program().set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
-    Mesh::program().set_uniform<GL_FLOAT_MAT4>("u_view", view().data());
+    Particle::program().use();
+    Particle::program().set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
+    refresh_view();
 }
 
 void Scene::refresh_view() const {
+    Mesh::program().use();
     Mesh::program().set_uniform<GL_FLOAT_MAT4>("u_view", view().data());
+    Particle::program().use();
+    Particle::program().set_uniform<GL_FLOAT_MAT4>("u_view", view().data());
 }
 
 void Scene::update_spawners() {
