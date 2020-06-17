@@ -150,6 +150,9 @@ void Program::Example::square(const WinRender& wr) {
             2u, 3u, 0u
     };
 
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+
     auto vao = BufHandler::make_vao();
     vao.add_data(
             square,
@@ -162,7 +165,7 @@ void Program::Example::square(const WinRender& wr) {
                                    "../res/shaders/fragment/tex2d.shd");
     p->use();
 
-    Texture texture("../res/assets/texture1.jpg");
+    Texture texture("../res/assets/atmo.png");
     texture.bind();
     p->set_uniform<GL_INT>("u_texture_sampler", 0);
 
