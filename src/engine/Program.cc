@@ -140,10 +140,10 @@ void Program::Example::triangle(const WinRender& wh) {
 
 void Program::Example::square(const WinRender& wr) {
     static constexpr std::array square = {
-            -0.5f, -0.5f,
-            0.5f, -0.5f,
-            0.5f, 0.5f,
-            -0.5f, 0.5f
+            -0.5f, -0.5f, 0.f, 0.f,
+            0.5f, -0.5f, 1.f, 0.f,
+            0.5f, 0.5f, 1.f, 1.f,
+            -0.5f, 0.5f, 0.f, 1.f
     };
     static constexpr std::array indices = {
             0u, 1u, 2u,
@@ -154,22 +154,24 @@ void Program::Example::square(const WinRender& wr) {
     vao.add_data(
             square,
             VertexBufferLayout::Common::F2D()
+                    .add_element<GL_FLOAT>(2)
     );
     vao.add_indices(indices);
 
-    auto p = Program::make_program("../res/shaders/vertex/projection.shd",
-                                   "../res/shaders/fragment/uniform.shd");
+    auto p = Program::make_program("../res/shaders/vertex/tex2d.shd",
+                                   "../res/shaders/fragment/tex2d.shd");
     p->use();
+
+    Texture texture("../res/assets/texture1.jpg");
+    texture.bind();
+    p->set_uniform<GL_INT>("u_texture", 0);
 
     auto ratio = wr.ratio();
     glm::mat4 ortho_proj = glm::ortho(-ratio, ratio, -1.f, 1.f, -1.f, 1.f);
     p->set_uniform<GL_FLOAT_MAT4>("u_MVP", &ortho_proj[0][0]);
 
-    auto hue = 0;
     while (wr.is_open()) {
         wr.clear();
-        auto color = hsv(hue++, 1.f, 1.f);
-        p->set_uniform<GL_FLOAT_VEC4>("u_Color", color.r, color.g, color.b, 1.f);
         wr.draw(vao, *p);
         wr.display();
     }
@@ -198,7 +200,6 @@ void Program::Example::cube(const WinRender& wr) {
                                    "../res/shaders/fragment/uniform.shd");
     p->use();
 
-    Texture texture("../res/assets/texture1.jpg");
     auto ratio = wr.ratio();
     glm::mat4 ortho_proj = glm::ortho(-ratio, ratio, -1.f, 1.f, -1.f, 1.f);
     glm::mat4 view = glm::translate(glm::mat4(1.f), glm::vec3(.5f, 0, 0));

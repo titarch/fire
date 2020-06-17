@@ -57,4 +57,9 @@ inline void Program::set_uniform<GL_FLOAT_MAT4>(const std::string& name, float* 
     glUniformMatrix4fv(uniform_location(name), 1, GL_FALSE, mat_ptr);
 }
 
+template<>
+inline void Program::set_uniform<GL_INT>(const std::string& name, int value) {
+    glUniform1i(uniform_location(name), value);
+}
+
 #endif //FIRE_PROGRAM_HH
