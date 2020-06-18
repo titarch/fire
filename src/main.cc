@@ -6,6 +6,7 @@ auto main() -> int {
     auto wr = WinRender(1920, 1080);
 
     auto spawner = Spawner::make("../res/assets/fire.png", Vec(), 3000);
+
     Scene scene{};
     scene.set_light_position({-3, 3, 15})
             .set_perspective(45.f, 16.f / 9.f, 0.01f, 50.f)

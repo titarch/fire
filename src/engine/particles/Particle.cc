@@ -41,13 +41,15 @@ void Particle::update_physics(float dt) {
     if (energy_ <= 0.f) return;
     if (direction_change_ <= 0)
     {
-        float random_x = (float) ((rand() % 100) - 50) / 100.0f;
-        float random_y = (float) ((rand() % 100) - 50) / 100.0f;
-        float random_z = (float) ((rand() % 100) - 50) / 100.0f;
+        float random_x = (float) ((rand() % 100) - 50) / 200.0f;
+        float random_y = (float) ((rand() % 100) - 50) / 200.0f;
+        float random_z = (float) ((rand() % 100) - 50) / 200.0f;
 
         rand_vel = {random_x, random_y, random_z};
-        rand_vel = (rand_vel + vel_) * 0.5;
+        rand_vel = rand_vel + vel_;
         direction_change_ = 20 * (0.5f + ((float)rand() / (float)RAND_MAX) / 2.f);
+        size_ /= 2;
+        program_->set_uniform<GL_FLOAT_VEC4>("u_scale", size_, size_, size_, size_);
     }
     pos_ += rand_vel * dt;
     alpha_ -= dt * 0.5;
@@ -62,10 +64,12 @@ void Particle::respawn(Vec const& position) {
     float rColor = 0.5f + ((float) (rand() % 100) / 200.0f);
     pos_ = {position[0] + random_x, position[1], position[2] + random_z};
     color_ = {rColor, rColor / 3.f, 0};
-    energy_ = 70.0f * (0.5f + ((float)rand() / (float)RAND_MAX) / 2.f);
-    vel_ = {0, 2, 0};
-    vel_ -= pos_ * 0.5;
+    energy_ = 60.0f * (0.5f + ((float)rand() / (float)RAND_MAX) / 2.f);
+    direction_change_ = 30 * (0.5f + ((float)rand() / (float)RAND_MAX) / 2.f);
+    vel_ = {0, 1, 0};
+    vel_ -= pos_;
     alpha_ = 1.f;
+    size_ = 0.1f;
 }
 
 void Particle::use() const {
