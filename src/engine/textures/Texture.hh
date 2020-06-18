@@ -5,25 +5,22 @@
 #include <GL/glew.h>
 #include <iostream>
 #include <string>
+#include <memory>
 
 class Texture {
 public:
     using ptr = std::shared_ptr<Texture>;
-public :
-    explicit Texture(const std::string&);
-    static ptr make(std::string const& path);
+public:
+    Texture();
     Texture(Texture const&) = delete;
     Texture(Texture&&) = default;
     ~Texture();
-    // can add slot as param
-    void bind();
-    void unbind();
-private :
-    std::string file_path_;
-    int width_;
-    int height_;
-    unsigned char* local_buffer_;
-    int bytes_per_pixels_;
+    virtual void bind(uint8_t slot) = 0;
+    virtual void unbind() = 0;
+protected:
+    void bind(GLenum type, uint8_t slot);
+    void unbind(GLenum type);
+
     GLuint render_id_;
 };
 

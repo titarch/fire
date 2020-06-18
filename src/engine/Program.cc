@@ -9,7 +9,6 @@
 #include "Program.hh"
 #include "WinRender.hh"
 #include "buffers/BufHandler.hh"
-#include "textures/Texture.hh"
 #include "../utils/colors.hh"
 #include "shaders.hh"
 
@@ -163,8 +162,8 @@ void Program::Example::square(const WinRender& wr) {
     auto p = Program::make_program("tex2d", "tex2d");
     p->use();
 
-    Texture texture("../res/assets/atmo.png");
-    texture.bind();
+    Sprite texture("../res/assets/atmo.png");
+    texture.bind(0);
     p->set_uniform<GL_INT>("u_texture_sampler", 0);
 
     auto ratio = wr.ratio();

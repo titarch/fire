@@ -8,6 +8,7 @@
 
 #include <vector>
 #include "Particle.hh"
+#include "../textures/Sprite.hh"
 
 class Spawner {
 public:

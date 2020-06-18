@@ -107,7 +107,7 @@ void WinRender::draw(const Spawner& spawner) const {
     Particle::program_->use();
     Particle::va_->bind();
     Particle::va_->ibo()->bind();
-    spawner.texture_->bind();
+    spawner.texture_->bind(0);
     for (auto const& particle : spawner.particles_)
         draw(particle);
 }

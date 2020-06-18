@@ -6,7 +6,7 @@
 #include "Spawner.hh"
 
 Spawner::Spawner(std::string const& texture_path, Vec const& pos, unsigned count)
-        : texture_(Texture::make(texture_path)), pos_(pos), count_(count), particles_(count) {
+        : texture_(Sprite::make(texture_path)), pos_(pos), count_(count), particles_(count) {
     std::srand(std::time(nullptr));
 }
 
