@@ -92,8 +92,13 @@ void WinRender::draw(const Shape& shape) const {
 }
 
 void WinRender::draw(const Scene& scene) const {
+    glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
     for (auto const& shape : scene.shapes())
         draw(*shape);
+    glDisable(GL_DEPTH_TEST);
+    glDepthMask(GL_FALSE);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     for (auto const& spawner : scene.spawners())
         draw(*spawner);
 }

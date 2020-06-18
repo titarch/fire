@@ -6,13 +6,18 @@ auto main() -> int {
     auto wr = WinRender(1920, 1080);
 
     auto spawner = Spawner::make("../res/assets/fire.png", Vec(), 5000);
+    auto shape = Shape::load_obj("../res/assets/sphere.obj");
 
     Scene scene{};
     scene.set_light_position({-3, 3, 15})
             .set_perspective(45.f, 16.f / 9.f, 0.01f, 50.f)
             .set_camera({0, 0, 3}, Vec::back())
             .add_spawner(spawner)
+            .add_shape(shape)
             .use();
+
+    shape->rescale({0.05, 0.05, 0.05})
+            .translate({1, 0, 0});
 
     Event e(wr);
     while (wr.is_open()) {

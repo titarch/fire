@@ -17,10 +17,8 @@ Mesh Mesh::clone(bool keep_vao) const {
 }
 
 void Mesh::init_program() {
-    if (!Mesh::program_) {
-        Mesh::program_ = Program::make_program("mesh", "mesh");
-        glEnable(GL_DEPTH_TEST);
-    }
+    if (Mesh::program_)return;
+    Mesh::program_ = Program::make_program("mesh", "mesh");
 }
 
 const Program& Mesh::program() {
@@ -28,8 +26,8 @@ const Program& Mesh::program() {
     return *program_;
 }
 
-Mesh::Mesh(std::string name) : name_(std::move(name)), vertices_(), indices_(), material_(), material_id_(-1), va_(), trans(), rot(),
-                               center(), scale() {}
+Mesh::Mesh(std::string name) : name_(std::move(name)), vertices_(), indices_(), material_(), material_id_(-1), va_(),
+                               trans(), rot(), center(), scale() {}
 
 Mesh::Mesh(std::string name, std::vector<float> vertices, std::vector<unsigned int> indices, Material* material) :
         name_(std::move(name)), vertices_(std::move(vertices)), indices_(std::move(indices)), material_(material),

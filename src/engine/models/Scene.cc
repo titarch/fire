@@ -7,6 +7,8 @@
 Scene::Scene() : shapes_(), light_position_(), projection_(), position_(), direction_() {
     Particle::init_program();
     Mesh::init_program();
+    glDepthFunc(GL_ALWAYS);
+    glEnable(GL_BLEND);
 }
 
 Shape::ptr Scene::add_object(const std::string& path) {

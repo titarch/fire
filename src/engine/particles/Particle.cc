@@ -35,11 +35,6 @@ void Particle::init_program() {
     if (Particle::program_) return;
     program_ = Program::make_program("particle", "particle");
     program_->use();
-    glDisable(GL_DEPTH_TEST);
-    glDepthFunc(GL_ALWAYS);
-    glDepthMask(GL_FALSE);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 }
 
 void Particle::update_physics(float dt) {
