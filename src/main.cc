@@ -5,7 +5,7 @@
 auto main() -> int {
     auto wr = WinRender(1920, 1080);
 
-    auto spawner = Spawner::make("../res/assets/atmo.png", Vec(), 100);
+    auto spawner = Spawner::make("../res/assets/fire.png", Vec(), 5000);
 
     Scene scene{};
     scene.set_light_position({-3, 3, 15})

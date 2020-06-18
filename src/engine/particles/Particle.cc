@@ -7,13 +7,14 @@
 Program::ptr Particle::program_;
 VertexArray::ptr Particle::va_;
 
-Particle::Particle() : pos_(), vel_(), color_(), energy_((float) rand() / (float) RAND_MAX) {
+Particle::Particle() : pos_(), vel_(), color_(), alpha_(1.f), energy_((float) rand() / (float) RAND_MAX) {
     if (!program_) {
         program_ = Program::make_program("particle", "particle");
         program_->use();
-        glEnable(GL_DEPTH_TEST);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glDisable(GL_DEPTH_TEST);
+        glDepthMask(GL_FALSE);
         glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     }
     if (!va_) {
         static constexpr std::array square = {
@@ -42,6 +43,7 @@ void Particle::update_physics(float dt) {
     energy_ -= dt;
     if (energy_ <= 0.f) return;
     pos_ += vel_ * dt;
+    alpha_ -= dt;
 }
 
 void Particle::respawn(Vec const& position) {
@@ -53,12 +55,13 @@ void Particle::respawn(Vec const& position) {
     color_ = {rColor, rColor / 3.f, 0};
     energy_ = 1.0f * (0.5f + ((float)rand() / (float)RAND_MAX) / 2.f);
     vel_ = {0, 2, 0};
+    alpha_ = 1.f;
 }
 
 void Particle::use() const {
     program_->set_uniform<GL_FLOAT_VEC4>("u_offset", pos_[0], pos_[1], pos_[2], 1.f);
     program_->set_uniform<GL_FLOAT_VEC4>("u_scale", 0.1f, 0.1f, 0.1f, 1.0f);
-    program_->set_uniform<GL_FLOAT_VEC4>("u_color", color_[0], color_[1], color_[2], 1.f);
+    program_->set_uniform<GL_FLOAT_VEC4>("u_color", color_[0], color_[1], color_[2], alpha_);
 }
 
 Program const& Particle::program() {

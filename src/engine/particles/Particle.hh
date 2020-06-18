@@ -22,6 +22,7 @@ public:
 private:
     Vec pos_, vel_;
     Vec color_;
+    float alpha_;
     float energy_;
 
     static Program::ptr program_;
