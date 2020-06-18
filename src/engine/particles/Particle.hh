@@ -21,11 +21,10 @@ public:
     void use() const;
     static Program const& program();
 private:
-    Vec pos_, vel_;
+    Vec pos_, vel_, rand_vel;
     Vec color_;
     float alpha_;
     float energy_;
-
     static Program::ptr program_;
     static VertexArray::ptr va_;
 

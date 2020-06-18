@@ -38,10 +38,17 @@ void Particle::init_program() {
 }
 
 void Particle::update_physics(float dt) {
-    energy_ -= dt;
     if (energy_ <= 0.f) return;
-    pos_ += vel_ * dt;
+    float random_x = (float) ((rand() % 100) - 50) / 100.0f;
+    float random_y = (float) ((rand() % 100) - 50) / 100.0f;
+    float random_z = (float) ((rand() % 100) - 50) / 100.0f;
+
+    rand_vel = {random_x, random_y, random_z};
+
+    rand_vel += vel_;
+    pos_ += rand_vel * dt;
     alpha_ -= dt;
+    energy_ -= dt;
 }
 
 void Particle::respawn(Vec const& position) {
