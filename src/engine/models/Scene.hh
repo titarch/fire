@@ -26,7 +26,7 @@ enum class Norm {
 
 class Scene {
 public:
-    Scene() : shapes_(), light_position_(), projection_(), position_(), direction_() {}
+    Scene();
 
     Shape::ptr add_object(std::string const& path);
     Scene& add_shape(Shape::ptr& shape);

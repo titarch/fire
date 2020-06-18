@@ -8,15 +8,7 @@ Program::ptr Particle::program_;
 VertexArray::ptr Particle::va_;
 
 Particle::Particle() : pos_(), vel_(), color_(), alpha_(1.f), energy_((float) rand() / (float) RAND_MAX) {
-    if (!program_) {
-        program_ = Program::make_program("particle", "particle");
-        program_->use();
-        glDisable(GL_DEPTH_TEST);
-        glDepthFunc(GL_ALWAYS);
-        glDepthMask(GL_FALSE);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-    }
+    init_program();
     if (!va_) {
         static constexpr std::array square = {
                 -0.5f, -0.5f, 0.f, 0.f,
@@ -36,8 +28,18 @@ Particle::Particle() : pos_(), vel_(), color_(), alpha_(1.f), energy_((float) ra
                         .add_element<GL_FLOAT>(2)
         );
         va_->add_indices(indices);
-
     }
+}
+
+void Particle::init_program() {
+    if (Particle::program_) return;
+    program_ = Program::make_program("particle", "particle");
+    program_->use();
+    glDisable(GL_DEPTH_TEST);
+    glDepthFunc(GL_ALWAYS);
+    glDepthMask(GL_FALSE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 }
 
 void Particle::update_physics(float dt) {

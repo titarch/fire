@@ -15,6 +15,7 @@
 class Particle {
 public:
     Particle();
+    static void init_program();
     void update_physics(float dt);
     void respawn(Vec const& position);
     void use() const;

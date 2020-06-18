@@ -4,6 +4,11 @@
 
 #include "Scene.hh"
 
+Scene::Scene() : shapes_(), light_position_(), projection_(), position_(), direction_() {
+    Particle::init_program();
+    Mesh::init_program();
+}
+
 Shape::ptr Scene::add_object(const std::string& path) {
     auto shape = Shape::load_obj(path);
     add_shape(shape);
