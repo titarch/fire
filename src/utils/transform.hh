@@ -55,7 +55,7 @@ public:
         lhs += rhs;
         return lhs;
     }
-
+    
     Vec& operator*=(float rhs) {
         vec_ *= rhs;
         return *this;
@@ -68,6 +68,11 @@ public:
 
     Vec& operator+=(Vec const& rhs) {
         vec_ += rhs.vec_;
+        return *this;
+    }
+    
+    Vec& operator-=(Vec const& rhs) {
+        vec_ -= rhs.vec_;
         return *this;
     }
 
