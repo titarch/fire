@@ -9,7 +9,7 @@
 #include "Program.hh"
 #include "WinRender.hh"
 #include "buffers/BufHandler.hh"
-#include "textures/texture.hh"
+#include "textures/Texture.hh"
 #include "../utils/colors.hh"
 #include "shaders.hh"
 

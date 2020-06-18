@@ -9,7 +9,7 @@
 #include "../../utils/transform.hh"
 #include "../models/Material.hh"
 #include "../Program.hh"
-#include "../textures/texture.hh"
+#include "../textures/Texture.hh"
 #include "../buffers/VertexArray.hh"
 
 class Particle {

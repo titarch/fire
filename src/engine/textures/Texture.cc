@@ -2,7 +2,7 @@
 
 #include "../../utils/3rdparty/stb_image.h"
 #include "../buffers/VertexBuffer.hh"
-#include "texture.hh"
+#include "Texture.hh"
 
 Texture::Texture(const std::string& file_path)
         : file_path_(file_path), width_(0), height_(0), local_buffer_(nullptr), bytes_per_pixels_(0), render_id_(0) {
