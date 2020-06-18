@@ -53,7 +53,7 @@ void Particle::respawn(Vec const& position) {
     color_ = {rColor, rColor / 3.f, 0};
     energy_ = 1.0f * (0.5f + ((float)rand() / (float)RAND_MAX) / 2.f);
     vel_ = {0, 2, 0};
-    vel_ += pos_;
+    vel_ -= pos_ * 0.5;
     alpha_ = 1.f;
 }
 
