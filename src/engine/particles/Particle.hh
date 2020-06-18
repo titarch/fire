@@ -25,6 +25,7 @@ private:
     Vec color_;
     float alpha_;
     float energy_;
+    int direction_change_;
     static Program::ptr program_;
     static VertexArray::ptr va_;
 

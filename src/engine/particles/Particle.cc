@@ -39,16 +39,20 @@ void Particle::init_program() {
 
 void Particle::update_physics(float dt) {
     if (energy_ <= 0.f) return;
-    float random_x = (float) ((rand() % 100) - 50) / 100.0f;
-    float random_y = (float) ((rand() % 100) - 50) / 100.0f;
-    float random_z = (float) ((rand() % 100) - 50) / 100.0f;
+    if (direction_change_ <= 0)
+    {
+        float random_x = (float) ((rand() % 100) - 50) / 100.0f;
+        float random_y = (float) ((rand() % 100) - 50) / 100.0f;
+        float random_z = (float) ((rand() % 100) - 50) / 100.0f;
 
-    rand_vel = {random_x, random_y, random_z};
-
-    rand_vel += vel_;
+        rand_vel = {random_x, random_y, random_z};
+        rand_vel = (rand_vel + vel_) * 0.5;
+        direction_change_ = 20 * (0.5f + ((float)rand() / (float)RAND_MAX) / 2.f);
+    }
     pos_ += rand_vel * dt;
-    alpha_ -= dt;
-    energy_ -= dt;
+    alpha_ -= dt * 0.5;
+    energy_ -= 1;
+    direction_change_ -= 1;
 }
 
 void Particle::respawn(Vec const& position) {
@@ -58,7 +62,7 @@ void Particle::respawn(Vec const& position) {
     float rColor = 0.5f + ((float) (rand() % 100) / 200.0f);
     pos_ = {position[0] + random_x, position[1], position[2] + random_z};
     color_ = {rColor, rColor / 3.f, 0};
-    energy_ = 1.0f * (0.5f + ((float)rand() / (float)RAND_MAX) / 2.f);
+    energy_ = 70.0f * (0.5f + ((float)rand() / (float)RAND_MAX) / 2.f);
     vel_ = {0, 2, 0};
     vel_ -= pos_ * 0.5;
     alpha_ = 1.f;
