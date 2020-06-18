@@ -62,7 +62,7 @@ const std::vector<Shape::ptr>& Scene::shapes() const {
     return shapes_;
 }
 
-const std::vector<Spawner::ptr> & Scene::spawners() const {
+const std::vector<Spawner::ptr>& Scene::spawners() const {
     return spawners_;
 }
 
