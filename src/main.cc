@@ -6,8 +6,9 @@ auto main() -> int {
     std::srand(0);
     auto wr = WinRender(1920, 1080);
 
-    auto spawner = Spawner::make("../res/assets/fire.png", Vec(), 5000);
+    auto spawner = Spawner::make("../res/assets/fire.png", Vec(), 3000);
     auto tree = Shape::load_obj("../res/assets/pine.obj");
+    auto log = Shape::load_obj("../res/assets/log.obj");
 
     Scene scene{};
     scene.set_light_position({0, 0.5, 0})
@@ -16,6 +17,7 @@ auto main() -> int {
             .set_cubemap("../res/assets/cubemap/")
             .set_tilemap("../res/assets/ground.jpg")
             .add_spawner(spawner)
+            .add_shape(log)
             .use();
 
     tree->translate({0, 1.7, 0});
@@ -27,6 +29,22 @@ auto main() -> int {
         tree_clone->translate({random_x, random_scale - 1.f, random_z})
                 .rescale({random_scale, random_scale, random_scale});
         scene.add_shape(tree_clone);
+    }
+
+    log->translate({0.01, 0.0, 0.01})
+            .rescale({0.15, 0.15, 0.15});
+
+    auto log_copy = log->clone(false, true);
+    log_copy->materials()[0]->ka = log_copy->materials()[0]->ka * 0.5;
+    log_copy->materials()[0]->kd = log_copy->materials()[0]->kd * 0.5;
+    log_copy->translate({-3, 0.1, -3.5})
+            .rescale({0.7, 0.7, 0.7})
+            .rotate(-M_PI / 2.f, Vec::up());
+    scene.add_shape(log_copy);
+    for (auto i = 0u; i < 3; ++i) {
+        log_copy = log_copy->clone(true, false);
+        log_copy->translate({0.4, 0, 0});
+        scene.add_shape(log_copy);
     }
 
 
