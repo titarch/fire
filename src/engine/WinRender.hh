@@ -12,6 +12,8 @@
 #include "models/Scene.hh"
 #include "Event.hh"
 #include "particles/Spawner.hh"
+#include "textures/CubeMap.hh"
+
 
 class WinRender {
 public:
@@ -28,6 +30,7 @@ public:
     void draw(Scene const& scene) const;
     void draw(Spawner const& spawner) const;
     void draw(Particle const& particle) const;
+    void draw(CubeMap const& cubemap) const;
     [[nodiscard]] int width() const;
     [[nodiscard]] int height() const;
     [[nodiscard]] float ratio() const;

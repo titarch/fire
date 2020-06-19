@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <GL/glew.h>
 #include "WinRender.hh"
+
 [[maybe_unused]] static void GLAPIENTRY
 MessageCallback([[maybe_unused]]GLenum source,
                 GLenum type,
@@ -101,6 +102,8 @@ void WinRender::draw(const Scene& scene) const {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     for (auto const& spawner : scene.spawners())
         draw(*spawner);
+    if (scene.cubemap())
+        draw(dynamic_cast<const CubeMap&>(*scene.cubemap()));
 }
 
 void WinRender::draw(const Spawner& spawner) const {
@@ -112,10 +115,16 @@ void WinRender::draw(const Spawner& spawner) const {
         draw(particle);
 }
 
-
-void WinRender::draw(const Particle &particle) const {
+void WinRender::draw(const Particle& particle) const {
     particle.use();
     glDrawElements(GL_TRIANGLES, Particle::va_->ibo()->count(), GL_UNSIGNED_INT, nullptr);
+}
+
+void WinRender::draw(const CubeMap& cubemap) const {
+    CubeMap::program_->use();
+    CubeMap::va_->bind();
+    cubemap.bind(0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
 int WinRender::width() const {

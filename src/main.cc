@@ -10,8 +10,9 @@ auto main() -> int {
 
     Scene scene{};
     scene.set_light_position({-3, 3, 15})
-            .set_perspective(45.f, 16.f / 9.f, 0.01f, 50.f)
+            .set_perspective(45.f, 16.f / 9.f, 0.01f, 1000.f)
             .set_camera({0, 0, 3}, Vec::back())
+            .set_cubemap("../res/assets/cubemap/")
             .add_spawner(spawner)
             .add_shape(shape)
             .use();

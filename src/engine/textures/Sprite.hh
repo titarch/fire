@@ -12,8 +12,8 @@ class Sprite : public Texture {
 public:
     explicit Sprite(std::string const& file_path);
     static ptr make(std::string const& file_path);
-    void bind(uint8_t slot) override;
-    void unbind() override;
+    void bind(uint8_t slot) const override;
+    void unbind() const override;
 protected:
     int width_, height_;
     unsigned char* local_buffer_;

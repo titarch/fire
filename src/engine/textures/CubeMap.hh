@@ -6,8 +6,27 @@
 #define FIRE_CUBEMAP_HH
 
 
-class CubeMap {
+#include "Texture.hh"
+#include "../Program.hh"
+#include "../buffers/VertexArray.hh"
 
+class CubeMap : public Texture {
+public:
+    explicit CubeMap(std::string const& path);
+    CubeMap(CubeMap const&) = delete;
+    CubeMap(CubeMap&&) = default;
+    static Texture::ptr make(std::string const& path);
+    void bind(uint8_t slot) const override;
+    void unbind() const override;
+private:
+    static Program::ptr program_;
+    static VertexArray::ptr va_;
+
+    static void init_graphics();
+
+    friend class Scene;
+
+    friend class WinRender;
 };
 
 

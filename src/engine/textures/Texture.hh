@@ -15,11 +15,11 @@ public:
     Texture(Texture const&) = delete;
     Texture(Texture&&) = default;
     ~Texture();
-    virtual void bind(uint8_t slot) = 0;
-    virtual void unbind() = 0;
+    virtual void bind(uint8_t slot) const = 0;
+    virtual void unbind() const = 0;
 protected:
-    void bind(GLenum type, uint8_t slot);
-    void unbind(GLenum type);
+    void bind(GLenum type, uint8_t slot) const;
+    void unbind(GLenum type) const;
 
     GLuint render_id_;
 };

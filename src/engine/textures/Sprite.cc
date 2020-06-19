@@ -26,10 +26,10 @@ Texture::ptr Sprite::make(const std::string& file_path) {
     return std::make_shared<Sprite>(file_path);
 }
 
-void Sprite::bind(uint8_t slot) {
+void Sprite::bind(uint8_t slot) const {
     Texture::bind(GL_TEXTURE_2D, slot);
 }
 
-void Sprite::unbind() {
+void Sprite::unbind() const {
     Texture::unbind(GL_TEXTURE_2D);
 }
