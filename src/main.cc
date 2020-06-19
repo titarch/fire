@@ -6,7 +6,7 @@ auto main() -> int {
     auto wr = WinRender(1920, 1080);
 
     auto spawner = Spawner::make("../res/assets/fire.png", Vec(), 5000);
-    auto shape = Shape::load_obj("../res/assets/sphere.obj");
+    auto shape = Shape::load_obj("../res/assets/pine.obj");
 
     Scene scene{};
     scene.set_light_position({0, 0.5, 0})
@@ -18,8 +18,8 @@ auto main() -> int {
             .add_shape(shape)
             .use();
 
-    shape->rescale({0.05, 0.05, 0.05})
-            .translate({1, 0.5, 0});
+    shape->translate(Vec{3, 1.7, -4});
+
 
     Event e(wr);
     while (wr.is_open()) {
