@@ -9,7 +9,7 @@ auto main() -> int {
     auto shape = Shape::load_obj("../res/assets/sphere.obj");
 
     Scene scene{};
-    scene.set_light_position({-3, 3, 15})
+    scene.set_light_position({0, 0, 0})
             .set_perspective(45.f, 16.f / 9.f, 0.01f, 1000.f)
             .set_camera({0, 0.5, 3}, Vec::back())
             .set_cubemap("../res/assets/cubemap/")

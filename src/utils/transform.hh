@@ -108,6 +108,8 @@ public:
 
     const float* data() const { return &mat_[0][0]; }
 
+    const glm::mat4& mat() const { return mat_; };
+
     inline Mat& translate(Vec const& v) {
         mat_ = glm::translate(mat_, v.vec());
         return *this;
