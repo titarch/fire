@@ -3,7 +3,7 @@
 layout(location = 0) in vec4 position;
 
 out vec2 interpolated_uv;
-out vec3 frag_pos, normal_dir, camera_pos;
+out vec3 frag_pos, normal_dir;
 
 uniform mat4 u_proj, u_view;
 
@@ -12,5 +12,4 @@ void main() {
     gl_Position = u_proj * u_view * vec4(frag_pos, 1.0);
     interpolated_uv = position.xy;
     normal_dir = vec3(0.0, 1.0, 0.0);
-    camera_pos = vec3(u_view[3]);
 }

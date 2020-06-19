@@ -36,8 +36,8 @@ Scene& Scene::set_perspective(float fov, float ratio, float near, float far) {
     return *this;
 }
 
-Scene& Scene::set_camera(const Vec& posision, const Vec& direction) {
-    position_ = posision;
+Scene& Scene::set_camera(const Vec& position, const Vec& direction) {
+    position_ = position;
     direction_ = direction;
     return *this;
 }
@@ -78,6 +78,7 @@ void Scene::refresh_view() const {
     CubeMap::program_->set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.without_translation().data());
     TileMap::program_->use();
     TileMap::program_->set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.data());
+    TileMap::program_->set_uniform<GL_FLOAT_VEC4>("u_camera_pos", position_[0], position_[1], position_[2], 1.0f);
 }
 
 void Scene::update_spawners() {
