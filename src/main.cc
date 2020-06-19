@@ -27,7 +27,8 @@ auto main() -> int {
         float random_z = rand() % 50 - 25;
         float random_scale = ((float) rand() / (float) RAND_MAX - 0.5f) / 2.f + 1.f;
         tree_clone->translate({random_x, random_scale - 1.f, random_z})
-                .rescale({random_scale, random_scale, random_scale});
+                .rescale({random_scale, random_scale, random_scale})
+                .rotate(random_scale + random_x, Vec::up());
         scene.add_shape(tree_clone);
     }
 
