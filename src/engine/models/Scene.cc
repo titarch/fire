@@ -72,6 +72,7 @@ void Scene::refresh_view() const {
     auto const& cur_view = view();
     Mesh::program().use();
     Mesh::program().set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.data());
+    Mesh::program().set_uniform<GL_FLOAT_VEC4>("u_camera_pos", position_[0], position_[1], position_[2], 1.0f);
     Particle::program().use();
     Particle::program().set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.data());
     CubeMap::program_->use();

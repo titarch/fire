@@ -3,7 +3,7 @@
 layout(location=0) in vec4 position;
 layout(location=1) in vec4 normal;
 
-out vec3 normal_dir, frag_pos, camera_pos;
+out vec3 normal_dir, frag_pos;
 
 uniform mat4 u_proj, u_view, u_trans, u_rot, u_center, u_scale;
 
@@ -12,5 +12,4 @@ void main() {
     gl_Position = u_proj * u_view * model * position;
     frag_pos = vec3(model * position);
     normal_dir = mat3(transpose(inverse(model))) * vec3(normal.x, normal.y, -normal.z);
-    camera_pos = vec3(u_view[3]);
 }

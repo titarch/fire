@@ -3,11 +3,11 @@
 uniform vec4 u_ka, u_kd, u_ks;
 uniform float u_ns;
 
-in vec3 normal_dir, frag_pos, camera_pos;
+in vec3 normal_dir, frag_pos;
 
 layout(location=0) out vec4 output_color;
 
-uniform vec4 u_light_position;
+uniform vec4 u_light_position, u_camera_pos;
 
 void main() {
     vec3 normal = normalize(normal_dir);
@@ -16,7 +16,7 @@ void main() {
     float nl = max(dot(normal, light_dir), 0.0);
     vec4 diffuse = u_kd * nl;
 
-    vec3 camera_dir = normalize(camera_pos - frag_pos);
+    vec3 camera_dir = normalize(u_camera_pos.xyz - frag_pos);
     vec3 reflect_dir = reflect(-light_dir, normal);
     vec4 specular = u_ks * pow(max(dot(camera_dir, reflect_dir), 0.0), u_ns);
     if (nl <= 0) specular = vec4(0);
