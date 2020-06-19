@@ -44,10 +44,11 @@ void Particle::update_physics(float dt) {
         float random_x = (float) ((rand() % 100) - 50) / 200.0f;
         float random_y = (float) ((rand() % 100) - 50) / 200.0f;
         float random_z = (float) ((rand() % 100) - 50) / 200.0f;
-
-        rand_vel = {random_x, random_y, random_z};
-        rand_vel = rand_vel + vel_;
         direction_change_ = 20 * (0.5f + ((float)rand() / (float)RAND_MAX) / 2.f);
+        rand_vel = {random_x, random_y, random_z};
+        if (energy_ - direction_change_ <= 0)
+            vel_ = {0, 0.5, 0};
+        rand_vel = rand_vel + vel_;
         size_ /= 2;
         program_->set_uniform<GL_FLOAT_VEC4>("u_scale", size_, size_, size_, size_);
     }
