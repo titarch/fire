@@ -67,7 +67,7 @@ void Scene::refresh_view() const {
     Particle::program().use();
     Particle::program().set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.data());
     CubeMap::program_->use();
-    CubeMap::program_->set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.data());
+    CubeMap::program_->set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.without_translation().data());
 }
 
 void Scene::update_spawners() {

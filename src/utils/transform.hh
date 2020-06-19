@@ -123,6 +123,13 @@ public:
         return *this;
     }
 
+    inline Mat without_translation() const {
+        Mat copy = Mat(*this);
+        for (auto i = 0u; i < 3; ++i)
+            copy.mat_[3][i] = 0;
+        return copy;
+    }
+
     Mat& operator*=(Mat const& rhs) {
         mat_ *= rhs.mat_;
         return *this;
