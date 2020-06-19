@@ -3,10 +3,11 @@
 #include "utils/colors.hh"
 
 auto main() -> int {
+    std::srand(0);
     auto wr = WinRender(1920, 1080);
 
     auto spawner = Spawner::make("../res/assets/fire.png", Vec(), 5000);
-    auto shape = Shape::load_obj("../res/assets/pine.obj");
+    auto tree = Shape::load_obj("../res/assets/pine.obj");
 
     Scene scene{};
     scene.set_light_position({0, 0.5, 0})
@@ -15,10 +16,18 @@ auto main() -> int {
             .set_cubemap("../res/assets/cubemap/")
             .set_tilemap("../res/assets/ground.jpg")
             .add_spawner(spawner)
-            .add_shape(shape)
             .use();
 
-    shape->translate(Vec{3, 1.7, -4});
+    tree->translate({0, 1.7, 0});
+    for (auto i = 0u; i < 150; ++i) {
+        auto tree_clone = tree->clone(true, true);
+        float random_x = rand() % 50 - 25;
+        float random_z = rand() % 50 - 25;
+        float random_scale = ((float) rand() / (float) RAND_MAX - 0.5f) / 2.f + 1.f;
+        tree_clone->translate({random_x, random_scale - 1.f, random_z})
+                .rescale({random_scale, random_scale, random_scale});
+        scene.add_shape(tree_clone);
+    }
 
 
     Event e(wr);
