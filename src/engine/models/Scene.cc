@@ -62,6 +62,8 @@ void Scene::use() {
     CubeMap::program_->use();
     CubeMap::program_->set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
     TileMap::program_->use();
+    TileMap::program_->set_uniform<GL_FLOAT_VEC4>("u_light_position", light_position_[0], light_position_[1],
+                                                  light_position_[2], 1.f);
     TileMap::program_->set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
     refresh_view();
 }

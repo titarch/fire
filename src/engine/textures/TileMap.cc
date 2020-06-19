@@ -41,7 +41,7 @@ TileMap::TileMap(const std::string& file_path) : Texture(), width_(0), height_(0
 
 void TileMap::init_graphics() {
     if (!TileMap::program_)
-        program_ = Program::make_program("tilemap", "tex2d");
+        program_ = Program::make_program("tilemap", "tilemap");
     if (!va_) {
         va_ = VertexArray::create();
         va_->add_data(square, VertexBufferLayout::Common::F2D());
