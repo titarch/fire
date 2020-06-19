@@ -93,19 +93,23 @@ void WinRender::draw(const Shape& shape) const {
 }
 
 void WinRender::draw(const Scene& scene) const {
+    glDisable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
+    if (scene.cubemap())
+        draw(dynamic_cast<const CubeMap&>(*scene.cubemap()));
+    glClear(GL_DEPTH_BUFFER_BIT);
+    if (scene.tilemap())
+        draw(dynamic_cast<const TileMap&>(*scene.tilemap()));
+    glClear(GL_DEPTH_BUFFER_BIT);
     for (auto const& shape : scene.shapes())
         draw(*shape);
     glDisable(GL_DEPTH_TEST);
     glDepthMask(GL_FALSE);
+    glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     for (auto const& spawner : scene.spawners())
         draw(*spawner);
-    if (scene.cubemap())
-        draw(dynamic_cast<const CubeMap&>(*scene.cubemap()));
-    if (scene.tilemap())
-        draw(dynamic_cast<const TileMap&>(*scene.tilemap()));
 }
 
 void WinRender::draw(const Spawner& spawner) const {
