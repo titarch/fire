@@ -12,13 +12,14 @@ uniform vec4 u_light_position, u_camera_pos;
 void main() {
     vec3 normal = normalize(normal_dir);
     vec3 light_dir = normalize(u_light_position.xyz - frag_pos);
+    float dist = length(u_light_position.xyz - frag_pos) / 15.0;
 
     float nl = max(dot(normal, light_dir), 0.0);
-    vec4 diffuse = u_kd * nl;
+    vec4 diffuse = u_kd * nl / dist;
 
     vec3 camera_dir = normalize(u_camera_pos.xyz - frag_pos);
     vec3 reflect_dir = reflect(-light_dir, normal);
-    vec4 specular = u_ks * pow(max(dot(camera_dir, reflect_dir), 0.0), u_ns);
+    vec4 specular = u_ks * pow(max(dot(camera_dir, reflect_dir), 0.0), u_ns) / dist;
     if (nl <= 0) specular = vec4(0);
 
     output_color = vec4(u_ka.rgb + diffuse.rgb + specular.rgb, 1.0);
