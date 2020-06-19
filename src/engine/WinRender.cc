@@ -98,12 +98,11 @@ void WinRender::draw(const Scene& scene) const {
     glDepthMask(GL_TRUE);
     if (scene.cubemap())
         draw(dynamic_cast<const CubeMap&>(*scene.cubemap()));
-    glClear(GL_DEPTH_BUFFER_BIT);
     if (scene.tilemap())
         draw(dynamic_cast<const TileMap&>(*scene.tilemap()));
-    glClear(GL_DEPTH_BUFFER_BIT);
     for (auto const& shape : scene.shapes())
         draw(*shape);
+    glClear(GL_DEPTH_BUFFER_BIT);
     glDisable(GL_DEPTH_TEST);
     glDepthMask(GL_FALSE);
     glEnable(GL_BLEND);
