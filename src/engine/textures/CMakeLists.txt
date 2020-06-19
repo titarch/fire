@@ -4,5 +4,7 @@ set(textures_src_files
         Sprite.cc
         Sprite.hh
         CubeMap.cc
-        CubeMap.hh)
+        CubeMap.hh
+        TileMap.cc
+        TileMap.hh)
 add_library(textures ${textures_src_files})

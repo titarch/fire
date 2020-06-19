@@ -10,6 +10,7 @@
 #include "Shape.hh"
 #include "../particles/Spawner.hh"
 #include "../textures/CubeMap.hh"
+#include "../textures/TileMap.hh"
 
 enum class Dir {
     FORWARD,
@@ -36,6 +37,7 @@ public:
     Scene& set_perspective(float fov, float ratio, float near, float far);
     Scene& set_camera(Vec const& position, Vec const& direction);
     Scene& set_cubemap(std::string const& path);
+    Scene& set_tilemap(std::string const& path);
     void use();
     void refresh_view() const;
     void update_spawners();
@@ -49,11 +51,13 @@ public:
     [[nodiscard]] const std::vector<Shape::ptr>& shapes() const;
     [[nodiscard]] const std::vector<Spawner::ptr>& spawners() const;
     [[nodiscard]] const CubeMap::ptr& cubemap() const;
+    [[nodiscard]] const TileMap::ptr& tilemap() const;
     [[nodiscard]] Mat view() const;
 private:
     std::vector<Shape::ptr> shapes_;
     std::vector<Spawner::ptr> spawners_;
     CubeMap::ptr cubemap_;
+    TileMap::ptr tilemap_;
     Vec light_position_;
     Mat projection_;
     Vec position_, direction_;

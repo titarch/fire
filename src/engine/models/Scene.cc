@@ -4,7 +4,7 @@
 
 #include "Scene.hh"
 
-Scene::Scene() : shapes_(), spawners_(), cubemap_(), light_position_(), projection_(), position_(), direction_() {
+Scene::Scene() : shapes_(), spawners_(), cubemap_(), tilemap_(), light_position_(), projection_(), position_(), direction_() {
     Particle::init_program();
     Mesh::init_program();
     glDepthFunc(GL_ALWAYS);
@@ -48,6 +48,11 @@ Scene& Scene::set_cubemap(const std::string& path) {
     return *this;
 }
 
+Scene& Scene::set_tilemap(const std::string& path) {
+    tilemap_ = TileMap::make(path);
+    return *this;
+}
+
 void Scene::use() {
     Mesh::program().use();
     Mesh::program().set_uniform<GL_FLOAT_VEC4>("u_light_position", light_position_[0], light_position_[1],
@@ -57,6 +62,8 @@ void Scene::use() {
     Particle::program().set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
     CubeMap::program_->use();
     CubeMap::program_->set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
+    TileMap::program_->use();
+    TileMap::program_->set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
     refresh_view();
 }
 
@@ -68,6 +75,8 @@ void Scene::refresh_view() const {
     Particle::program().set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.data());
     CubeMap::program_->use();
     CubeMap::program_->set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.without_translation().data());
+    TileMap::program_->use();
+    TileMap::program_->set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.data());
 }
 
 void Scene::update_spawners() {
@@ -85,6 +94,10 @@ const std::vector<Spawner::ptr>& Scene::spawners() const {
 
 const CubeMap::ptr& Scene::cubemap() const {
     return cubemap_;
+}
+
+const TileMap::ptr& Scene::tilemap() const {
+    return tilemap_;
 }
 
 const Vec& Scene::position() const {

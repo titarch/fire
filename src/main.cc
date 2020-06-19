@@ -11,14 +11,15 @@ auto main() -> int {
     Scene scene{};
     scene.set_light_position({-3, 3, 15})
             .set_perspective(45.f, 16.f / 9.f, 0.01f, 1000.f)
-            .set_camera({0, 0, 3}, Vec::back())
+            .set_camera({0, 0.5, 3}, Vec::back())
             .set_cubemap("../res/assets/cubemap/")
+            .set_tilemap("../res/assets/ground.jpg")
             .add_spawner(spawner)
             .add_shape(shape)
             .use();
 
     shape->rescale({0.05, 0.05, 0.05})
-            .translate({1, 0, 0});
+            .translate({1, 0.5, 0});
 
     Event e(wr);
     while (wr.is_open()) {

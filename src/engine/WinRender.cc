@@ -104,6 +104,8 @@ void WinRender::draw(const Scene& scene) const {
         draw(*spawner);
     if (scene.cubemap())
         draw(dynamic_cast<const CubeMap&>(*scene.cubemap()));
+    if (scene.tilemap())
+        draw(dynamic_cast<const TileMap&>(*scene.tilemap()));
 }
 
 void WinRender::draw(const Spawner& spawner) const {
@@ -125,6 +127,11 @@ void WinRender::draw(const CubeMap& cubemap) const {
     CubeMap::va_->bind();
     cubemap.bind(0);
     glDrawArrays(GL_TRIANGLES, 0, 36);
+}
+
+void WinRender::draw(const TileMap& tilemap) const {
+    tilemap.bind(0);
+    draw(*TileMap::va_, *TileMap::program_);
 }
 
 int WinRender::width() const {

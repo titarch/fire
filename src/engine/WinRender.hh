@@ -13,6 +13,7 @@
 #include "Event.hh"
 #include "particles/Spawner.hh"
 #include "textures/CubeMap.hh"
+#include "textures/TileMap.hh"
 
 
 class WinRender {
@@ -31,6 +32,7 @@ public:
     void draw(Spawner const& spawner) const;
     void draw(Particle const& particle) const;
     void draw(CubeMap const& cubemap) const;
+    void draw(TileMap const& tilemap) const;
     [[nodiscard]] int width() const;
     [[nodiscard]] int height() const;
     [[nodiscard]] float ratio() const;
