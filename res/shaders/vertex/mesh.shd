@@ -11,5 +11,5 @@ void main() {
     mat4 model = u_trans * u_rot * u_center * u_scale;
     gl_Position = u_proj * u_view * model * position;
     frag_pos = vec3(model * position);
-    normal_dir = mat3(transpose(inverse(model))) * vec3(normal.x, normal.y, -normal.z);
+    normal_dir = mat3(transpose(inverse(model))) * normal.xyz;
 }
