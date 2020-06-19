@@ -60,14 +60,14 @@ void Particle::update_physics(float dt) {
 
 void Particle::respawn(Vec const& position) {
     if (energy_ > 0.f) return;
-    float random_x = (float) ((rand() % 100) - 50) / 100.0f;
-    float random_z = (float) ((rand() % 100) - 50) / 100.0f;
-    float rColor = 0.5f + ((float) (rand() % 100) / 200.0f);
+    float random_x = (float) ((rand() % 100) - 50) / 200.0f;
+    float random_z = (float) ((rand() % 100) - 50) / 200.0f;
+    float rColor = 0.1f + ((float) (rand() % 100) / 500.0f);
     pos_ = {position[0] + random_x, position[1], position[2] + random_z};
     color_ = {rColor, rColor / 3.f, 0};
     energy_ = 60.0f * (0.5f + ((float)rand() / (float)RAND_MAX) / 2.f);
     direction_change_ = 30 * (0.5f + ((float)rand() / (float)RAND_MAX) / 2.f);
-    vel_ = {0, 1, 0};
+    vel_ = {0, 0.5, 0};
     vel_ -= pos_;
     alpha_ = 1.f;
     size_ = 0.1f;
