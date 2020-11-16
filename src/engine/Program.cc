@@ -68,42 +68,42 @@ GLuint Program::attach_shader(const std::string& name, GLuint type) {
         return 0;
     }
     glAttachShader(program_id_, shd_id);
+    glDeleteShader(shd_id);
     return shd_id;
+}
+
+GLint Program::link() {
+    glLinkProgram(program_id_);
+    GLint link_status;
+    glGetProgramiv(program_id_, GL_LINK_STATUS, &link_status);
+    if (link_status != GL_TRUE) {
+        GLint log_size;
+        glGetProgramiv(program_id_, GL_INFO_LOG_LENGTH, &log_size);
+        std::vector<char> program_log(log_size);
+        glGetProgramInfoLog(program_id_, log_size, &log_size, program_log.data());
+        std::string log(program_log.cbegin(), program_log.cend());
+        std::cerr << "Failed to link program: " << log << std::endl;
+        glDeleteProgram(program_id_);
+        program_id_ = 0;
+    }
+    return link_status;
+}
+
+void Program::validate() {
+    glValidateProgram(program_id_);
+    ready_ = true;
 }
 
 Program::ptr Program::make_program(const std::string& vtx, const std::string& fgt) {
     auto p = std::make_unique<Program>();
     p->program_id_ = glCreateProgram();
 
-    std::vector<GLuint> shd_ids{};
-    shd_ids.push_back(p->attach_shader(vtx, GL_VERTEX_SHADER));
-    if (shd_ids.back() == 0) return p;
-    shd_ids.push_back(p->attach_shader(fgt, GL_FRAGMENT_SHADER));
-    if (shd_ids.back() == 0) return p;
+    if (p->attach_shader(vtx, GL_VERTEX_SHADER) == 0) return p;
+    if (p->attach_shader(fgt, GL_FRAGMENT_SHADER) == 0) return p;
 
-    glLinkProgram(p->program_id_);
-    GLint link_status;
-    glGetProgramiv(p->program_id_, GL_LINK_STATUS, &link_status);
-    if (link_status != GL_TRUE) {
-        GLint log_size;
-        glGetProgramiv(p->program_id_, GL_INFO_LOG_LENGTH, &log_size);
-        std::vector<char> program_log(log_size);
-        glGetProgramInfoLog(p->program_id_, log_size, &log_size, program_log.data());
-        std::string log(program_log.cbegin(), program_log.cend());
-        std::cerr << "Failed to link program: " << log << std::endl;
-        glDeleteProgram(p->program_id_);
-        for (auto shd_id : shd_ids)
-            glDeleteShader(shd_id);
-        p->program_id_ = 0;
-        return p;
-    }
+    if (p->link() != GL_TRUE) return p;
+    p->validate();
 
-    glValidateProgram(p->program_id_);
-
-    for (auto shd_id : shd_ids)
-        glDeleteShader(shd_id);
-
-    p->ready_ = true;
     return p;
 }
 
