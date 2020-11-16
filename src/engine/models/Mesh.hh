@@ -14,7 +14,7 @@
 
 class Mesh {
 public:
-    Mesh(std::string name, std::vector<float> vertices, std::vector<unsigned> indices, Material* material);
+    Mesh(std::string name, std::vector<float> vertices, std::vector<unsigned> indices, Material const* material);
     Mesh(Mesh&&) = default;
     [[nodiscard]] Mesh clone(bool keep_vao) const;
     static void init_program();

@@ -29,7 +29,7 @@ const Program& Mesh::program() {
 Mesh::Mesh(std::string name) : name_(std::move(name)), vertices_(), indices_(), material_(), material_id_(-1), va_(),
                                trans(), rot(), center(), scale() {}
 
-Mesh::Mesh(std::string name, std::vector<float> vertices, std::vector<unsigned int> indices, Material* material) :
+Mesh::Mesh(std::string name, std::vector<float> vertices, std::vector<unsigned int> indices, Material const* material) :
         name_(std::move(name)), vertices_(std::move(vertices)), indices_(std::move(indices)), material_(material),
         va_(), trans(), rot(), center(), scale() {
     update_vao();
