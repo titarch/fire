@@ -45,27 +45,41 @@ GLuint Program::compile_shader(GLuint type, const std::string& src) {
     return shd_id;
 }
 
+std::string Program::shader_src_path(const std::string& name, GLuint type) {
+    switch (type) {
+        case GL_VERTEX_SHADER:
+            return shd::vtx(name);
+        case GL_FRAGMENT_SHADER:
+            return shd::fgt(name);
+        case GL_GEOMETRY_SHADER:
+            return shd::gmt(name);
+        default:
+            throw std::runtime_error("Unrecognized shader type");
+    }
+}
+
+GLuint Program::attach_shader(const std::string& name, GLuint type) {
+    auto shd_path = shader_src_path(name, type);
+    auto shd_src = load_file(shd_path);
+    GLuint shd_id;
+    try { shd_id = Program::compile_shader(type, shd_src); } catch (std::runtime_error const& e) {
+        std::cerr << "Failed to compile shader (" << shd_path << "): " << e.what() << std::endl;
+        program_id_ = 0;
+        return 0;
+    }
+    glAttachShader(program_id_, shd_id);
+    return shd_id;
+}
+
 Program::ptr Program::make_program(const std::string& vtx, const std::string& fgt) {
     auto p = std::make_unique<Program>();
     p->program_id_ = glCreateProgram();
 
-    auto v_src = load_file(shd::vtx(vtx));
-    auto f_src = load_file(shd::fgt(fgt));
-
-    GLuint v_shd, f_shd;
-    try { v_shd = Program::compile_shader(GL_VERTEX_SHADER, v_src); } catch (std::runtime_error const& e) {
-        std::cerr << "Failed to compile vertex shader (" << vtx << "): " << e.what() << std::endl;
-        p->program_id_ = 0;
-        return p;
-    }
-    try { f_shd = Program::compile_shader(GL_FRAGMENT_SHADER, f_src); } catch (std::runtime_error const& e) {
-        std::cerr << "Failed to compile fragment shader (" << fgt << "): " << e.what() << std::endl;
-        p->program_id_ = 0;
-        return p;
-    }
-
-    glAttachShader(p->program_id_, v_shd);
-    glAttachShader(p->program_id_, f_shd);
+    std::vector<GLuint> shd_ids{};
+    shd_ids.push_back(p->attach_shader(vtx, GL_VERTEX_SHADER));
+    if (shd_ids.back() == 0) return p;
+    shd_ids.push_back(p->attach_shader(fgt, GL_FRAGMENT_SHADER));
+    if (shd_ids.back() == 0) return p;
 
     glLinkProgram(p->program_id_);
     GLint link_status;
@@ -78,16 +92,16 @@ Program::ptr Program::make_program(const std::string& vtx, const std::string& fg
         std::string log(program_log.cbegin(), program_log.cend());
         std::cerr << "Failed to link program: " << log << std::endl;
         glDeleteProgram(p->program_id_);
-        glDeleteShader(v_shd);
-        glDeleteShader(f_shd);
+        for (auto shd_id : shd_ids)
+            glDeleteShader(shd_id);
         p->program_id_ = 0;
         return p;
     }
 
     glValidateProgram(p->program_id_);
 
-    glDeleteShader(v_shd);
-    glDeleteShader(f_shd);
+    for (auto shd_id : shd_ids)
+        glDeleteShader(shd_id);
 
     p->ready_ = true;
     return p;
@@ -186,7 +200,8 @@ void Program::Example::cube(const WinRender& wr) {
 
     static constexpr std::array<Vertex, 24> cube = {
             // back
-            Vertex{{0.f, 0.f, 0.f}, {0.f, 0.f, 1.f}},
+            Vertex{{0.f, 0.f, 0.f},
+                   {0.f, 0.f, 1.f}},
             {{1.f, 0.f, 0.f}, {0.f, 0.f, 1.f}},
             {{0.f, 1.f, 0.f}, {0.f, 0.f, 1.f}},
             {{1.f, 1.f, 0.f}, {0.f, 0.f, 1.f}},

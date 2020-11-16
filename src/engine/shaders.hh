@@ -17,6 +17,10 @@ namespace shd {
     std::string fgt(std::string const& name) {
         return base_dir + "fragment/" + name + ".shd";
     }
+
+    std::string gmt(std::string const& name) {
+        return base_dir + "geometry/" + name + ".shd";
+    }
 }
 
 #endif //FIRE_SHADERS_HH
