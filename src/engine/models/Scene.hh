@@ -61,6 +61,7 @@ private:
     Vec light_position_;
     Mat projection_;
     Vec position_, direction_;
+    bool use_shapes{false}, use_spawner{false}, use_cubemap{false}, use_tilemap{false};
 };
 
 

@@ -18,11 +18,13 @@ Shape::ptr Scene::add_object(const std::string& path) {
 
 Scene& Scene::add_shape(Shape::ptr& shape) {
     shapes_.push_back(shape);
+    use_shapes = true;
     return *this;
 }
 
 Scene& Scene::add_spawner(Spawner::ptr& spawner) {
     spawners_.push_back(spawner);
+    use_spawner = true;
     return *this;
 }
 
@@ -44,42 +46,60 @@ Scene& Scene::set_camera(const Vec& position, const Vec& direction) {
 
 Scene& Scene::set_cubemap(const std::string& path) {
     cubemap_ = CubeMap::make(path);
+    use_cubemap = true;
     return *this;
 }
 
 Scene& Scene::set_tilemap(const std::string& path) {
     tilemap_ = TileMap::make(path);
+    use_tilemap = true;
     return *this;
 }
 
 void Scene::use() {
-    Mesh::program().use();
-    Mesh::program().set_uniform<GL_FLOAT_VEC4>("u_light_position", light_position_[0], light_position_[1],
-                                               light_position_[2], 1.f);
-    Mesh::program().set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
-    Particle::program().use();
-    Particle::program().set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
-    CubeMap::program_->use();
-    CubeMap::program_->set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
-    TileMap::program_->use();
-    TileMap::program_->set_uniform<GL_FLOAT_VEC4>("u_light_position", light_position_[0], light_position_[1],
-                                                  light_position_[2], 1.f);
-    TileMap::program_->set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
+    if (use_shapes) {
+        Mesh::program().use();
+        Mesh::program().set_uniform<GL_FLOAT_VEC4>("u_light_position", light_position_[0], light_position_[1],
+                                                   light_position_[2], 1.f);
+        Mesh::program().set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
+    }
+    if (use_spawner) {
+        Particle::program().use();
+        Particle::program().set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
+    }
+    if (use_cubemap) {
+        CubeMap::program_->use();
+        CubeMap::program_->set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
+    }
+    if (use_tilemap) {
+        TileMap::program_->use();
+        TileMap::program_->set_uniform<GL_FLOAT_VEC4>("u_light_position", light_position_[0], light_position_[1],
+                                                      light_position_[2], 1.f);
+        TileMap::program_->set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
+    }
     refresh_view();
 }
 
 void Scene::refresh_view() const {
     auto const& cur_view = view();
-    Mesh::program().use();
-    Mesh::program().set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.data());
-    Mesh::program().set_uniform<GL_FLOAT_VEC4>("u_camera_pos", position_[0], position_[1], position_[2], 1.0f);
-    Particle::program().use();
-    Particle::program().set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.data());
-    CubeMap::program_->use();
-    CubeMap::program_->set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.without_translation().data());
-    TileMap::program_->use();
-    TileMap::program_->set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.data());
-    TileMap::program_->set_uniform<GL_FLOAT_VEC4>("u_camera_pos", position_[0], position_[1], position_[2], 1.0f);
+    if (use_shapes) {
+        Mesh::program().use();
+        Mesh::program().set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.data());
+        Mesh::program().set_uniform<GL_FLOAT_VEC4>("u_camera_pos", position_[0], position_[1], position_[2], 1.0f);
+    }
+    if (use_spawner) {
+        Particle::program().use();
+        Particle::program().set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.data());
+    }
+    if (use_cubemap) {
+        CubeMap::program_->use();
+        CubeMap::program_->set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.without_translation().data());
+    }
+    if (use_tilemap) {
+        TileMap::program_->use();
+        TileMap::program_->set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.data());
+        TileMap::program_->set_uniform<GL_FLOAT_VEC4>("u_camera_pos", position_[0], position_[1], position_[2], 1.0f);
+    }
 }
 
 void Scene::update_spawners() {
