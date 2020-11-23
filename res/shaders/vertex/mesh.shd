@@ -3,13 +3,16 @@
 layout(location=0) in vec4 position;
 layout(location=1) in vec4 normal;
 
-out vec3 normal_dir, frag_pos;
+out data {
+    vec3 normal_dir;
+    vec3 frag_pos;
+} vertex;
 
 uniform mat4 u_proj, u_view, u_trans, u_rot, u_center, u_scale;
 
 void main() {
     mat4 model = u_trans * u_rot * u_center * u_scale;
     gl_Position = u_proj * u_view * model * position;
-    frag_pos = vec3(model * position);
-    normal_dir = mat3(transpose(inverse(model))) * normal.xyz;
+    vertex.frag_pos = vec3(model * position);
+    vertex.normal_dir = mat3(transpose(inverse(model))) * normal.xyz;
 }
