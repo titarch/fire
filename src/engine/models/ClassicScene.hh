@@ -2,8 +2,8 @@
 // Created by bparsy on 6/9/20.
 //
 
-#ifndef FIRE_SCENE_HH
-#define FIRE_SCENE_HH
+#ifndef FIRE_CLASSICSCENE_HH
+#define FIRE_CLASSICSCENE_HH
 
 #include "BaseScene.hh"
 #include "Shape.hh"
@@ -11,19 +11,19 @@
 #include "../textures/CubeMap.hh"
 #include "../textures/TileMap.hh"
 
-class Scene : public BaseScene<Scene> {
+class ClassicScene : public BaseScene<ClassicScene> {
 public:
-    Scene();
+    ClassicScene();
 
     void use() override;
     void update() const override;
     void render(WinRender const& wr) override;
 
     Shape::ptr add_object(std::string const& path);
-    Scene& add_shape(Shape::ptr& shape);
-    Scene& add_spawner(Spawner::ptr& spawner);
-    Scene& set_cubemap(std::string const& path);
-    Scene& set_tilemap(std::string const& path);
+    ClassicScene& add_shape(Shape::ptr& shape);
+    ClassicScene& add_spawner(Spawner::ptr& spawner);
+    ClassicScene& set_cubemap(std::string const& path);
+    ClassicScene& set_tilemap(std::string const& path);
     void update_spawners();
 private:
     std::vector<Shape::ptr> shapes_;
@@ -33,4 +33,4 @@ private:
 };
 
 
-#endif //FIRE_SCENE_HH
+#endif //FIRE_CLASSICSCENE_HH

@@ -2,41 +2,41 @@
 // Created by bparsy on 6/9/20.
 //
 
-#include "Scene.hh"
+#include "ClassicScene.hh"
 
-Scene::Scene()
+ClassicScene::ClassicScene()
         : BaseScene(), shapes_(), spawners_(), cubemap_(), tilemap_() {
     Particle::init_program();
     Mesh::init_program();
 }
 
-Shape::ptr Scene::add_object(const std::string& path) {
+Shape::ptr ClassicScene::add_object(const std::string& path) {
     auto shape = Shape::load_obj(path);
     add_shape(shape);
     return shape;
 }
 
-Scene& Scene::add_shape(Shape::ptr& shape) {
+ClassicScene& ClassicScene::add_shape(Shape::ptr& shape) {
     shapes_.push_back(shape);
     return *this;
 }
 
-Scene& Scene::add_spawner(Spawner::ptr& spawner) {
+ClassicScene& ClassicScene::add_spawner(Spawner::ptr& spawner) {
     spawners_.push_back(spawner);
     return *this;
 }
 
-Scene& Scene::set_cubemap(const std::string& path) {
+ClassicScene& ClassicScene::set_cubemap(const std::string& path) {
     cubemap_ = CubeMap::make(path);
     return *this;
 }
 
-Scene& Scene::set_tilemap(const std::string& path) {
+ClassicScene& ClassicScene::set_tilemap(const std::string& path) {
     tilemap_ = TileMap::make(path);
     return *this;
 }
 
-void Scene::use() {
+void ClassicScene::use() {
     if (!shapes_.empty()) {
         Mesh::program().use();
         Mesh::program().set_uniform<GL_FLOAT_VEC4>("u_light_position", light_position_[0], light_position_[1],
@@ -60,7 +60,7 @@ void Scene::use() {
     update();
 }
 
-void Scene::update() const {
+void ClassicScene::update() const {
     auto const& cur_view = view();
     if (!shapes_.empty()) {
         Mesh::program().use();
@@ -82,7 +82,7 @@ void Scene::update() const {
     }
 }
 
-void Scene::render(WinRender const& wr) {
+void ClassicScene::render(WinRender const& wr) {
     glDisable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
@@ -101,7 +101,7 @@ void Scene::render(WinRender const& wr) {
         wr.draw(*spawner);
 }
 
-void Scene::update_spawners() {
+void ClassicScene::update_spawners() {
     for (auto& spawner : spawners_)
         spawner->step();
 }

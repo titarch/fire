@@ -40,6 +40,8 @@ public:
     SceneType& set_camera(Vec const& position, Vec const& direction);
 
     [[nodiscard]] const Vec& position() const;
+    [[nodiscard]] const Mat& projection() const;
+    [[nodiscard]] const Vec& light_position() const;
     [[nodiscard]] const Vec& direction() const;
     SceneType& move(float amount, Vec const& direction);
     SceneType& move(float amount, Dir direction);
@@ -84,6 +86,16 @@ SceneType& BaseScene<SceneType>::set_camera(const Vec& position, const Vec& dire
     position_ = position;
     direction_ = direction;
     return cthis();
+}
+
+template<typename SceneType>
+const Mat& BaseScene<SceneType>::projection() const {
+    return projection_;
+}
+
+template<typename SceneType>
+const Vec& BaseScene<SceneType>::light_position() const {
+    return light_position_;
 }
 
 template<typename SceneType>
