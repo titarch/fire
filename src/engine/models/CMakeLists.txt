@@ -1,10 +1,10 @@
 set(models_src_files
-        Material.hh
-        Material.cc
-        Mesh.hh
-        Mesh.cc
-        Shape.hh
-        Shape.cc
-        Scene.hh
-        Scene.cc)
+        Material.cc Material.hh
+
+        Mesh.cc Mesh.hh
+        Shape.cc Shape.hh
+
+        BaseScene.cc BaseScene.hh
+        Scene.cc Scene.hh
+        )
 add_library(models ${models_src_files})

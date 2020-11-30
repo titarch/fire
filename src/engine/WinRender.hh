@@ -9,11 +9,12 @@
 #include <cstddef>
 #include "buffers/VertexArray.hh"
 #include "Program.hh"
-#include "models/Scene.hh"
 #include "Event.hh"
 #include "particles/Spawner.hh"
 #include "textures/CubeMap.hh"
 #include "textures/TileMap.hh"
+#include "models/Mesh.hh"
+#include "models/Shape.hh"
 
 
 class WinRender {
@@ -28,7 +29,6 @@ public:
     void draw(VertexArray const& va, Program const& p) const;
     void draw(Mesh const& mesh) const;
     void draw(Shape const& shape) const;
-    void draw(Scene const& scene) const;
     void draw(Spawner const& spawner) const;
     void draw(Particle const& particle) const;
     void draw(CubeMap const& cubemap) const;

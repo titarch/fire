@@ -81,7 +81,7 @@ auto main() -> int {
 
         scene.update_spawners();
         wr.clear();
-        wr.draw(scene);
+        scene.render(wr);
         wr.display();
     }
 }
