@@ -24,9 +24,11 @@ public:
     GLint link();
     void validate();
     static ptr make_program(std::string const& vtx, std::string const& fgt);
+    static ptr make_compute(std::string const& cpt);
     [[nodiscard]] GLuint id() const;
     [[nodiscard]] bool is_ready() const;
     void use() const;
+    void dispatch(GLuint x, GLuint y, GLuint z);
     [[nodiscard]] GLint uniform_location(std::string const& name) const;
 
     template<GLenum TYPE, typename ...Args>

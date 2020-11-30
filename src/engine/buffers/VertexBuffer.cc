@@ -15,3 +15,16 @@ void VertexBuffer::bind() const {
 void VertexBuffer::unbind() const {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
+
+void VertexBuffer::layout(const VertexBufferLayout& layout) {
+    bind();
+    std::size_t offset = 0u;
+    auto const& els = layout.elements();
+    for (auto i = 0u; i < els.size(); ++i) {
+        auto const& el = els[i];
+        glEnableVertexAttribArray(i);
+        glVertexAttribPointer(i, el.count, el.type, el.normalized, layout.stride(), reinterpret_cast<void*>(offset));
+        offset += el.count * gl_sizeof(el.type);
+    }
+    unbind();
+}

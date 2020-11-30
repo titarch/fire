@@ -7,7 +7,6 @@
 
 
 #include "VertexBuffer.hh"
-#include "VertexBufferLayout.hh"
 #include "IndexBuffer.hh"
 
 class VertexArray : public BaseBuffer {
@@ -40,16 +39,7 @@ template<typename Cnt>
 void VertexArray::add_data(Cnt const& data, VertexBufferLayout const& layout) {
     vb_ = VertexBuffer::create(data);
     bind();
-    vb_->bind();
-    std::size_t offset = 0u;
-    auto const& els = layout.elements();
-    for (auto i = 0u; i < els.size(); ++i) {
-        auto const& el = els[i];
-        glEnableVertexAttribArray(i);
-        glVertexAttribPointer(i, el.count, el.type, el.normalized, layout.stride(), reinterpret_cast<void*>(offset));
-        offset += el.count * gl_sizeof(el.type);
-    }
-    vb_->unbind();
+    vb_->layout(layout);
 }
 
 

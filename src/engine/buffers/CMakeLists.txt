@@ -1,13 +1,11 @@
 set(buffers_src_files
-        BufHandler.hh
-        BufHandler.cc
-        BaseBuffer.hh
-        BaseBuffer.cc
-        VertexBuffer.cc
-        VertexBuffer.hh
-        IndexBuffer.cc
-        IndexBuffer.hh
+        BufHandler.cc BufHandler.hh
+
+        BaseBuffer.cc BaseBuffer.hh
+        VertexBuffer.cc VertexBuffer.hh
         VertexBufferLayout.hh
-        VertexArray.cc
-        VertexArray.hh)
+        IndexBuffer.cc IndexBuffer.hh
+        VertexArray.cc VertexArray.hh
+        StorageBuffer.cc StorageBuffer.hh
+        )
 add_library(buffers ${buffers_src_files})

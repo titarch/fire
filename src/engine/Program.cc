@@ -53,6 +53,8 @@ std::string Program::shader_src_path(const std::string& name, GLuint type) {
             return shd::fgt(name);
         case GL_GEOMETRY_SHADER:
             return shd::gmt(name);
+        case GL_COMPUTE_SHADER:
+            return shd::cpt(name);
         default:
             throw std::runtime_error("Unrecognized shader type");
     }
@@ -107,6 +109,18 @@ Program::ptr Program::make_program(const std::string& vtx, const std::string& fg
     return p;
 }
 
+Program::ptr Program::make_compute(const std::string& cpt) {
+    auto p = std::make_unique<Program>();
+    p->program_id_ = glCreateProgram();
+
+    if (p->attach_shader(cpt, GL_COMPUTE_SHADER) == 0) return p;
+
+    if (p->link() != GL_TRUE) return p;
+    p->validate();
+
+    return p;
+}
+
 GLuint Program::id() const {
     return program_id_;
 }
@@ -118,6 +132,10 @@ bool Program::is_ready() const {
 void Program::use() const {
     if (!is_ready()) throw std::runtime_error("Cannot use program (not ready)");
     glUseProgram(program_id_);
+}
+
+void Program::dispatch(GLuint x, GLuint y, GLuint z) {
+    glDispatchCompute(x, y, z);
 }
 
 GLint Program::uniform_location(const std::string& name) const {

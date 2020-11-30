@@ -10,6 +10,7 @@
 #include <memory>
 #include <vector>
 #include "BaseBuffer.hh"
+#include "VertexBufferLayout.hh"
 
 class VertexBuffer : public BaseBuffer {
 public:
@@ -22,6 +23,7 @@ public:
     virtual ~VertexBuffer();
     void bind() const override;
     void unbind() const override;
+    void layout(VertexBufferLayout const& layout);
 
     template<typename T>
     static VertexBuffer::ptr create(const T* data, std::size_t size);
