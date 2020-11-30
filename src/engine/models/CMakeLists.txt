@@ -5,6 +5,6 @@ set(models_src_files
         Shape.cc Shape.hh
 
         BaseScene.cc BaseScene.hh
-        Scene.cc Scene.hh
+        ClassicScene.cc ClassicScene.hh
         )
 add_library(models ${models_src_files})

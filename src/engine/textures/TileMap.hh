@@ -24,7 +24,7 @@ private:
 
     static void init_graphics();
 
-    friend class Scene;
+    friend class ClassicScene;
 
     friend class WinRender;
 };

@@ -1,5 +1,5 @@
 #include "engine/program.hh"
-#include "engine/models/Scene.hh"
+#include "engine/models/ClassicScene.hh"
 #include "utils/colors.hh"
 
 auto main() -> int {
