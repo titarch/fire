@@ -10,7 +10,7 @@ auto main() -> int {
     auto tree = Shape::load_obj("../res/assets/pine.obj");
     auto log = Shape::load_obj("../res/assets/log.obj");
 
-    Scene scene{};
+    ClassicScene scene{};
     scene.set_light_position({0, 0.5, 0})
             .set_perspective(45.f, 16.f / 9.f, 0.01f, 1000.f)
             .set_camera({0, 0.5, 3}, Vec::back())
