@@ -24,7 +24,7 @@ public:
     void bind() const override;
     void unbind() const override;
     void layout(VertexBufferLayout const& layout);
-    [[nodiscard]] std::size_t size() const;
+    [[nodiscard]] std::size_t count() const;
 
     template<typename T>
     static VertexBuffer::ptr create(const T* data, std::size_t size);

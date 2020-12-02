@@ -85,11 +85,11 @@ void WinRender::draw(const VertexArray& va, const Program& p) const {
     } else if (va.vbo() != nullptr) {
         auto const* vbo = va.vbo();
         vbo->bind();
-        glDrawArrays(GL_TRIANGLES, 0, vbo->size());
+        glDrawArrays(GL_TRIANGLES, 0, vbo->count());
     } else if (va.ssbo() != nullptr) {
         auto const* ssbo = va.ssbo();
         ssbo->vb_bind();
-        glDrawArrays(GL_TRIANGLES, 0, ssbo->size());
+        glDrawArrays(GL_TRIANGLES, 0, ssbo->count());
     } else
         throw std::runtime_error("VAO: no data to draw");
 }

@@ -30,6 +30,6 @@ void VertexBuffer::layout(const VertexBufferLayout& layout) {
     VertexBuffer::unbind();
 }
 
-std::size_t VertexBuffer::size() const {
+std::size_t VertexBuffer::count() const {
     return size_ / stride_;
 }
