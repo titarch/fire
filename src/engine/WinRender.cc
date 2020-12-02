@@ -77,9 +77,21 @@ void WinRender::display() const {
 void WinRender::draw(const VertexArray& va, const Program& p) const {
     p.use();
     va.bind();
-    auto const* ibo = va.ibo();
-    ibo->bind();
-    glDrawElements(GL_TRIANGLES, ibo->count(), GL_UNSIGNED_INT, nullptr);
+
+    if (va.ibo() != nullptr) {
+        auto const* ibo = va.ibo();
+        ibo->bind();
+        glDrawElements(GL_TRIANGLES, ibo->count(), GL_UNSIGNED_INT, nullptr);
+    } else if (va.vbo() != nullptr) {
+        auto const* vbo = va.vbo();
+        vbo->bind();
+        glDrawArrays(GL_TRIANGLES, 0, vbo->size());
+    } else if (va.ssbo() != nullptr) {
+        auto const* ssbo = va.ssbo();
+        ssbo->vb_bind();
+        glDrawArrays(GL_TRIANGLES, 0, ssbo->size());
+    } else
+        throw std::runtime_error("VAO: no data to draw");
 }
 
 void WinRender::draw(const Mesh& mesh) const {

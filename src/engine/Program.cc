@@ -154,7 +154,7 @@ void Program::Example::triangle(const WinRender& wh) {
     };
 
     auto vao = BufHandler::make_vao();
-    vao->add_data(
+    vao->add_vertex_data(
             triangle,
             VertexBufferLayout::Common::F2D()
     );
@@ -184,7 +184,7 @@ void Program::Example::square(const WinRender& wr) {
     glEnable(GL_BLEND);
 
     auto vao = BufHandler::make_vao();
-    vao->add_data(
+    vao->add_vertex_data(
             square,
             VertexBufferLayout::Common::F2D()
                     .add_element<GL_FLOAT>(2)
@@ -275,7 +275,7 @@ void Program::Example::cube(const WinRender& wr) {
     };
 
     auto vao = BufHandler::make_vao();
-    vao->add_data(
+    vao->add_vertex_data(
             cube,
             VertexBufferLayout::Common::F3D()
                     .add_element<GL_FLOAT>(3)

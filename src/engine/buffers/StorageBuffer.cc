@@ -16,6 +16,10 @@ void StorageBuffer::unbind() const {
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
+void StorageBuffer::base_index(GLuint index) const {
+    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, index, id_);
+}
+
 void StorageBuffer::vb_bind() const {
     VertexBuffer::bind();
 }

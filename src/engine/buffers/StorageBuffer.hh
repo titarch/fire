@@ -15,12 +15,13 @@ public:
     using ptr = std::unique_ptr<StorageBuffer>;
     using vec = std::vector<ptr>;
 public:
-    StorageBuffer() : VertexBuffer() {}
+    explicit StorageBuffer(std::size_t size) : VertexBuffer(size) {}
 
     StorageBuffer(StorageBuffer&&) = default;
     ~StorageBuffer() override;
     void bind() const override;
     void unbind() const override;
+    void base_index(GLuint index) const;
     void vb_bind() const;
     void vb_unbind() const;
 
@@ -37,7 +38,7 @@ public:
 
 template<typename T>
 StorageBuffer::ptr StorageBuffer::create(const T* data, std::size_t size) {
-    auto sb = std::make_unique<StorageBuffer>();
+    auto sb = std::make_unique<StorageBuffer>(size * sizeof(T));
     glGenBuffers(1, &sb->id_);
     sb->bind();
     glBufferData(GL_SHADER_STORAGE_BUFFER, size * sizeof(T), data, GL_DYNAMIC_COPY);

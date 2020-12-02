@@ -23,3 +23,12 @@ void VertexArray::bind() const {
 void VertexArray::unbind() const {
     glBindVertexArray(0);
 }
+
+void VertexArray::ssbo_base_index(GLuint index) const {
+    if (!sb_)
+        throw std::runtime_error("SSBO was not initialized in VertexArray");
+
+    sb_->bind();
+    sb_->base_index(index);
+    sb_->unbind();
+}

@@ -17,7 +17,7 @@ void VertexBuffer::unbind() const {
 }
 
 void VertexBuffer::layout(const VertexBufferLayout& layout) {
-    bind();
+    VertexBuffer::bind();
     std::size_t offset = 0u;
     auto const& els = layout.elements();
     for (auto i = 0u; i < els.size(); ++i) {
@@ -26,5 +26,10 @@ void VertexBuffer::layout(const VertexBufferLayout& layout) {
         glVertexAttribPointer(i, el.count, el.type, el.normalized, layout.stride(), reinterpret_cast<void*>(offset));
         offset += el.count * gl_sizeof(el.type);
     }
-    unbind();
+    stride_ = layout.stride();
+    VertexBuffer::unbind();
+}
+
+std::size_t VertexBuffer::size() const {
+    return size_ / stride_;
 }

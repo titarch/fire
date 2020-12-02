@@ -38,7 +38,7 @@ Mesh::Mesh(std::string name, std::vector<float> vertices, std::vector<unsigned i
 
 void Mesh::update_vao() {
     if (!va_) va_ = VertexArray::create();
-    va_->add_data(vertices_, VertexBufferLayout::Common::F3DN());
+    va_->add_vertex_data(vertices_, VertexBufferLayout::Common::F3DN());
     va_->add_indices(indices_);
 }
 

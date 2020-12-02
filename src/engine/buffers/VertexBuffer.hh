@@ -17,13 +17,14 @@ public:
     using ptr = std::unique_ptr<VertexBuffer>;
     using vec = std::vector<ptr>;
 public:
-    VertexBuffer() : BaseBuffer() {}
+    explicit VertexBuffer(std::size_t size) : BaseBuffer(), size_(size), stride_() {}
 
     VertexBuffer(VertexBuffer&&) = default;
     virtual ~VertexBuffer();
     void bind() const override;
     void unbind() const override;
     void layout(VertexBufferLayout const& layout);
+    [[nodiscard]] std::size_t size() const;
 
     template<typename T>
     static VertexBuffer::ptr create(const T* data, std::size_t size);
@@ -33,11 +34,14 @@ public:
 
     template<typename T>
     static ptr create(std::vector<T> const& data);
+protected:
+    std::size_t size_;
+    std::size_t stride_;
 };
 
 template<typename T>
 VertexBuffer::ptr VertexBuffer::create(const T* data, std::size_t size) {
-    auto vb = std::make_unique<VertexBuffer>();
+    auto vb = std::make_unique<VertexBuffer>(size * sizeof(T));
     glGenBuffers(1, &vb->id_);
     vb->bind();
     glBufferData(GL_ARRAY_BUFFER, size * sizeof(T), data, GL_STATIC_DRAW);

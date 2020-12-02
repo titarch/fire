@@ -82,7 +82,7 @@ void CubeMap::init_graphics() {
         program_ = Program::make_program("cubemap", "cubemap");
     if (!va_) {
         va_ = VertexArray::create();
-        va_->add_data(cube, VertexBufferLayout::Common::F3D());
+        va_->add_vertex_data(cube, VertexBufferLayout::Common::F3D());
     }
 }
 

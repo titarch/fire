@@ -44,7 +44,7 @@ void TileMap::init_graphics() {
         program_ = Program::make_program("tilemap", "tilemap");
     if (!va_) {
         va_ = VertexArray::create();
-        va_->add_data(square, VertexBufferLayout::Common::F2D());
+        va_->add_vertex_data(square, VertexBufferLayout::Common::F2D());
         va_->add_indices(indices);
     }
 }

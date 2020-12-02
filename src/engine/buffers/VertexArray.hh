@@ -8,6 +8,7 @@
 
 #include "VertexBuffer.hh"
 #include "IndexBuffer.hh"
+#include "StorageBuffer.hh"
 
 class VertexArray : public BaseBuffer {
 public:
@@ -20,23 +21,37 @@ public:
     static VertexArray::ptr create();
     void bind() const override;
     void unbind() const override;
+    void ssbo_base_index(GLuint index) const;
+
+    [[nodiscard]] StorageBuffer const* ssbo() const { return sb_.get(); };
 
     [[nodiscard]] VertexBuffer const* vbo() const { return vb_.get(); }
 
     [[nodiscard]] IndexBuffer const* ibo() const { return ib_.get(); };
 
     template<typename Cnt>
-    void add_data(Cnt const& data, VertexBufferLayout const& layout);
+    void add_storage_data(Cnt const& data, VertexBufferLayout const& layout);
+
+    template<typename Cnt>
+    void add_vertex_data(Cnt const& data, VertexBufferLayout const& layout);
 
     template<typename Cnt>
     void add_indices(Cnt const& indices);
 protected:
-    VertexBuffer::ptr vb_;
-    IndexBuffer::ptr ib_;
+    StorageBuffer::ptr sb_{};
+    VertexBuffer::ptr vb_{};
+    IndexBuffer::ptr ib_{};
 };
 
 template<typename Cnt>
-void VertexArray::add_data(Cnt const& data, VertexBufferLayout const& layout) {
+void VertexArray::add_storage_data(Cnt const& data, VertexBufferLayout const& layout) {
+    sb_ = StorageBuffer::create(data);
+    bind();
+    sb_->layout(layout);
+}
+
+template<typename Cnt>
+void VertexArray::add_vertex_data(Cnt const& data, VertexBufferLayout const& layout) {
     vb_ = VertexBuffer::create(data);
     bind();
     vb_->layout(layout);

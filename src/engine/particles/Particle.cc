@@ -22,7 +22,7 @@ Particle::Particle() : pos_(), vel_(), color_(), alpha_(1.f), energy_((float) ra
         };
 
         va_ = VertexArray::create();
-        va_->add_data(
+        va_->add_vertex_data(
                 square,
                 VertexBufferLayout::Common::F2D()
                         .add_element<GL_FLOAT>(2)
