@@ -25,6 +25,14 @@ namespace shd {
     std::string cpt(std::string const& name) {
         return base_dir + "compute/" + name + ".shd";
     }
+
+    std::string tess_ctrl(std::string const& name) {
+        return base_dir + "tesselation/" + name + "_ctrl.shd";
+    }
+
+    std::string tess_eval(std::string const& name) {
+        return base_dir + "tesselation/" + name + "_eval.shd";
+    }
 }
 
 #endif //FIRE_SHADERS_HH

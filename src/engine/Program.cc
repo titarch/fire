@@ -55,6 +55,10 @@ std::string Program::shader_src_path(const std::string& name, GLuint type) {
             return shd::gmt(name);
         case GL_COMPUTE_SHADER:
             return shd::cpt(name);
+        case GL_TESS_CONTROL_SHADER:
+            return shd::tess_ctrl(name);
+        case GL_TESS_EVALUATION_SHADER:
+            return shd::tess_eval(name);
         default:
             throw std::runtime_error("Unrecognized shader type");
     }
@@ -102,6 +106,8 @@ Program::ptr Program::make_program(const std::string& vtx, const std::string& fg
 
     if (p->attach_shader(vtx, GL_VERTEX_SHADER) == 0) return p;
     if (p->attach_shader(fgt, GL_FRAGMENT_SHADER) == 0) return p;
+    if (p->attach_shader("wobble", GL_TESS_CONTROL_SHADER) == 0) return p;
+    if (p->attach_shader("wobble", GL_TESS_EVALUATION_SHADER) == 0) return p;
 
     if (p->link() != GL_TRUE) return p;
     p->validate();
