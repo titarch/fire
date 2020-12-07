@@ -28,7 +28,7 @@ WinRender::WinRender(int width, int height) : width_(width), height_(height) {
     if (!glfwInit())
         throw std::runtime_error("Could not initialize GLFW");
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     win_ = glfwCreateWindow(width, height, "float-opengl", nullptr, nullptr);
