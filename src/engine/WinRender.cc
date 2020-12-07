@@ -85,6 +85,8 @@ void WinRender::draw(const VertexArray& va, const Program& p) const {
     } else if (va.vbo() != nullptr) {
         auto const* vbo = va.vbo();
         vbo->bind();
+//        glDrawArrays(GL_PATCHES, 0, 4);
+//        glPatchParameteri(GL_PATCH_VERTICES, 4);
         glDrawArrays(GL_TRIANGLES, 0, vbo->count());
     } else if (va.ssbo() != nullptr) {
         auto const* ssbo = va.ssbo();
