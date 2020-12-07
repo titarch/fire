@@ -1,0 +1,40 @@
+#version 450
+
+layout (local_size_x = 1024) in;
+
+struct vertex_data {
+    float x, y, z, nx, ny, nz;
+};
+
+layout (std430, binding = 1) buffer vertex_buffer
+{
+    vertex_data points[];
+};
+
+uniform int size;
+uniform float anim;
+
+void main() {
+    int idx = int(gl_GlobalInvocationID.y * 1024 + gl_LocalInvocationID.x);
+    if (idx * 3 > size) return;
+    float f = sin(anim) * 0.002;
+
+    vec3 norm = (
+    vec3(points[3*idx].nx, points[3*idx].ny, points[3*idx].nz) +
+    vec3(points[3*idx+1].nx, points[3*idx+1].ny, points[3*idx+1].nz) +
+    vec3(points[3*idx+2].nx, points[3*idx+2].ny, points[3*idx+2].nz)
+    ) / 3;
+    norm = normalize(norm);
+
+    points[3*idx].x += f * norm.x;
+    points[3*idx].y += f * norm.y;
+    points[3*idx].z += f * norm.z;
+
+    points[3*idx+1].x += f * norm.x;
+    points[3*idx+1].y += f * norm.y;
+    points[3*idx+1].z += f * norm.z;
+
+    points[3*idx+2].x += f * norm.x;
+    points[3*idx+2].y += f * norm.y;
+    points[3*idx+2].z += f * norm.z;
+}
