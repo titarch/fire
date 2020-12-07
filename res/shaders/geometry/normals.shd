@@ -1,0 +1,32 @@
+#version 420
+
+layout (triangles) in;
+layout (line_strip, max_vertices = 2) out;
+
+in data {
+    vec3 normal_dir;
+    vec3 frag_pos;
+} vertices[3];
+
+out data {
+    vec3 normal_dir;
+    vec3 frag_pos;
+} frag;
+
+void main() {
+    vec4 origin = (gl_in[0].gl_Position + gl_in[1].gl_Position + gl_in[2].gl_Position) / 3.0;
+    vec3 normal_inter = (vertices[0].normal_dir + vertices[1].normal_dir + vertices[2].normal_dir) / 3.0;
+    vec3 frag_inter = (vertices[0].frag_pos + vertices[1].frag_pos + vertices[2].frag_pos) / 3.0;
+
+    frag.normal_dir = normal_inter;
+    frag.frag_pos = frag_inter;
+    gl_Position = origin;
+    EmitVertex();
+
+    frag.normal_dir = normal_inter;
+    frag.frag_pos = frag_inter;
+    gl_Position = origin + vec4(normalize(normal_inter) * 0.005, 1.0);
+    EmitVertex();
+
+    EndPrimitive();
+}

@@ -1,0 +1,44 @@
+#version 450
+
+layout (quads, equal_spacing, ccw) in;
+
+uniform float anim_time;
+
+out vec3 tes_normal;
+
+float fx = 1.1f;
+float fy = 0.5f;
+
+mat4 model_view_matrix = mat4(
+			      0.57735, -0.33333, 0.57735, 0.00000,
+			      0.00000, 0.66667, 0.57735, 0.00000,
+			      -0.57735, -0.33333, 0.57735, 0.00000,
+			      0.00000, 0.00000, -17, 1.00000);
+mat4 projection_matrix = mat4(
+			      150.00000, 0.00000, 0.00000, 0.00000,
+			      0.00000, 150.00000, 0.00000, 0.00000,
+			      0.00000, 0.00000, -1.02020, -10.10101,
+			      0.00000, 0.00000, -1.00000, 0.00000);
+
+void main() {
+    vec4 p1 = mix(gl_in[0].gl_Position, gl_in[1].gl_Position, gl_TessCoord.x);
+    vec4 p2 = mix(gl_in[3].gl_Position, gl_in[2].gl_Position, gl_TessCoord.x);
+
+    vec4 p = mix(p1, p2, gl_TessCoord.y);
+    p.y = 0.09f * sin(2 * 3.14 * fx * (p.x + 0.7f * anim_time));
+    p.y += 0.05f * sin(2 * 3.14 * fy * (p.z + anim_time) + 0.5f);
+
+    vec4 px1 = mix(gl_in[0].gl_Position, gl_in[1].gl_Position, gl_TessCoord.x+1);
+    vec4 px2 = mix(gl_in[3].gl_Position, gl_in[2].gl_Position, gl_TessCoord.x+1);
+    vec4 px = mix(px1, px2, gl_TessCoord.y);
+
+    vec4 pz1 = mix(gl_in[0].gl_Position, gl_in[1].gl_Position, gl_TessCoord.x);
+    vec4 pz2 = mix(gl_in[3].gl_Position, gl_in[2].gl_Position, gl_TessCoord.x);
+    vec4 pz = mix(pz1, pz2, gl_TessCoord.y+1);
+
+    vec3 n = normalize(cross(px.xyz - p.xyz, pz.xyz - p.xyz));
+
+    gl_Position = projection_matrix * model_view_matrix * p;
+    tes_normal = n;
+
+}

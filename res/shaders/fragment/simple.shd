@@ -1,0 +1,15 @@
+#version 450
+
+in vec3 tes_normal;
+
+vec3 light_color = vec3(1.0, 1.0, 1.0);
+vec3 light_position = vec3(-1.0, -1.0, 1.0);
+vec3 object_color = vec3(0.0, 0.0, 1.0);
+
+layout(location=0) out vec4 output_color;
+
+void main() {
+    float diffuse = clamp(dot(normalize(gl_FragCoord.xyz - light_position), tes_normal), 0.0, 1.0);
+    vec3 color = object_color * diffuse;
+    output_color = vec4(color, 1.0);
+}
