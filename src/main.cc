@@ -1,3 +1,4 @@
+#include <map>
 #include "engine/program.hh"
 #include "engine/models/ClassicScene.hh"
 #include "utils/colors.hh"
@@ -50,34 +51,27 @@ auto main() -> int {
 
 
     Event e(wr);
+    std::map<int, bool> active_keys{};
     while (wr.is_open()) {
-
         while (wr.poll_event(e)) {
-            const static float step = 0.07;
-            const static float angle = 0.02;
-            if (e.action == GLFW_PRESS || e.action == GLFW_REPEAT) {
-                if (e.key == GLFW_KEY_W)
-                    scene.move(step, Dir::FORWARD);
-                else if (e.key == GLFW_KEY_A)
-                    scene.move(step, Dir::LEFT);
-                else if (e.key == GLFW_KEY_S)
-                    scene.move(step, Dir::BACK);
-                else if (e.key == GLFW_KEY_D)
-                    scene.move(step, Dir::RIGHT);
-                else if (e.key == GLFW_KEY_Z)
-                    scene.move(step, Dir::UP);
-                else if (e.key == GLFW_KEY_X)
-                    scene.move(step, Dir::DOWN);
-                else if (e.key == GLFW_KEY_I)
-                    scene.turn(-angle, Norm::RIGHT);
-                else if (e.key == GLFW_KEY_J)
-                    scene.turn(angle, Norm::UP);
-                else if (e.key == GLFW_KEY_K)
-                    scene.turn(angle, Norm::RIGHT);
-                else if (e.key == GLFW_KEY_L)
-                    scene.turn(-angle, Norm::UP);
-            }
+            if (e.action == GLFW_PRESS)
+                active_keys[e.key] = true;
+            else if (e.action == GLFW_RELEASE)
+                active_keys[e.key] = false;
         }
+
+        const static float step = 0.07;
+        const static float angle = 0.02;
+        if (active_keys[GLFW_KEY_W]) scene.move(step, Dir::FORWARD);
+        if (active_keys[GLFW_KEY_A]) scene.move(step, Dir::LEFT);
+        if (active_keys[GLFW_KEY_S]) scene.move(step, Dir::BACK);
+        if (active_keys[GLFW_KEY_D]) scene.move(step, Dir::RIGHT);
+        if (active_keys[GLFW_KEY_Z]) scene.move(step, Dir::UP);
+        if (active_keys[GLFW_KEY_X]) scene.move(step, Dir::DOWN);
+        if (active_keys[GLFW_KEY_I]) scene.turn(-angle, Norm::RIGHT);
+        if (active_keys[GLFW_KEY_J]) scene.turn(angle, Norm::UP);
+        if (active_keys[GLFW_KEY_K]) scene.turn(angle, Norm::RIGHT);
+        if (active_keys[GLFW_KEY_L]) scene.turn(-angle, Norm::UP);
 
         scene.update_spawners();
         wr.clear();

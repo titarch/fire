@@ -11,7 +11,7 @@ class WinRender;
 
 class Event {
 public:
-    Event(WinRender const& w);
+    explicit Event(WinRender const& w);
     Event(int key, int action, int mods);
     void attach(WinRender const& w);
 
