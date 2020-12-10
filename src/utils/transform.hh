@@ -17,6 +17,8 @@ public:
 
     Vec() : vec_(0, 0, 0) {}
 
+    Vec(glm::vec3 const& vec) : vec_(vec) {}
+
     operator glm::vec3() const { return vec_; };
 
     glm::vec3 vec() const { return vec_; }

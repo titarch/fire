@@ -52,16 +52,24 @@ auto main() -> int {
 
     Event e(wr);
     std::map<int, bool> active_keys{};
+    double last_xpos{0}, last_ypos{0};
     while (wr.is_open()) {
         while (wr.poll_event(e)) {
             if (e.action == GLFW_PRESS)
                 active_keys[e.key] = true;
             else if (e.action == GLFW_RELEASE)
                 active_keys[e.key] = false;
+            else if (e.action == GLFW_CURSOR) {
+                constexpr static float rotation_speed = 0.007f;
+                scene.turn(float(last_xpos - e.xpos) * rotation_speed, Norm::UP);
+                scene.turn(float(e.ypos - last_ypos) * rotation_speed, Norm::RIGHT);
+                last_xpos = e.xpos;
+                last_ypos = e.ypos;
+            }
         }
 
-        const static float step = 0.07;
-        const static float angle = 0.02;
+        constexpr static float step = 0.07;
+        constexpr static float angle = 0.02;
         if (active_keys[GLFW_KEY_W]) scene.move(step, Dir::FORWARD);
         if (active_keys[GLFW_KEY_A]) scene.move(step, Dir::LEFT);
         if (active_keys[GLFW_KEY_S]) scene.move(step, Dir::BACK);

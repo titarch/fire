@@ -13,13 +13,20 @@ void key_callback([[maybe_unused]] GLFWwindow* window, int key, [[maybe_unused]]
     Event::events_.emplace(key, action, mods);
 }
 
-Event::Event(const WinRender& w) : key(-1), action(-1), mods(-1) {
+void mouse_callback([[maybe_unused]] GLFWwindow* window, double xpos, double ypos) {
+    Event::events_.emplace(xpos, ypos);
+}
+
+Event::Event(const WinRender& w) {
     attach(w);
 }
 
 Event::Event(int key, int action, int mods) : key(key), action(action), mods(mods) {}
 
+Event::Event(double xpos, double ypos) : action(GLFW_CURSOR), xpos(xpos), ypos(ypos) {}
+
 void Event::attach(WinRender const& w) {
     glfwSetKeyCallback(w.win_, key_callback);
+    glfwSetCursorPosCallback(w.win_, mouse_callback);
 }
 
