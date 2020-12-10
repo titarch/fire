@@ -22,6 +22,7 @@ public:
     WinRender(int width, int height);
     ~WinRender();
 
+    void close() const;
     void clear() const;
     [[nodiscard]] bool is_open() const;
     bool poll_event(Event& e);

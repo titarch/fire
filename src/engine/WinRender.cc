@@ -54,6 +54,10 @@ WinRender::~WinRender() {
     glfwTerminate();
 }
 
+void WinRender::close() const {
+    glfwSetWindowShouldClose(win_, GL_TRUE);
+}
+
 void WinRender::clear() const {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }

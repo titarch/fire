@@ -55,8 +55,11 @@ auto main() -> int {
     double last_xpos{0}, last_ypos{0};
     while (wr.is_open()) {
         while (wr.poll_event(e)) {
-            if (e.action == GLFW_PRESS)
+            if (e.action == GLFW_PRESS) {
+                if (e.key == GLFW_KEY_ESCAPE)
+                    wr.close();
                 active_keys[e.key] = true;
+            }
             else if (e.action == GLFW_RELEASE)
                 active_keys[e.key] = false;
             else if (e.action == GLFW_CURSOR) {
