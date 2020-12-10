@@ -147,6 +147,8 @@ SceneType& BaseScene<SceneType>::turn(float angle, Norm normal) {
         case Norm::UP:
             return turn(angle, Vec::up());
         case Norm::RIGHT:
+            // This is to avoid gimbal lock issues, namely 180 jumps when looking up or down
+            if ((angle < 0 && direction_[1] > 0.99) || (angle > 0 && direction_[1] < -0.99)) break;
             return turn(angle, Vec::up() ^ direction_);
     }
     return cthis();
