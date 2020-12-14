@@ -26,19 +26,20 @@ enum class Norm {
 template<typename SceneType>
 class BaseScene {
 public:
-    BaseScene();
+    explicit BaseScene(WinRender& wr);
 
     SceneType& cthis();
     SceneType& cthis() const;
 
     virtual void use() = 0;
     virtual void update() const = 0;
-    virtual void render(WinRender const& wr) = 0;
+    virtual void render() = 0;
 
     SceneType& set_light_position(Vec const& position);
     SceneType& set_perspective(float fov, float ratio, float near, float far);
     SceneType& set_camera(Vec const& position, Vec const& direction);
 
+    [[nodiscard]] const WinRender& win() const;
     [[nodiscard]] const Vec& position() const;
     [[nodiscard]] const Mat& projection() const;
     [[nodiscard]] const Vec& light_position() const;
@@ -50,14 +51,15 @@ public:
     [[nodiscard]] Mat view() const;
 
 protected:
+    WinRender& wr_;
     Vec light_position_;
     Mat projection_;
     Vec position_, direction_;
 };
 
 template<typename SceneType>
-BaseScene<SceneType>::BaseScene() :
-        light_position_(), projection_(), position_(), direction_() {}
+BaseScene<SceneType>::BaseScene(WinRender& wr) :
+        wr_(wr), light_position_(), projection_(), position_(), direction_() {}
 
 template<typename SceneType>
 SceneType& BaseScene<SceneType>::cthis() {
@@ -89,6 +91,11 @@ SceneType& BaseScene<SceneType>::set_camera(const Vec& position, const Vec& dire
 }
 
 template<typename SceneType>
+const WinRender& BaseScene<SceneType>::win() const {
+    return wr_;
+}
+
+template<typename SceneType>
 const Mat& BaseScene<SceneType>::projection() const {
     return projection_;
 }
@@ -110,7 +117,7 @@ const Vec& BaseScene<SceneType>::direction() const {
 
 template<typename SceneType>
 SceneType& BaseScene<SceneType>::move(float amount, const Vec& direction) {
-    position_ += direction * amount;
+    position_ += direction * amount * wr_.dt();
     update();
     return cthis();
 }
@@ -136,7 +143,7 @@ SceneType& BaseScene<SceneType>::move(float amount, Dir direction) {
 
 template<typename SceneType>
 SceneType& BaseScene<SceneType>::turn(float angle, const Vec& normal) {
-    direction_.rotate(angle, normal);
+    direction_.rotate(angle * wr_.dt(), normal);
     update();
     return cthis();
 }

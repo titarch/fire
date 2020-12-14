@@ -11,7 +11,7 @@ auto main() -> int {
     auto tree = Shape::load_obj("../res/assets/pine.obj");
     auto log = Shape::load_obj("../res/assets/log.obj");
 
-    ClassicScene scene{};
+    ClassicScene scene{wr};
     scene.set_light_position({0, 0.5, 0})
             .set_perspective(45.f, 16.f / 9.f, 0.01f, 1000.f)
             .set_camera({0, 0.5, 3}, Vec::back())
@@ -63,7 +63,7 @@ auto main() -> int {
             else if (e.action == GLFW_RELEASE)
                 active_keys[e.key] = false;
             else if (e.action == GLFW_CURSOR) {
-                constexpr static float rotation_speed = 0.007f;
+                constexpr static float rotation_speed = 0.5f;
                 scene.turn(float(last_xpos - e.xpos) * rotation_speed, Norm::UP);
                 scene.turn(float(e.ypos - last_ypos) * rotation_speed, Norm::RIGHT);
                 last_xpos = e.xpos;
@@ -71,8 +71,8 @@ auto main() -> int {
             }
         }
 
-        constexpr static float step = 0.07;
-        constexpr static float angle = 0.02;
+        constexpr static float step = 3.f;
+        constexpr static float angle = 0.5f;
         if (active_keys[GLFW_KEY_W]) scene.move(step, Dir::FORWARD);
         if (active_keys[GLFW_KEY_A]) scene.move(step, Dir::LEFT);
         if (active_keys[GLFW_KEY_S]) scene.move(step, Dir::BACK);
@@ -86,7 +86,8 @@ auto main() -> int {
 
         scene.update_spawners();
         wr.clear();
-        scene.render(wr);
+        wr.update_time();
+        scene.render();
         wr.display();
     }
 }

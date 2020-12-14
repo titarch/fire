@@ -6,7 +6,8 @@
 
 #include "QuickScene.hh"
 
-QuickScene::QuickScene(scene_callback use, scene_callback update, win_callback render) :
+QuickScene::QuickScene(WinRender& wr, scene_callback use, scene_callback update, scene_callback render) :
+        BaseScene(wr),
         use_(std::move(use)), update_(std::move(update)), render_(std::move(render)) {}
 
 void QuickScene::use() {
@@ -18,6 +19,6 @@ void QuickScene::update() const {
     update_(*this);
 }
 
-void QuickScene::render(const WinRender& wr) {
-    render_(wr);
+void QuickScene::render() {
+    render_(*this);
 }

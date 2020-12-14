@@ -13,11 +13,11 @@
 
 class ClassicScene : public BaseScene<ClassicScene> {
 public:
-    ClassicScene();
+    explicit ClassicScene(WinRender& wr);
 
     void use() override;
     void update() const override;
-    void render(WinRender const& wr) override;
+    void render() override;
 
     Shape::ptr add_object(std::string const& path);
     ClassicScene& add_shape(Shape::ptr& shape);

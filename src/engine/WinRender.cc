@@ -74,6 +74,16 @@ bool WinRender::poll_event(Event& e) {
     return true;
 }
 
+void WinRender::update_time() {
+    current_frame_ = glfwGetTime();
+    delta_time_ = current_frame_ - last_frame_;
+    last_frame_ = current_frame_;
+}
+
+double WinRender::dt() const {
+    return delta_time_;
+}
+
 void WinRender::display() const {
     glfwSwapBuffers(win_);
 }

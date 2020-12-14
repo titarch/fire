@@ -4,8 +4,9 @@
 
 #include "ClassicScene.hh"
 
-ClassicScene::ClassicScene()
-        : BaseScene(), shapes_(), spawners_(), cubemap_(), tilemap_() {
+ClassicScene::ClassicScene(WinRender& wr)
+        : BaseScene(wr),
+          shapes_(), spawners_(), cubemap_(), tilemap_() {
     Particle::init_program();
     Mesh::init_program();
 }
@@ -82,23 +83,23 @@ void ClassicScene::update() const {
     }
 }
 
-void ClassicScene::render(WinRender const& wr) {
+void ClassicScene::render() {
     glDisable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
     if (cubemap_)
-        wr.draw(dynamic_cast<const CubeMap&>(*cubemap_));
+        wr_.draw(dynamic_cast<const CubeMap&>(*cubemap_));
     if (tilemap_)
-        wr.draw(dynamic_cast<const TileMap&>(*tilemap_));
+        wr_.draw(dynamic_cast<const TileMap&>(*tilemap_));
     for (auto const& shape : shapes_)
-        wr.draw(*shape);
+        wr_.draw(*shape);
     glClear(GL_DEPTH_BUFFER_BIT);
     glDisable(GL_DEPTH_TEST);
     glDepthMask(GL_FALSE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     for (auto const& spawner : spawners_)
-        wr.draw(*spawner);
+        wr_.draw(*spawner);
 }
 
 void ClassicScene::update_spawners() {

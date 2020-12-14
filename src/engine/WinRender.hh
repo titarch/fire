@@ -26,6 +26,8 @@ public:
     void clear() const;
     [[nodiscard]] bool is_open() const;
     bool poll_event(Event& e);
+    void update_time();
+    [[nodiscard]] double dt() const;
     void display() const;
     void draw(VertexArray const& va, Program const& p) const;
     void draw(Mesh const& mesh) const;
@@ -39,7 +41,8 @@ public:
     [[nodiscard]] float ratio() const;
 protected:
     int width_, height_;
-    GLFWwindow* win_;
+    GLFWwindow* win_{};
+    double current_frame_{}, last_frame_{}, delta_time_{};
 
     friend class Event;
 };

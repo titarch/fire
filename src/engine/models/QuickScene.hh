@@ -12,16 +12,14 @@
 class QuickScene : public BaseScene<QuickScene> {
 public:
     using scene_callback = std::function<void(QuickScene const&)>;
-    using win_callback = std::function<void(WinRender const&)>;
 public:
-    QuickScene(scene_callback use, scene_callback update, win_callback render);
+    QuickScene(WinRender& wr, scene_callback use, scene_callback update, scene_callback render);
     void use() override;
     void update() const override;
-    void render(const WinRender& wr) override;
+    void render() override;
 
 protected:
-    scene_callback use_, update_;
-    win_callback render_;
+    scene_callback use_, update_, render_;
 };
 
 
