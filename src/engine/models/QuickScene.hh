@@ -15,7 +15,7 @@ public:
 public:
     QuickScene(WinRender& wr, scene_callback use, scene_callback update, scene_callback render);
     void use() override;
-    void update() const override;
+    void update() override;
     void render() override;
 
 protected:

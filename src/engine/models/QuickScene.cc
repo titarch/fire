@@ -15,7 +15,7 @@ void QuickScene::use() {
     update();
 }
 
-void QuickScene::update() const {
+void QuickScene::update() {
     update_(*this);
 }
 

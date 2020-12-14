@@ -32,7 +32,7 @@ public:
     SceneType& cthis() const;
 
     virtual void use() = 0;
-    virtual void update() const = 0;
+    virtual void update() = 0;
     virtual void render() = 0;
 
     SceneType& set_light_position(Vec const& position);
@@ -118,7 +118,6 @@ const Vec& BaseScene<SceneType>::direction() const {
 template<typename SceneType>
 SceneType& BaseScene<SceneType>::move(float amount, const Vec& direction) {
     position_ += direction * amount * wr_.dt();
-    update();
     return cthis();
 }
 
@@ -144,7 +143,6 @@ SceneType& BaseScene<SceneType>::move(float amount, Dir direction) {
 template<typename SceneType>
 SceneType& BaseScene<SceneType>::turn(float angle, const Vec& normal) {
     direction_.rotate(angle * wr_.dt(), normal);
-    update();
     return cthis();
 }
 

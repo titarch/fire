@@ -16,7 +16,7 @@ public:
     explicit ClassicScene(WinRender& wr);
 
     void use() override;
-    void update() const override;
+    void update() override;
     void render() override;
 
     Shape::ptr add_object(std::string const& path);

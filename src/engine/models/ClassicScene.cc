@@ -61,7 +61,7 @@ void ClassicScene::use() {
     update();
 }
 
-void ClassicScene::update() const {
+void ClassicScene::update() {
     auto const& cur_view = view();
     if (!shapes_.empty()) {
         Mesh::program().use();
@@ -71,6 +71,7 @@ void ClassicScene::update() const {
     if (!spawners_.empty()) {
         Particle::program().use();
         Particle::program().set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.data());
+        update_spawners();
     }
     if (cubemap_) {
         CubeMap::program_->use();
