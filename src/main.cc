@@ -84,7 +84,6 @@ auto main() -> int {
         if (active_keys[GLFW_KEY_K]) scene.turn(angle, Norm::RIGHT);
         if (active_keys[GLFW_KEY_L]) scene.turn(-angle, Norm::UP);
 
-        scene.update_spawners();
         scene.update();
         wr.clear();
         wr.update_time();
