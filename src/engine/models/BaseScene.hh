@@ -35,6 +35,8 @@ public:
     virtual void update() = 0;
     virtual void render() = 0;
 
+    void step();
+
     SceneType& set_light_position(Vec const& position);
     SceneType& set_perspective(float fov, float ratio, float near, float far);
     SceneType& set_camera(Vec const& position, Vec const& direction);
@@ -60,6 +62,15 @@ protected:
 template<typename SceneType>
 BaseScene<SceneType>::BaseScene(WinRender& wr) :
         wr_(wr), light_position_(), projection_(), position_(), direction_() {}
+
+template<typename SceneType>
+void BaseScene<SceneType>::step() {
+    update();
+    wr_.update_time();
+    wr_.clear();
+    render();
+    wr_.display();
+}
 
 template<typename SceneType>
 SceneType& BaseScene<SceneType>::cthis() {
