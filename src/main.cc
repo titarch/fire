@@ -3,9 +3,14 @@
 #include "engine/models/ClassicScene.hh"
 #include "utils/colors.hh"
 
+constexpr auto width = 2560;
+constexpr auto height = 1440;
+constexpr auto ratio = float(width) / float(height);
+constexpr auto fov = 80.f * M_PI / 180.f;
+
 auto main() -> int {
     std::srand(0);
-    auto wr = WinRender(1920, 1080);
+    auto wr = WinRender(width, height);
 
     auto spawner = Spawner::make("../res/assets/fire.png", Vec(), 3000);
     auto tree = Shape::load_obj("../res/assets/pine.obj");
@@ -13,7 +18,7 @@ auto main() -> int {
 
     ClassicScene scene{wr};
     scene.set_light_position({0, 0.5, 0})
-            .set_perspective(45.f, 16.f / 9.f, 0.01f, 1000.f)
+            .set_perspective(fov, ratio, 0.01f, 1000.f)
             .set_camera({0, 0.5, 3}, Vec::back())
             .set_cubemap("../res/assets/cubemap/")
             .set_tilemap("../res/assets/ground.jpg")
