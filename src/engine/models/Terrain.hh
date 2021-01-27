@@ -14,8 +14,8 @@ class Terrain {
 public:
     using ptr = std::shared_ptr<Terrain>;
 public:
-    explicit Terrain(HeightMap const& hm);
-    static Terrain::ptr make(unsigned int w, unsigned int h, unsigned long seed = 0);
+    explicit Terrain(const HeightMap& hm, float step);
+    static ptr make(float step, unsigned int w, unsigned int h, unsigned long seed = 0);
 
     void update_vao();
 

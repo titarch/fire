@@ -18,7 +18,7 @@ public:
     [[nodiscard]] auto at(unsigned x, unsigned z) const -> float;
     [[nodiscard]] auto normal(unsigned x, unsigned z) const -> Vec;
 private:
-    void generate(float scale);
+    void generate(float scale, float amplitude);
 
     unsigned w_, h_;
     siv::PerlinNoise perlin_;

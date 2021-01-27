@@ -37,8 +37,8 @@ ClassicScene& ClassicScene::set_tilemap(const std::string& path) {
     return *this;
 }
 
-ClassicScene & ClassicScene::set_terrain(unsigned w, unsigned h, unsigned long seed) {
-    terrain_ = Terrain::make(w, h, seed);
+ClassicScene & ClassicScene::set_terrain(float step, unsigned w, unsigned h, unsigned long seed) {
+    terrain_ = Terrain::make(step, w, h, seed);
     return *this;
 }
 

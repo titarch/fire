@@ -6,17 +6,19 @@
 
 Program::ptr Terrain::program_;
 
-Terrain::Terrain(const HeightMap& hm) : vertices_() {
-    const auto w = hm.width();
-    const auto h = hm.height();
+Terrain::Terrain(const HeightMap& hm, float step) : vertices_() {
+    const long w = hm.width();
+    const long h = hm.height();
+    const long half_w = w / 2;
+    const long half_h = h / 2;
     vertices_.reserve(w * h * 6);
 
     for (auto x = 0u; x < h; ++x) {
         for (auto z = 0u; z < w; ++z) {
             const auto y = hm.at(x, z);
-            vertices_.push_back(x);
+            vertices_.push_back(float(x - half_h) * step);
             vertices_.push_back(y);
-            vertices_.push_back(z);
+            vertices_.push_back(float(z - half_w) * step);
 
             const auto n = hm.normal(x, z);
             vertices_.push_back(n[0]);
@@ -39,18 +41,13 @@ Terrain::Terrain(const HeightMap& hm) : vertices_() {
         }
     }
 
-//    for (auto e : indices_) {
-//        printf("(%u %u) ", e / w, e % w);
-//    }
-//    printf("\n");
-
     update_vao();
     init_program();
 }
 
-Terrain::ptr Terrain::make(unsigned int w, unsigned int h, unsigned long seed) {
+Terrain::ptr Terrain::make(float step, unsigned int w, unsigned int h, unsigned long seed) {
     HeightMap hm(w, h, seed);
-    return std::make_shared<Terrain>(hm);
+    return std::make_shared<Terrain>(hm, step);
 }
 
 void Terrain::init_program() {

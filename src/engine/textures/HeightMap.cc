@@ -6,15 +6,17 @@
 
 HeightMap::HeightMap(unsigned int width, unsigned int height, unsigned long seed)
         : w_(width), h_(height), perlin_(seed), hm_(width * height) {
-    generate(2.f);
+    generate(200.f, 5.f);
+    generate(100.f, 2.f);
+    generate(50.f, 1.f);
 }
 
-void HeightMap::generate(float scale) {
+void HeightMap::generate(float scale, float amplitude) {
     for (auto y = 0u; y < h_; ++y) {
         for (auto x = 0u; x < w_; ++x) {
             const float sampleX = float(x) / scale;
             const float sampleY = float(y) / scale;
-            hm_[y * w_ + x] = perlin_.noise2D(sampleX, sampleY);
+            hm_[y * w_ + x] += perlin_.noise2D(sampleX, sampleY) * amplitude - amplitude / 2.f;
         }
     }
 }
