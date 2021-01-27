@@ -6,7 +6,7 @@
 
 ClassicScene::ClassicScene(WinRender& wr)
         : BaseScene(wr),
-          shapes_(), spawners_(), cubemap_(), tilemap_() {
+          shapes_(), spawners_(), cubemap_(), tilemap_(), terrain_() {
     Particle::init_program();
     Mesh::init_program();
 }
@@ -37,6 +37,11 @@ ClassicScene& ClassicScene::set_tilemap(const std::string& path) {
     return *this;
 }
 
+ClassicScene & ClassicScene::set_terrain(unsigned w, unsigned h, unsigned long seed) {
+    terrain_ = Terrain::make(w, h, seed);
+    return *this;
+}
+
 void ClassicScene::use() {
     if (!shapes_.empty()) {
         Mesh::program().use();
@@ -44,7 +49,7 @@ void ClassicScene::use() {
                                                    light_position_[2], 1.f);
         Mesh::program().set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
     }
-    if (!shapes_.empty()) {
+    if (!spawners_.empty()) {
         Particle::program().use();
         Particle::program().set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
     }
@@ -57,6 +62,12 @@ void ClassicScene::use() {
         TileMap::program_->set_uniform<GL_FLOAT_VEC4>("u_light_position", light_position_[0], light_position_[1],
                                                       light_position_[2], 1.f);
         TileMap::program_->set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
+    }
+    if (terrain_) {
+        Terrain::program_->use();
+        Terrain::program_->set_uniform<GL_FLOAT_VEC4>("u_light_position", light_position_[0], light_position_[1],
+                                                      light_position_[2], 1.f);
+        Terrain::program_->set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
     }
     update();
 }
@@ -82,6 +93,11 @@ void ClassicScene::update() {
         TileMap::program_->set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.data());
         TileMap::program_->set_uniform<GL_FLOAT_VEC4>("u_camera_pos", position_[0], position_[1], position_[2], 1.0f);
     }
+    if (terrain_) {
+        Terrain::program_->use();
+        Terrain::program_->set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.data());
+        Terrain::program_->set_uniform<GL_FLOAT_VEC4>("u_camera_pos", position_[0], position_[1], position_[2], 1.0f);
+    }
 }
 
 void ClassicScene::render() {
@@ -92,6 +108,8 @@ void ClassicScene::render() {
         wr_.draw(dynamic_cast<const CubeMap&>(*cubemap_));
     if (tilemap_)
         wr_.draw(dynamic_cast<const TileMap&>(*tilemap_));
+    if (terrain_)
+        wr_.draw(*terrain_);
     for (auto const& shape : shapes_)
         wr_.draw(*shape);
     glClear(GL_DEPTH_BUFFER_BIT);

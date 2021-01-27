@@ -24,12 +24,14 @@ public:
     ClassicScene& add_spawner(Spawner::ptr& spawner);
     ClassicScene& set_cubemap(std::string const& path);
     ClassicScene& set_tilemap(std::string const& path);
+    ClassicScene& set_terrain(unsigned w, unsigned h, unsigned long seed = 0);
     void update_spawners();
 private:
     std::vector<Shape::ptr> shapes_;
     std::vector<Spawner::ptr> spawners_;
     CubeMap::ptr cubemap_;
     TileMap::ptr tilemap_;
+    Terrain::ptr terrain_;
 };
 
 

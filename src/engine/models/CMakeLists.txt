@@ -7,5 +7,6 @@ set(models_src_files
         BaseScene.cc BaseScene.hh
         ClassicScene.cc ClassicScene.hh
         QuickScene.cc QuickScene.hh
+        Terrain.cc Terrain.hh
         )
 add_library(models ${models_src_files})

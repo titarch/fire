@@ -15,6 +15,7 @@
 #include "textures/TileMap.hh"
 #include "models/Mesh.hh"
 #include "models/Shape.hh"
+#include "models/Terrain.hh"
 
 
 class WinRender {
@@ -29,13 +30,14 @@ public:
     void update_time();
     [[nodiscard]] double dt() const;
     void display() const;
-    void draw(VertexArray const& va, Program const& p) const;
+    void draw(VertexArray const& va, Program const& p, GLenum type = GL_TRIANGLES) const;
     void draw(Mesh const& mesh) const;
     void draw(Shape const& shape) const;
     void draw(Spawner const& spawner) const;
     void draw(Particle const& particle) const;
     void draw(CubeMap const& cubemap) const;
     void draw(TileMap const& tilemap) const;
+    void draw(Terrain const& terrain) const;
     [[nodiscard]] int width() const;
     [[nodiscard]] int height() const;
     [[nodiscard]] float ratio() const;

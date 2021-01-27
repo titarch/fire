@@ -48,6 +48,10 @@ public:
             return {};
         }
 
+        static VertexBufferLayout F1D() {
+            return empty().add_element<GL_FLOAT>(1);
+        }
+
         static VertexBufferLayout F2D() {
             return empty().add_element<GL_FLOAT>(2);
         }

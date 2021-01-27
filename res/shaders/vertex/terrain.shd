@@ -1,0 +1,14 @@
+#version 330 core
+
+layout(location=0) in vec4 position;
+layout(location=1) in vec4 normal;
+
+out vec3 normal_dir, frag_pos;
+
+uniform mat4 u_proj, u_view;
+
+void main() {
+    gl_Position = u_proj * u_view * position;
+    frag_pos = position.xyz;
+    normal_dir = normal.xyz;
+}

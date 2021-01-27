@@ -88,24 +88,22 @@ void WinRender::display() const {
     glfwSwapBuffers(win_);
 }
 
-void WinRender::draw(const VertexArray& va, const Program& p) const {
+void WinRender::draw(const VertexArray& va, const Program& p, GLenum type) const {
     p.use();
     va.bind();
 
     if (va.ibo() != nullptr) {
         auto const* ibo = va.ibo();
         ibo->bind();
-        glDrawElements(GL_TRIANGLES, ibo->count(), GL_UNSIGNED_INT, nullptr);
+        glDrawElements(type, ibo->count(), GL_UNSIGNED_INT, nullptr);
     } else if (va.vbo() != nullptr) {
         auto const* vbo = va.vbo();
         vbo->bind();
-//        glDrawArrays(GL_PATCHES, 0, 4);
-//        glPatchParameteri(GL_PATCH_VERTICES, 4);
-        glDrawArrays(GL_TRIANGLES, 0, vbo->count());
+        glDrawArrays(type, 0, vbo->count());
     } else if (va.ssbo() != nullptr) {
         auto const* ssbo = va.ssbo();
         ssbo->vb_bind();
-        glDrawArrays(GL_TRIANGLES, 0, ssbo->count());
+        glDrawArrays(type, 0, ssbo->count());
     } else
         throw std::runtime_error("VAO: no data to draw");
 }
@@ -144,6 +142,10 @@ void WinRender::draw(const CubeMap& cubemap) const {
 void WinRender::draw(const TileMap& tilemap) const {
     tilemap.bind(0);
     draw(*TileMap::va_, *TileMap::program_);
+}
+
+void WinRender::draw(const Terrain& terrain) const {
+    draw(*terrain.va_, *Terrain::program_, GL_TRIANGLE_STRIP);
 }
 
 int WinRender::width() const {

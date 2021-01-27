@@ -6,5 +6,7 @@ set(textures_src_files
         CubeMap.cc
         CubeMap.hh
         TileMap.cc
-        TileMap.hh)
+        TileMap.hh
+        HeightMap.cc
+        HeightMap.hh)
 add_library(textures ${textures_src_files})
