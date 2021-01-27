@@ -23,7 +23,7 @@ public:
     GLuint attach_shader(std::string const& name, GLuint type);
     GLint link();
     void validate();
-    static ptr make_program(std::string const& vtx, std::string const& fgt);
+    static ptr make_program(std::string const& vtx, std::string const& fgt, std::string const& geo = "");
     static ptr make_compute(std::string const& cpt);
     [[nodiscard]] GLuint id() const;
     [[nodiscard]] bool is_ready() const;
