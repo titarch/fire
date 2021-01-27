@@ -3,10 +3,31 @@
 //
 
 #include "Terrain.hh"
+#include "../../utils/3rdparty/stb_image.h"
 
 Program::ptr Terrain::program_;
 
-Terrain::Terrain(const HeightMap& hm, float step) : step_(step), hm_(hm), vertices_(), indices_(), va_() {
+Terrain::Terrain(const HeightMap& hm, float step) :
+        Texture(),
+        step_(step), hm_(hm), vertices_(), indices_(), va_() {
+
+
+    int img_w, img_h;
+    const std::string& file_path("../res/assets/ground.jpg");
+    stbi_set_flip_vertically_on_load(1);
+    int bpp;
+    unsigned char* buffer = stbi_load(file_path.c_str(), &img_w, &img_h, &bpp, 4);
+    if (!buffer) throw std::runtime_error(file_path + ": could not load texture image");
+
+    glBindTexture(GL_TEXTURE_2D, render_id_);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, img_w, img_h, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+    stbi_image_free(buffer);
+
     const long w = hm.width();
     const long h = hm.height();
     const long half_w = w / 2;
@@ -59,6 +80,14 @@ void Terrain::update_vao() {
     if (!va_) va_ = VertexArray::create();
     va_->add_vertex_data(vertices_, VertexBufferLayout::Common::F3DN());
     va_->add_indices(indices_);
+}
+
+void Terrain::bind(uint8_t slot) const {
+    Texture::bind(GL_TEXTURE_2D, slot);
+}
+
+void Terrain::unbind() const {
+    Texture::unbind(GL_TEXTURE_2D);
 }
 
 auto Terrain::height_at(float x, float z) const -> float {

@@ -6,11 +6,12 @@
 #define FIRE_TERRAIN_HH
 
 
+#include "../textures/Texture.hh"
 #include "../textures/HeightMap.hh"
 #include "../Program.hh"
 #include "../buffers/VertexArray.hh"
 
-class Terrain {
+class Terrain : public Texture {
 public:
     using ptr = std::shared_ptr<Terrain>;
 public:
@@ -18,6 +19,8 @@ public:
     static ptr make(float step, unsigned int w, unsigned int h, unsigned long seed = 0);
 
     void update_vao();
+    void bind(uint8_t slot) const override;
+    void unbind() const override;
     [[nodiscard]] auto height_at(float x, float z) const -> float;
 
     static void init_program();

@@ -1,25 +1,27 @@
 #version 330 core
 
+in vec2 interpolated_uv;
 in vec3 normal_dir, frag_pos;
 
 layout(location = 0) out vec4 color;
 
+uniform sampler2D u_texture_sampler;
 uniform vec4 u_light_position, u_camera_pos;
 
 void main() {
-    vec4 base_color = vec4(0.0, 1.0, 0.0, 1.0);
+    vec4 texel = texture(u_texture_sampler, interpolated_uv * 2);
 
     vec3 normal = normalize(normal_dir);
     vec3 light_dir = normalize(u_light_position.xyz - frag_pos);
 
     float nl = max(dot(normal, light_dir), 0.0);
-    vec4 diffuse = base_color * nl;
+    vec4 diffuse = texel * nl;
 
     vec3 camera_dir = normalize(u_camera_pos.xyz - frag_pos);
     vec3 reflect_dir = reflect(-light_dir, normal);
-    vec4 specular = vec4(0.2, 0.2, 0.2, 1.0) * pow(max(dot(camera_dir, reflect_dir), 0.0), 10);
+    vec4 specular = vec4(0.1, 0.1, 0.1, 1.0) * pow(max(dot(camera_dir, reflect_dir), 0.0), 10);
     if (nl <= 0) specular = vec4(0);
 
 
-    color = vec4(base_color.rgb * 0.1 + diffuse.rgb + specular.rgb, 1.0);
+    color = vec4(texel.rgb * 0.1 + diffuse.rgb + specular.rgb, 1.0);
 }

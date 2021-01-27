@@ -109,7 +109,7 @@ void ClassicScene::render() {
     if (tilemap_)
         wr_.draw(dynamic_cast<const TileMap&>(*tilemap_));
     if (terrain_)
-        wr_.draw(*terrain_);
+        wr_.draw(dynamic_cast<const Terrain&>(*terrain_));
     for (auto const& shape : shapes_)
         wr_.draw(*shape);
     glClear(GL_DEPTH_BUFFER_BIT);
