@@ -26,6 +26,8 @@ public:
     ClassicScene& set_tilemap(std::string const& path);
     ClassicScene& set_terrain(float step, unsigned w, unsigned h, unsigned long seed = 0);
     void update_spawners();
+
+    [[nodiscard]] auto height_at(float x, float z) const -> float;
 private:
     std::vector<Shape::ptr> shapes_;
     std::vector<Spawner::ptr> spawners_;

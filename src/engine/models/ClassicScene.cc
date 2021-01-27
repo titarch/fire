@@ -125,3 +125,8 @@ void ClassicScene::update_spawners() {
     for (auto& spawner : spawners_)
         spawner->step();
 }
+
+auto ClassicScene::height_at(float x, float z) const -> float {
+    if (!terrain_) return 0.f;
+    return terrain_->height_at(x, z);
+}

@@ -6,7 +6,7 @@
 
 Program::ptr Terrain::program_;
 
-Terrain::Terrain(const HeightMap& hm, float step) : vertices_() {
+Terrain::Terrain(const HeightMap& hm, float step) : step_(step), hm_(hm), vertices_(), indices_(), va_() {
     const long w = hm.width();
     const long h = hm.height();
     const long half_w = w / 2;
@@ -59,4 +59,12 @@ void Terrain::update_vao() {
     if (!va_) va_ = VertexArray::create();
     va_->add_vertex_data(vertices_, VertexBufferLayout::Common::F3DN());
     va_->add_indices(indices_);
+}
+
+auto Terrain::height_at(float x, float z) const -> float {
+    const auto w = hm_.width();
+    const auto h = hm_.height();
+    auto mx = long(x / step_) + h / 2;
+    auto mz = long(z / step_) + w / 2;
+    return hm_.at(mx, mz);
 }

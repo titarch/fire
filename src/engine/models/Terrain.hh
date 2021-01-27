@@ -18,9 +18,12 @@ public:
     static ptr make(float step, unsigned int w, unsigned int h, unsigned long seed = 0);
 
     void update_vao();
+    [[nodiscard]] auto height_at(float x, float z) const -> float;
 
     static void init_program();
 protected:
+    float step_;
+    HeightMap hm_;
     std::vector<float> vertices_;
     std::vector<unsigned> indices_;
     VertexArray::ptr va_;
