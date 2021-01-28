@@ -12,11 +12,15 @@ HeightMap::HeightMap(unsigned int width, unsigned int height, unsigned long seed
 }
 
 void HeightMap::generate(float scale, float amplitude) {
+    const float hw = float(w_) / 2;
+    const float hh = float(h_) / 2;
+
     for (auto y = 0u; y < h_; ++y) {
         for (auto x = 0u; x < w_; ++x) {
             const float sampleX = float(x) / scale;
             const float sampleY = float(y) / scale;
-            hm_[y * w_ + x] += perlin_.noise2D(sampleX, sampleY) * amplitude - amplitude / 2.f;
+            const float att = std::clamp(float(x-hh) * float(x-hh) + float(y-hw) * float(y-hw), 0.f, 1000.f) / 1000.f;
+            hm_[y * w_ + x] += (perlin_.noise2D(sampleX, sampleY) * amplitude - amplitude / 2.f) * att;
         }
     }
 }

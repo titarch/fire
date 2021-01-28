@@ -9,7 +9,7 @@ constexpr auto ratio = float(width) / float(height);
 constexpr auto fov = 80.f * M_PI / 180.f;
 
 auto main() -> int {
-    std::srand(100);
+    std::srand(50);
     auto wr = WinRender(width, height);
 
     auto tree = Shape::load_obj("../res/assets/pine.obj");
@@ -21,9 +21,13 @@ auto main() -> int {
             .set_light_position({0.0, 2.0, 0.0})
             .set_grass()
             .set_perspective(fov, ratio, 0.01f, 1000.f)
-            .set_camera({2.7, scene.height_at(2.7, 0.0) + 0.5f, 0.0}, Vec::back())
+            .set_camera({0.0, scene.height_at(0.0, 2.0) + 0.5f, 2.0}, Vec::back())
             .set_cubemap("../res/assets/cubemap/")
             .add_shape(log)
+            .use();
+
+    auto spawner = Spawner::make("../res/assets/fire.png", Vec{}, 3000);
+    scene.add_spawner(spawner)
             .use();
 
     tree->translate({0, 1.7, 0});
@@ -38,7 +42,7 @@ auto main() -> int {
         scene.add_shape(tree_clone);
     }
 
-    log->translate({2.7, scene.height_at(2.7, -2.0) + 0.3f, -2.0})
+    log->translate({0.0, 0.1, 0.0})
             .rescale({0.15, 0.15, 0.15});
 
     Event e(wr);
