@@ -1,0 +1,15 @@
+#version 420
+
+layout(location=0) in vec4 position;
+layout(location=1) in vec4 normal;
+
+out data {
+    vec3 normal_dir;
+    vec3 frag_pos;
+} vertex;
+
+void main() {
+    gl_Position = position;
+    vertex.frag_pos = position.xyz;
+    vertex.normal_dir = normal.xyz;
+}

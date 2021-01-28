@@ -148,6 +148,10 @@ void WinRender::draw(const Terrain& terrain) const {
     draw(*terrain.va_, *Terrain::program_, GL_TRIANGLE_STRIP);
 }
 
+void WinRender::draw(const Grass& grass) const {
+    draw(*grass.va_, *Grass::program_);
+}
+
 int WinRender::width() const {
     return width_;
 }

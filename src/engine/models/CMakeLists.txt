@@ -8,5 +8,6 @@ set(models_src_files
         ClassicScene.cc ClassicScene.hh
         QuickScene.cc QuickScene.hh
         Terrain.cc Terrain.hh
+        Grass.cc Grass.hh
         )
 add_library(models ${models_src_files})

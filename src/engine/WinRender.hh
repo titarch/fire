@@ -16,6 +16,7 @@
 #include "models/Mesh.hh"
 #include "models/Shape.hh"
 #include "models/Terrain.hh"
+#include "models/Grass.hh"
 
 
 class WinRender {
@@ -38,6 +39,7 @@ public:
     void draw(CubeMap const& cubemap) const;
     void draw(TileMap const& tilemap) const;
     void draw(Terrain const& terrain) const;
+    void draw(Grass const& grass) const;
     [[nodiscard]] int width() const;
     [[nodiscard]] int height() const;
     [[nodiscard]] float ratio() const;

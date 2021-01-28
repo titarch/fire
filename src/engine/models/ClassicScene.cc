@@ -6,7 +6,7 @@
 
 ClassicScene::ClassicScene(WinRender& wr)
         : BaseScene(wr),
-          shapes_(), spawners_(), cubemap_(), tilemap_(), terrain_() {
+          shapes_(), spawners_(), cubemap_(), tilemap_(), terrain_(), grass_() {
     Particle::init_program();
     Mesh::init_program();
 }
@@ -37,8 +37,13 @@ ClassicScene& ClassicScene::set_tilemap(const std::string& path) {
     return *this;
 }
 
-ClassicScene & ClassicScene::set_terrain(float step, unsigned w, unsigned h, unsigned long seed) {
+ClassicScene& ClassicScene::set_terrain(float step, unsigned w, unsigned h, unsigned long seed) {
     terrain_ = Terrain::make(step, w, h, seed);
+    return *this;
+}
+
+ClassicScene& ClassicScene::set_grass() {
+    grass_ = Grass::make(terrain_->vertices_);
     return *this;
 }
 
@@ -69,6 +74,12 @@ void ClassicScene::use() {
                                                       light_position_[2], 1.f);
         Terrain::program_->set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
     }
+    if (grass_) {
+        Grass::program_->use();
+        Grass::program_->set_uniform<GL_FLOAT_VEC4>("u_light_position", light_position_[0], light_position_[1],
+                                                    light_position_[2], 1.f);
+        Grass::program_->set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
+    }
     update();
 }
 
@@ -98,6 +109,11 @@ void ClassicScene::update() {
         Terrain::program_->set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.data());
         Terrain::program_->set_uniform<GL_FLOAT_VEC4>("u_camera_pos", position_[0], position_[1], position_[2], 1.0f);
     }
+    if (grass_) {
+        Grass::program_->use();
+        Grass::program_->set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.data());
+        Grass::program_->set_uniform<GL_FLOAT_VEC4>("u_camera_pos", position_[0], position_[1], position_[2], 1.0f);
+    }
 }
 
 void ClassicScene::render() {
@@ -110,6 +126,8 @@ void ClassicScene::render() {
         wr_.draw(dynamic_cast<const TileMap&>(*tilemap_));
     if (terrain_)
         wr_.draw(dynamic_cast<const Terrain&>(*terrain_));
+    if (grass_)
+        wr_.draw(*terrain_->va_, *Grass::program_);
     for (auto const& shape : shapes_)
         wr_.draw(*shape);
     glClear(GL_DEPTH_BUFFER_BIT);

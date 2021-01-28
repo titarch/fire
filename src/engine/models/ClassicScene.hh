@@ -25,6 +25,7 @@ public:
     ClassicScene& set_cubemap(std::string const& path);
     ClassicScene& set_tilemap(std::string const& path);
     ClassicScene& set_terrain(float step, unsigned w, unsigned h, unsigned long seed = 0);
+    ClassicScene& set_grass();
     void update_spawners();
 
     [[nodiscard]] auto height_at(float x, float z) const -> float;
@@ -34,6 +35,7 @@ private:
     CubeMap::ptr cubemap_;
     TileMap::ptr tilemap_;
     Terrain::ptr terrain_;
+    Grass::ptr grass_;
 };
 
 
