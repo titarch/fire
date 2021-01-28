@@ -14,6 +14,7 @@ out data {
 } frag;
 
 uniform mat4 u_proj, u_view;
+uniform float t;
 
 const float width = 0.02;
 const float height = 0.07;
@@ -39,7 +40,7 @@ vec3 NormalFromTriangleVertices(vec3 triangleVertices[3]) {
 
 
 float compute_inclinaison(vec3 position) {
-    return cos(position.x)/3.0 + sin(position.y)/3.0 + cos(position.x * position.y)/3.0;
+    return cos(position.x + t)/3.0 + sin(position.y - t)/3.0 + cos(position.x * position.y)/3.0;
 }
 
 float rand(vec2 co) {

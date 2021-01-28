@@ -84,6 +84,10 @@ double WinRender::dt() const {
     return delta_time_;
 }
 
+double WinRender::time() const {
+    return current_frame_;
+}
+
 void WinRender::display() const {
     glfwSwapBuffers(win_);
 }

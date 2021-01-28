@@ -76,6 +76,7 @@ void ClassicScene::use() {
     }
     if (grass_) {
         Grass::program_->use();
+        Grass::program_->set_uniform<GL_FLOAT>("t", float(wr_.time()));
         Grass::program_->set_uniform<GL_FLOAT_VEC4>("u_light_position", light_position_[0], light_position_[1],
                                                     light_position_[2], 1.f);
         Grass::program_->set_uniform<GL_FLOAT_MAT4>("u_proj", projection_.data());
@@ -111,6 +112,7 @@ void ClassicScene::update() {
     }
     if (grass_) {
         Grass::program_->use();
+        Grass::program_->set_uniform<GL_FLOAT>("t", float(wr_.time()));
         Grass::program_->set_uniform<GL_FLOAT_MAT4>("u_view", cur_view.data());
         Grass::program_->set_uniform<GL_FLOAT_VEC4>("u_camera_pos", position_[0], position_[1], position_[2], 1.0f);
     }

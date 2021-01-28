@@ -30,6 +30,7 @@ public:
     bool poll_event(Event& e);
     void update_time();
     [[nodiscard]] double dt() const;
+    [[nodiscard]] double time() const;
     void display() const;
     void draw(VertexArray const& va, Program const& p, GLenum type = GL_TRIANGLES) const;
     void draw(Mesh const& mesh) const;
