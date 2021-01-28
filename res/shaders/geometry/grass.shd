@@ -53,18 +53,19 @@ void main() {
     vec3 pos = origin.xyz;
 
     float inclin = compute_inclinaison(pos);
-    float amplitude = rand(pos.xy) / 1.0;
+    float amplitude = rand(pos.xy) * 5.f;
 
-    grass[0] += vec3(0, 0, inclin * amplitude * width);
-    grass[1] += vec3(0, 0, inclin * amplitude * width);
+    const float depl = inclin * amplitude * width;
+    grass[0] += vec3(0, 0, depl);
+    grass[1] += vec3(0, 0, depl);
 
-    grass[2] += vec3(0, 0, inclin * amplitude * width * 2);
-    grass[3] += vec3(0, 0, inclin * amplitude * width * 2);
+    grass[2] += vec3(0, 0, depl * 2);
+    grass[3] += vec3(0, 0, depl * 2);
 
-    grass[4] += vec3(0, 0, inclin * amplitude * width * 3);
-    grass[5] += vec3(0, 0, inclin * amplitude * width * 3);
+    grass[4] += vec3(0, 0, depl * 3);
+    grass[5] += vec3(0, 0, depl * 3);
 
-    grass[6] += vec3(0, 0, inclin * amplitude);
+    grass[6] += vec3(0, 0, depl * 5);
 
 
     for (int i = 0; i < 7; i++) {
