@@ -17,9 +17,9 @@ auto main() -> int {
 
     ClassicScene scene{wr};
     scene
-            .set_terrain(0.1, 2000, 2000, 0)
-            .set_grass()
+            .set_terrain(0.1, 1000, 1000, 0)
             .set_light_position({0.0, 2.0, 0.0})
+            .set_grass()
             .set_perspective(fov, ratio, 0.01f, 1000.f)
             .set_camera({2.7, scene.height_at(2.7, 0.0) + 0.5f, 0.0}, Vec::back())
             .set_cubemap("../res/assets/cubemap/")

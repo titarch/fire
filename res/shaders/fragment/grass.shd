@@ -20,9 +20,9 @@ void main() {
 
     vec3 camera_dir = normalize(u_camera_pos.xyz - frag.frag_pos);
     vec3 reflect_dir = reflect(-light_dir, normal);
-    vec4 specular = vec4(0.1, 0.1, 0.1, 1.0) * pow(max(dot(camera_dir, reflect_dir), 0.0), 10);
+    vec4 specular = vec4(0.3, 0.3, 0.3, 1.0) * pow(max(dot(camera_dir, reflect_dir), 0.0), 10);
     if (nl <= 0) specular = vec4(0);
 
 
-    color = vec4(base_color.rgb * 0.1 + diffuse.rgb + specular.rgb, 1.0);
+    color = vec4(base_color.rgb * 0.1 + diffuse.rgb * 0.2 + specular.rgb, 1.0);
 }

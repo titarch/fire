@@ -127,7 +127,7 @@ void ClassicScene::render() {
     if (terrain_)
         wr_.draw(dynamic_cast<const Terrain&>(*terrain_));
     if (grass_)
-        wr_.draw(*terrain_->va_, *Grass::program_);
+        wr_.draw(*terrain_->va_, *Grass::program_, GL_TRIANGLE_STRIP);
     for (auto const& shape : shapes_)
         wr_.draw(*shape);
     glClear(GL_DEPTH_BUFFER_BIT);
