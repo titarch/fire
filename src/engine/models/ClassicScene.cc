@@ -127,7 +127,7 @@ void ClassicScene::render() {
     if (tilemap_)
         wr_.draw(dynamic_cast<const TileMap&>(*tilemap_));
     if (terrain_)
-        wr_.draw(dynamic_cast<const Terrain&>(*terrain_));
+        wr_.draw(*terrain_);
     if (grass_)
         wr_.draw(*terrain_->va_, *Grass::program_, GL_TRIANGLE_STRIP);
     for (auto const& shape : shapes_)
