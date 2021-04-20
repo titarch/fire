@@ -11,6 +11,6 @@ set(engine_src_files
         shaders.hh
         Program.hh
         Program.cc
-        program.hh)
+        programs.hh)
 add_library(engine ${engine_src_files})
 target_link_libraries(engine PRIVATE models textures buffers particles)
